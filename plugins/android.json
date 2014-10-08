@@ -13,19 +13,19 @@
                             "count": 1
                         },
                         {
-                            "xml": "<feature name=\"Camera\"><param name=\"android-package\" value=\"org.apache.cordova.camera.CameraLauncher\" /></feature>",
-                            "count": 1
-                        },
-                        {
-                            "xml": "<feature name=\"InAppBrowser\"><param name=\"android-package\" value=\"org.apache.cordova.inappbrowser.InAppBrowser\" /></feature>",
-                            "count": 1
-                        },
-                        {
                             "xml": "<feature name=\"FileTransfer\"><param name=\"android-package\" value=\"org.apache.cordova.filetransfer.FileTransfer\" /></feature>",
                             "count": 1
                         },
                         {
+                            "xml": "<feature name=\"Camera\"><param name=\"android-package\" value=\"org.apache.cordova.camera.CameraLauncher\" /></feature>",
+                            "count": 1
+                        },
+                        {
                             "xml": "<feature name=\"Device\"><param name=\"android-package\" value=\"org.apache.cordova.device.Device\" /></feature>",
+                            "count": 1
+                        },
+                        {
+                            "xml": "<feature name=\"InAppBrowser\"><param name=\"android-package\" value=\"org.apache.cordova.inappbrowser.InAppBrowser\" /></feature>",
                             "count": 1
                         },
                         {
@@ -78,16 +78,16 @@
         }
     },
     "installed_plugins": {
-        "org.apache.cordova.file": {
+        "org.apache.cordova.file-transfer": {
             "PACKAGE_NAME": "it.trizeta.shooopapp"
         },
         "org.apache.cordova.camera": {
             "PACKAGE_NAME": "it.trizeta.shooopapp"
         },
-        "org.apache.cordova.inappbrowser": {
+        "org.apache.cordova.device": {
             "PACKAGE_NAME": "it.trizeta.shooopapp"
         },
-        "org.apache.cordova.file-transfer": {
+        "org.apache.cordova.inappbrowser": {
             "PACKAGE_NAME": "it.trizeta.shooopapp"
         },
         "de.appplant.cordova.plugin.local-notification": {
@@ -98,7 +98,7 @@
         }
     },
     "dependent_plugins": {
-        "org.apache.cordova.device": {
+        "org.apache.cordova.file": {
             "PACKAGE_NAME": "it.trizeta.shooopapp"
         }
     }
