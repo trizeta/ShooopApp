@@ -26,10 +26,12 @@ evento = null;
 var dojoConfig={
     baseUrl: "",
     tlmSiblingOfDojo: false,
+    isDebug: true, 
     packages: [
         { name: "dojo", location: "script/dojo" },
         { name: "dijit", location: "script/dijit" },
         { name: "dojox", location: "script/dojox" },
+        { name: "dojo._base", location: "script/dojo/base" },
     ]
 };
 
@@ -87,7 +89,6 @@ require([
 	"dojox/mobile/RoundRect",
 	"dojox/mobile/FormLayout",
 	"dojox/mobile/Opener",
-	"dojox/mobile/ComboBox",
 	"dojox/mobile/SearchBox",
 	"dojox/mobile/SpinWheelDatePicker",
     "dojox/mobile/SimpleDialog",
@@ -96,9 +97,8 @@ require([
     "dojox/uuid/generateRandomUuid",
     "dojox/mobile/PullView",
     "dojox/mobile/IconContainer",
-    "dojox/mobile/IconItem",
+    
     "dojox/mobile/RadioButton",
-    "dojox/mobile/TextArea",
     "dojox/mobile/IconMenu",
     "dojox/mobile/Badge",
     "dojox/mobile/IconMenuItem"  
@@ -833,9 +833,13 @@ require([
             user.utente_id = 'demo';
             //Eseguo la chiamata di ricerca
             startLoading();
-            searchoffer(storepubblicazoni,function() {                            
-                registry.byId('list').refresh();                            
-                stopLoading();
+            searchoffer(storepubblicazoni,function() { 
+                try{
+                    registry.byId('list').refresh();                            
+                    stopLoading();
+                }catch(e){
+                    alert(e);
+                }
             });
             
             //Carico i messaggi
