@@ -770,7 +770,7 @@ require([
             
             registry.byId("eanpunti").on("click",function(){
                //Apro il barcode scanner e recupero l'ean associato
-               scan(
+              /* scan(
                   function (result) {
                       alert("We got a barcode\n" +
                             "Result: " + result.text + "\n" +
@@ -782,7 +782,7 @@ require([
                   function (error) {
                       errorlog("Scanning failed: " + error);
                   }
-                );                    
+                ); */                   
 			});
             
             
