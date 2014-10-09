@@ -19,13 +19,19 @@
                         
             .mblTabBarTabBar{  
                 background-image: none;
-                background-color: #35b5d2;
+                background-color: #70c2e3;
             }
             
             .mblHeading{
                 background-image: none;
-                background-color: #35b5d2;
+                background-color: #70c2e3;
             }
+            
+            .mblBlueButton{
+                background-image: none;
+                background-color: #70c2e3;
+            }
+            
             
             /* inline custom DOM Button */
             .mblDomButtonMyRedButton_0 {
@@ -102,7 +108,7 @@
                 margin:0px;
                 margin-left: 4px;
                 height: 40px;
-                width: 60px;
+                width: 50px;
             }
             
             .mblSpriteIconParent{
@@ -259,7 +265,7 @@
         	
         	<!-- Immagine Shooopapp -->
         	<div style="clear:left; text-align:center; vertical-align: middle; width: 100%">
-        		<img alt="ShooopApp" src="img/logoshooopapp.png" align="middle" style="margin-top:2em;width:300px;height:300px">
+        		<img alt="ShooopApp" src="img/logoshooopapp.png" align="middle" style="margin-top:2em;width:250px;height:250px">
         	</div>       	
         	
         	<!-- Login Applicativo -->
@@ -295,12 +301,17 @@
                          <input data-dojo-type="dojox.mobile.SearchBox" data-dojo-props="queryExpr:'*${0}*'"  type="search" id="filterBoxCategory" class="mblFilteredEdgeToEdgeListSearchBox">
                          <input data-dojo-type="dojox.mobile.SearchBox" data-dojo-props="queryExpr:'*${0}*'"  type="search" id="filterBoxEvento" class="mblFilteredEdgeToEdgeListSearchBox">
                         
-                         <label id="headingshowcase" style="display:none">VETRINA</label>
-                         <label id="headingmessage" style="display:none">MESSAGGIO</label>
-                         <label id="headingimage" style="display:none">IMMAGINI</label>
-                         <label id="headingpreference" style="display:none">PREFERENZE</label>
-                         <label id="headingoffer" style="display:none">OFFERTA</label>
-                         <label id="headingevent" style="display:none">EVENTI</label>
+                         <label id="headingshowcase" style="display:none;padding-right:70px">VETRINA</label>
+                         <label id="headingmessage" style="display:none;padding-right:70px">MESSAGGIO</label>
+                         <label id="headingimage" style="display:none;padding-right:70px">IMMAGINI</label>
+                         <label id="headingpreference" style="display:none;padding-right:70px">PREFERENZE</label>
+                         <label id="headingoffer" style="display:none;padding-right:70px">OFFERTA</label>
+                         <label id="headingevent" style="display:none;padding-right:70px">EVENTI</label>
+                         <label id="headingpunti" style="display:none;padding-right:70px">PUNTI</label>
+                         <div id="headinghome" style="display:none;align:center;height:90%; padding-top:5px;padding-right:70px">
+                             <img src="img/logo36.png"></img>
+                             <label>ShooopIt</label>                           
+                        </div>
                         
                     </div>
                     
@@ -310,8 +321,7 @@
                             <li data-dojo-type="dojox.mobile.IconMenuItem" class="icon ion-bag size-48" data-dojo-props='label:"Offerte", moveTo:"tabPubblicazioni"'></li>
                             <li data-dojo-type="dojox.mobile.IconMenuItem" class="icon ion-ios7-email-outline size-48" data-dojo-props='label:"Messaggi", moveTo:"tabMessaggi"'></li>
                             <li data-dojo-type="dojox.mobile.IconMenuItem" class="icon ion-android-image size-48" data-dojo-props='label:"Vetrina", moveTo:"tabShowcase" '></li>
-                            <li data-dojo-type="dojox.mobile.IconMenuItem" class="icon ion-settings size-48" data-dojo-props='label:"Eventi", moveTo:"tabEventi"'></li> 
-                            <li data-dojo-type="dojox.mobile.IconMenuItem" class="icon ion-settings size-48" data-dojo-props='label:"Punti", moveTo:"tabPunti"'></li> 
+                            <li data-dojo-type="dojox.mobile.IconMenuItem" class="icon ion-calendar size-48" data-dojo-props='label:"Eventi", moveTo:"tabEventi"'></li> 
                             <li data-dojo-type="dojox.mobile.IconMenuItem" class="icon ion-settings size-48" data-dojo-props='label:"MyApp", moveTo:"tabMyApp"'></li> 
                             
                         </ul>
@@ -491,6 +501,22 @@
                     </ul>                        
                 </div>
                 
+
+                <!-- Punteggi -->
+				<div id="tabPunti" data-dojo-type="dojox.mobile.ScrollableView"> 
+					<div data-dojo-type="dojox.mobile.EdgeToEdgeList">
+                          <div class="fieldset" data-dojo-type="dojox.mvc.Group">
+                                <li id="eanpunti" data-dojo-type="dojox.mobile.ListItem" data-dojo-props="label:'Codice Cliente', clickable: true"></li>
+                                <li id="qtypunti" data-dojo-type="dojox.mobile.ListItem" data-dojo-props="label:'Punti', clickable: true"></li>
+                                <li id="causalepunti" data-dojo-type="dojox.mobile.ListItem" data-dojo-props="label:'Causale', clickable: true, moveTo:'detailpuntidescription'"></li>                                
+                          </div>
+                    </div>                                    
+				</div>
+                
+                <div id="detailpuntidescription" data-dojo-type="dojox.mobile.ScrollableView">                                            
+                        <textarea id="puntihtmleditor" data-dojo-type="dojox.mobile.TextArea" style="width:100%; height:250px">                
+                        </textarea>                     
+                </div>                
             
             
                 <!-- Image Swap -->
@@ -511,13 +537,13 @@
         <div id="menu" data-dojo-type="dojox.mobile.SimpleDialog" data-dojo-props="modal:true,left:0" style="width:40%;height:95%">
             <div data-dojo-type="dojox.mobile.EdgeToEdgeList">
                  
-                        <li data-dojo-type="dojox.mobile.ListItem" data-dojo-props="label:'Home' , moveTo:'homepage', onClick:closemenu"></li>
-                        <li data-dojo-type="dojox.mobile.ListItem" data-dojo-props="label:'Offerte', moveTo:'tabPubblicazioni', onClick:closemenu"></li>
-                        <li data-dojo-type="dojox.mobile.ListItem" data-dojo-props="label:'Messaggi', moveTo:'tabMessaggi', onClick:closemenu"></li>
-                        <li data-dojo-type="dojox.mobile.ListItem" data-dojo-props="label:'Vetrina',  moveTo:'tabShowcase', onClick:closemenu"></li> 
-                        <li data-dojo-type="dojox.mobile.ListItem" data-dojo-props="label:'Eventi',  moveTo:'tabEventi', onClick:closemenu"></li>
-                        <li data-dojo-type="dojox.mobile.ListItem" data-dojo-props="label:'Punti',  moveTo:'tabPunti', onClick:closemenu"></li> 
-                        <li data-dojo-type="dojox.mobile.ListItem" data-dojo-props="label:'MyApp',  moveTo:'tabMyApp', onClick:closemenu"></li>       
+                        <li data-dojo-type="dojox.mobile.ListItem" data-dojo-props="icon:'mblDomButton ion-ios7-home size-24', label:'Home' , moveTo:'homepage', onTouchStart:closemenu"></li>
+                        <li data-dojo-type="dojox.mobile.ListItem" data-dojo-props="icon:'mblDomButton ion-bag size-24', label:'Offerte', moveTo:'tabPubblicazioni', onTouchStart:closemenu"></li>
+                        <li data-dojo-type="dojox.mobile.ListItem" data-dojo-props="icon:'mblDomButton ion-ios7-email-outline size-24', label:'Messaggi', moveTo:'tabMessaggi', onTouchStart:closemenu"></li>
+                        <li data-dojo-type="dojox.mobile.ListItem" data-dojo-props="icon:'mblDomButton ion-android-image size-24', label:'Vetrina',  moveTo:'tabShowcase', onTouchStart:closemenu"></li> 
+                        <li data-dojo-type="dojox.mobile.ListItem" data-dojo-props="icon:'mblDomButton ion-calendar size-24', label:'Eventi',  moveTo:'tabEventi', onTouchStart:closemenu"></li>
+                        <!-- li data-dojo-type="dojox.mobile.ListItem" data-dojo-props="icon:'mblDomButton ion-card size-24', label:'Punti',  moveTo:'tabPunti', onTouchStart:closemenu, callback:resetpunti"></li --> 
+                        <li data-dojo-type="dojox.mobile.ListItem" data-dojo-props="icon:'mblDomButton ion-settings size-24', label:'MyApp',  moveTo:'tabMyApp', onTouchStart:closemenu"></li>       
                 
                 
             </div>         

@@ -666,7 +666,7 @@ searcheventi = function(store, callback) {
         service.query("select * from event where merchant_id = '"+user.merchant_id+"' and deleted != 1 order by date_from desc", function(events) { 
         for(i=0;i<events.length;i++){
                 bean = events[i]; 
-                bean.id = 'event'+bean.id;
+                bean.id = 'evento'+bean.id;
                 bean.label = eventToString(bean);
                 bean.moveTo = "dettaglioEvento";
                 bean.variableHeight = true;
@@ -705,11 +705,11 @@ addevento = function(bean,store, callback) {
     try{
         bean.dirty = true;
         bean.deleted = false;
-        bean.state = 'W';
+        bean.state = 'D';
         bean.last_modified = null;
         var service = new EventService();
         service.add(bean, function() {            
-            bean.id = 'event'+bean.id;
+            bean.id = 'evento'+bean.id;
             bean.label = eventToString(bean);            
             bean.moveTo = "dettaglioEvento";
             bean.variableHeight = true;
@@ -733,20 +733,24 @@ updateevento = function(bean,store, callback){
         bean.id = bean.id.replace("evento", ""); 
         var service = new EventService();
         service.update(bean, function(){
-            var tmp = store.get("evento"+bean.id);            
-            tmp.label = eventToString(bean);
-            tmp.description = bean.description;
-            tmp.utente_id = bean.utente_id;
-	        tmp.date_created = bean.date_created;
-	        tmp.date_from = bean.date_from;
-            tmp.date_to = bean.date_to;
-            tmp.state = bean.state;
-            tmp.merchant_id = bean.merchant_id;
-            tmp.id = "evento"+bean.id;
-            tmp.class = 'evento_'+bean.state;
-            store.put(tmp);            
-            if(callback){
-               callback();
+            try{
+                var tmp = store.get("evento"+bean.id);            
+                tmp.label = eventToString(bean);
+                tmp.description = bean.description;
+                tmp.utente_id = bean.utente_id;
+                tmp.date_created = bean.date_created;
+                tmp.date_from = bean.date_from;
+                tmp.date_to = bean.date_to;
+                tmp.state = bean.state;
+                tmp.merchant_id = bean.merchant_id;
+                tmp.id = "evento"+bean.id;
+                tmp.class = 'evento_'+bean.state;
+                store.put(tmp);            
+                if(callback){
+                   callback();
+                }
+            }catch(e){
+                errorlog("EVENTO ERROR UPDATE - 101",e);
             }
         }); 
     }catch(e){
@@ -758,7 +762,7 @@ updateevento = function(bean,store, callback){
 deleteevento = function(evento,callback){
     try{
         //Cancello riferimento all'immagine   
-        var service = new MessageService();        
+        var service = new EventService();        
         service.query("update event set deleted = 1 where event_id = '"+evento.event_id+"'", callback); 
     }catch(e){
         errorlog("DELETE EVENT - 100",e);
@@ -867,6 +871,27 @@ getImageEvent = function(bean,callback) {
    }   
 };
 
+
+/******************************************************************************************************
+/*                          PUNTI                                                                    *
+/******************************************************************************************************/
+
+addpunti = function(bean,callback){
+   try{
+        bean.dirty = true;
+        bean.deleted = false;
+        bean.last_modified = null;
+        var service = new CreditService();
+        service.add(bean, function() {            
+            if(callback){
+                callback();
+            }
+        });   
+    }catch(e){
+        errorlog("ADDEVENTO - 100",e);
+    }  
+}
+
 /********/
 
 //Reset delle tabelle passate in ingresso
@@ -960,7 +985,7 @@ getTableDirty = function(tables, synctable, callback){
             service = getServiceToTableName(table);
         
              var sql = " dirty = 1";
-            if(table=="offer" || table == "message" || table == "showcase"){
+            if(table=="offer" || table == "message" || table == "showcase" || table == "event" || table == "credit"){
                 sql += " and merchant_id = '"+user.merchant_id+"'";
             }else if(table=="offer_image"){
                 sql += " and offer_id in (select offer_id from offer where merchant_id = '"+user.merchant_id+"')";
@@ -968,6 +993,8 @@ getTableDirty = function(tables, synctable, callback){
                 sql += " and utente_id = '"+user.utente_id+"'";
             }else if(table=="showcase_image"){
                 sql += " and showcase_id in (select showcase_id from showcase where merchant_id = '"+user.merchant_id+"')";                
+            }else if(table=="event_image"){
+                sql += " and event_id in (select event_id from event where merchant_id = '"+user.merchant_id+"')";                
             }
             
             service.query("select * from "+table+" where "+sql, function(result){    
@@ -1012,7 +1039,7 @@ getTableLastUpdate = function(tables, synctable, callback){
         
             //Aggiungo filtro per userid e merchant
             var sql = "";
-            if(table=="offer" || table == "message" || table == "showcase"){
+            if(table=="offer" || table == "message" || table == "showcase" || table == "event" || table == "credit"){
                 sql += " where merchant_id = '"+user.merchant_id+"'";
             }else if(table=="offer_image"){
                 sql += " where offer_id in (select offer_id from offer where merchant_id = '"+user.merchant_id+"')";
@@ -1020,6 +1047,8 @@ getTableLastUpdate = function(tables, synctable, callback){
                 sql += " where utente_id = '"+user.utente_id+"'";
             }else if(table=="showcase_image"){
                 sql += " where showcase_id in (select showcase_id from showcase where merchant_id = '"+user.merchant_id+"')";                
+            }else if(table=="event_image"){
+                sql += " and event_id in (select event_id from event where merchant_id = '"+user.merchant_id+"')";                
             }
         
             service.query("select max(last_modified) as last_modified from "+table+""+sql, function(result){    
@@ -1181,7 +1210,14 @@ getServiceToTableName = function(tablename){
                     service = new Image_syncService();
                     
                     break;    
-             
+                case "event":
+                    service = new EventService();
+                   
+                    break;
+                case "event_image":
+                    service = new Event_imageService();
+                  
+                    break;
              
              
             } 

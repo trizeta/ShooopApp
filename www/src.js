@@ -2,7 +2,7 @@
 * Variabili globali di utenza
 */
 user = null;
-debug = true;
+debug = false;
 //url = "http://192.168.1.201:8080/messaging/rest/";
 //url = "http://192.168.1.10:8080/messaging/rest/";
 url = "http://37.59.80.107/messaging/rest/";
@@ -20,6 +20,9 @@ showcase = null;
 
 //Variabile per l'evento
 evento = null;
+
+//Variabile per punteggio
+punti = null;
 
 
 /* Configurazione Iniziale */
@@ -165,7 +168,10 @@ require([
             var uneditingeventimage =  {class:"icon  ion-ios7-compose-outline size-32", onClick:function(){registry.byId("imageeventContainer").endEdit()},style:"float:right" };
             var neweventimagegallery =  {class:"icon ion-image size-32", onClick:function(){takepictureevento(Camera.PictureSourceType.PHOTOLIBRARY)},style:"float:right"};
             var neweventimagecamera =  {class:"icon ion-ios7-camera size-32", onClick:function(){takepictureevento(Camera.PictureSourceType.CAMERA)},style:"float:right"};    
-        
+            
+            //Punti Button
+            var salvapunti =  {class:"icon ion-images size-32",  onTouchStart:savepunti, style:"float:right"};
+
             //Immagine di test
             var sync =  {class:"icon ion-ios7-refresh-empty size-32", onTouchStart:function(){syncall();},style:"float:right"};
             var reset =  {class:"icon ion-alert-circled size-32", onTouchStart:function(){resettable();},style:"float:right"};            
@@ -179,9 +185,20 @@ require([
             /****************************************************************************
             *   Aggiungo il controllo dei bottoni prima della transazione di apertura   *
             *****************************************************************************/                
+            dojo.connect(registry.byId("ViewApplication"), "onBeforeTransitionIn", null, function(){
+                showheadingbuttons([]);
+                domStyle.set('headinghome', 'display', 'inline');     
+            });
+
             dojo.connect(registry.byId("homepage"), "onBeforeTransitionIn", null, function(){
                 showheadingbuttons([]);
+                domStyle.set('headinghome', 'display', 'inline');               
             });    
+
+            dojo.connect(registry.byId("homepage"), "onBeforeTransitionOut", null, function(){
+                showheadingbuttons([]);
+                domStyle.set('headinghome', 'display', 'none');               
+            });
 
             dojo.connect(registry.byId("ViewLogin"), "onAfterTransitionOut", null, function(){
                 showheadingbuttons([]);
@@ -264,8 +281,6 @@ require([
 
             dojo.connect(registry.byId("tabMessaggi"), "onBeforeTransitionOut", null, function() {
                 domStyle.set(registry.byId('filterBoxMessage').domNode, 'display', 'none');
-                
-                
             });
                 
             dojo.connect(registry.byId("dettaglioMessage"), "onBeforeTransitionIn", null, function(bean) {
@@ -351,7 +366,7 @@ require([
 			});
                         
             dojo.connect(registry.byId("dettaglioEvento"), "onBeforeTransitionOut", null, function() {
-                salvaevento(function(){});
+                salvaevento();
                 domStyle.set('headingevent', 'display', 'none');                
             });           
             
@@ -395,7 +410,33 @@ require([
                showheadingbuttons([back]);               
 			});
 
+            /***************************************** PUNTI **************************************************/
+			
+			dojo.connect(registry.byId("tabPunti"), "onBeforeTransitionIn", null, function(){
+   				showheadingbuttons([salvapunti]);                   
+                domStyle.set('headingpunti', 'display', 'inline');               
+			});
 
+            dojo.connect(registry.byId("tabPunti"), "onBeforeTransitionOut", null, function(){
+                domStyle.set('headingpunti', 'display', 'none');               
+			});
+
+            dojo.connect(registry.byId("detailpuntidescription"), "onBeforeTransitionIn", null, function() {
+                  back.moveTo = "tabPunti";
+                  back.transitionDir = -1;
+                  showheadingbuttons([salvapunti]); 
+                  if(punti.causale){              
+                    registry.byId("eventhtmleditor").set("value",punti.causale);
+                  }
+                  domStyle.set('headingpunti', 'display', 'inline');  
+          	});
+
+            dojo.connect(registry.byId("detailpuntidescription"), "onBeforeTransitionOut", null, function() {
+                var causale = registry.byId("eventhtmleditor").get("value");
+                punti.causale =  causale;
+                registry.byId("causalepunti").set("rightText",causale);                 
+                domStyle.set('headingpunti', 'display', 'none');                
+            });
 
             /***************************************** MY APP **************************************************/
 			
@@ -696,8 +737,7 @@ require([
                     errorlog("DELETEITEM - 100",e);
                 }
             });
-            
-            
+                        
             connect.connect(ic, "onMoveItem", null, function(widget, from, to){
                 try{
                     startLoading();
@@ -719,11 +759,33 @@ require([
                 getDateSpinner("date_to_evento",function(newvalue){
                     evento.date_to = newvalue;
                 });
+			});   
+
+            /*  RACCOLTA PUNTI */
+            registry.byId("qtypunti").on("click",function(){
+                getNumericSpinner("qtypunti",function(newvalue){
+                    punti.qta = newvalue;
+                });
 			});
-
-
-    
-
+            
+            registry.byId("eanpunti").on("click",function(){
+               //Apro il barcode scanner e recupero l'ean associato
+               scan(
+                  function (result) {
+                      alert("We got a barcode\n" +
+                            "Result: " + result.text + "\n" +
+                            "Format: " + result.format + "\n" +
+                            "Cancelled: " + result.cancelled);
+                      punti.ean = result.text;
+                      registry.byId("eanpunti").rightText = punti.ean;                     
+                  }, 
+                  function (error) {
+                      errorlog("Scanning failed: " + error);
+                  }
+                );                    
+			});
+            
+            
             //TODO DA COMMENTARE PER NATIVA
             //onDeviceReady();
 	    });
@@ -1480,7 +1542,7 @@ require([
                         }                                      
                     } else {
                         var uuid = getUUID();
-                        evento.offer_id = uuid;
+                        evento.event_id = uuid;
                         evento.utente_id = user.utente_id;
                         evento.date_created = new Date();
                         evento.merchant_id = user.merchant_id;
@@ -1506,7 +1568,9 @@ require([
                 if(evento.title.length>0){
                     startLoading();
                     evento.state = 'P';
-                    registry.byId("dettaglioEvento").performTransition("tabEventi", -1, "slide");
+                    salvaevento(function(){
+                        registry.byId("dettaglioEvento").performTransition("tabEventi", -1, "slide");
+                    });                    
                 }
             }catch(e){
                errorlog("PUBBLICA EVENTO - 100",e);   
@@ -1521,8 +1585,8 @@ require([
             try{
                  registry.byId("title_evento").set("value",'');
                  registry.byId("description_evento").set('label','');
-                 registry.byId("date_from").set("rightText",'');
-                 registry.byId("date_to").set("rightText",'');                 
+                 registry.byId("date_from_evento").set("rightText",'');
+                 registry.byId("date_to_evento").set("rightText",'');                 
               }catch(e){
                errorlog("RESET FORM EVENTO - 100",e);   
             } 
@@ -1706,7 +1770,39 @@ require([
 
 
 
+/***************************************************************************************************
+*                                           PUNTI                                                 *
+****************************************************************************************************/
 
+ savepunti = function(){
+            startLoading();
+            //nuovo messaggio
+            var uuid = getUUID();
+            punti.credit_id = uuid;
+            punti.utente_id = user.utente_id;
+            punti.date_created = new Date();
+            punti.merchant_id = user.merchant_id;
+            try {
+                addpunti(punti, function(){
+                    //Sicronizzo la tabella dei punti
+                    synctable(['credit'], function(){
+                        stopLoading();
+                        //Messaggio punti salvati con successo e lancio notifica al cliente
+                        createMessage("Punti Registrati con Successo!",function(){
+                            //Chiudo e torno alla home
+                            registry.byId("tabPunti").performTransition("homepage", -1, "slide");
+                        });
+                                                
+                    });                  
+                });
+            }catch(e){
+                errorlog("SALVA PUNTI - 102",e);   
+            }                    
+        };
+
+resetpunti = function(){
+        
+}
 
 /*****************************************************************************************************************/
         
@@ -1714,7 +1810,7 @@ require([
         syncall = function(){
             startLoading();
             try{
-            synctable(['merchant','message','offer','offer_image','showcase','showcase_image','category','image'], function(){
+            synctable(['merchant','message','offer','offer_image','showcase','showcase_image','category','image','event','event_image','credit'], function(){
                 syncimages(function(){
                     stopLoading();
                 });
@@ -1728,7 +1824,7 @@ require([
         resettable = function(){
             startLoading();
             try{                
-                resettablefacade(['merchant','message','offer','offer_image','showcase','showcase_image','category','image','image_sync'], function(){
+                resettablefacade(['merchant','message','offer','offer_image','showcase','showcase_image','category','image','image_sync','event','event_image','credit'], function(){
                     logoutuser();
                         
                 });               
@@ -1970,7 +2066,7 @@ require([
         /*Genero UUID*/
         getUUID = function(){
             return dojox.uuid.generateRandomUuid();
-        }   
+        };   
         
         
         /* Creazione Alert di conferma */
@@ -1996,7 +2092,28 @@ require([
             }catch(e){
                 errorlog("CREATE CONFIRMATION - 100",e);
             }                
-        } 
+        };
+        
+        /* Creazione messaggio di Avviso */
+        createMessage = function(message, callbackok) {
+            try{
+        
+                dlg = new SimpleDialog();
+                win.body().appendChild(dlg.domNode);
+                var msgBox = domConstruct.create("div",
+                                         {class: "mblSimpleDialogText",
+                                          innerHTML: message},
+                                          dlg.domNode);
+
+                var yesBtn = new Button({class: "mblSimpleDialogButton mblBlueButton", innerHTML: "OK"});
+                yesBtn.connect(yesBtn.domNode, "click",function(e){callbackok(dlg)});
+                yesBtn.placeAt(dlg.domNode);         
+
+                dlg.show();  
+            }catch(e){
+                errorlog("CREATE MESSAGE - 100",e);
+            }                
+        };
         
         /*
         * Login internal
@@ -2008,7 +2125,7 @@ require([
             }catch(e){
                 errorlog("INTERNAL LOGIN ERROR",e);
             }
-        }     
+        };     
         
         /**
         * Effettuo login dell'applicativo
