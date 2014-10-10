@@ -653,7 +653,9 @@ Array.prototype.select = function (predicateFunction) {
             try{
                 var obj = this;
                 if (obj.db != null) {
+                    alert("APRO TRANSAZIONE!!!");
                     obj.db.transaction(function (dbctx) {
+                        alert("TRANSAZIONE APERTA");
                         if (obj.logSqls) {
                             console.log(sql);
                         }
