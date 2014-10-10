@@ -563,9 +563,11 @@ Array.prototype.select = function (predicateFunction) {
             return tables;
         },
         isTableExisting : function (table, callback) {
+            alert("TABLE EXISTSA");
             var obj = this;
             var sql = "SELECT name FROM sqlite_master WHERE type='table' AND name='" + table + "'";
             this.query(sql, function (items) {
+                alert("FINE QUERY"+items);
                 callback(items.length > 0);
             }, function (err) {
                 if (obj.alertErrors) {
@@ -652,6 +654,7 @@ Array.prototype.select = function (predicateFunction) {
         query : function (sql, successCallback, errorCallback, paras) {
             try{
                 var obj = this;
+                alert("PRIMA DI TRAN!!!"+obj.db);
                 if (obj.db != null) {
                     alert("APRO TRANSAZIONE!!!");
                     obj.db.transaction(function (dbctx) {
