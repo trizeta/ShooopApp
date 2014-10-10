@@ -240,7 +240,7 @@ require([
             dojo.connect(registry.byId("detailofferdescription"), "onBeforeTransitionOut", null, function() {
                 //Salvo l'html della pubblicazione sulla pagina
                 try{
-                    var htmldesc = registry.byId("offerhtmleditor").get("value");
+                    var htmldesc = tinymce.get("offerhtmleditor").getContent();
                     registry.byId("description").set("label",htmldesc); 
                     salvapubblicazione();
                     
@@ -812,8 +812,7 @@ require([
                                     debuglog("DIR CREATA:"+dirEntry.toURL());  
                                     //Effettuo login
                                     try{
-                                       login(null,null); 
-                                       
+                                       login(null,null);
                                     }catch(e){
                                         errorlog("ERROR SYNC",e);        
                                     }
@@ -829,6 +828,11 @@ require([
             }catch(e){
                 errorlog("ERROR INIT DB",e);
             } 
+            
+            tinymce.init({selector:'textarea#offerhtmleditor'});
+            tinymce.init({selector:'textarea#messagehtmleditor'});
+            tinymce.init({selector:'textarea#eventhtmleditor'});
+            tinymce.init({selector:'textarea#showcasehtmleditor'});          
             
             //window.plugin.backgroundMode.disable();
             
@@ -993,7 +997,9 @@ require([
                         pubblicazione.buyable = 1;
                     }                 
                     
-                    pubblicazione.description = registry.byId("description").get("label");
+                    //pubblicazione.description = registry.byId("description").get("label");
+                    //alert(tinymce.get("offerhtmleditor").getContent());
+                    pubblicazione.description = tinymce.get("offerhtmleditor").getContent();
                     if(pubblicazione.id) {
                         /* Recupero il servizio di update */                    
                         try{
@@ -1136,7 +1142,7 @@ require([
         sethtmldescriptionoffer = function(){
             try{
                 startLoading();
-                registry.byId("offerhtmleditor").set("value",registry.byId("description").label); 
+                tinymce.get("offerhtmleditor").setContent(registry.byId("description").label);
                 stopLoading(); 
             }catch(e){
                 errorlog("ERROR",e);
