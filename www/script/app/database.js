@@ -11,7 +11,7 @@
                     alert("INIT CALL");
                     if (this._instance == null) {
                         var db = new ShooopitDBContext();
-                        alert("INIT CALL 2");
+                        alert("INIT CALL 2" +db);
                         try {
                             db.init(function () {
                                 alert("INIT CALL 3");

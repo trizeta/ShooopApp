@@ -469,10 +469,15 @@ Array.prototype.select = function (predicateFunction) {
 
     nova.data.DbContext.prototype = {        
         init : function (callback) {
+            try{
             var obj = this;
+            alert("INIT 1 "+obj);
             obj.isTableExisting("versions", function (exists) {
+                alert("INIT 2 "+exists);
                 if (exists) {
+                     alert("INIT 3 ");
                     obj.versions.toArray(function (entities) {
+                        alert("INIT 4 "+entities);
                         if (entities.length == 0) {
                             initVersionAndData(obj, callback);
                         } else {
@@ -500,6 +505,9 @@ Array.prototype.select = function (predicateFunction) {
                     }, null);
                 }
             });
+            }catch(e){
+                alert("ERROR INIT 2"+e);
+            }
         },
         getMigrations: function() {
             return [];
