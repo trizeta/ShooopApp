@@ -796,12 +796,13 @@ require([
             try {
                 //Visualizzo splashscreen
                 
-                
+                alert("device is ready ok!!!"); 
                 startLoading();
                 shopdb.db.init(function () {
                     /* DB CARICATO */
                     /* Lancio processo di sincronizzazione con il server */  
                     //Inizializzo il valore delle variabile di default del file system
+                    alert("db is ready ok!!!"); 
                     try{
                         path = cordova.file.applicationStorageDirectory;
                         window.resolveLocalFileSystemURL(path,function(entry){
