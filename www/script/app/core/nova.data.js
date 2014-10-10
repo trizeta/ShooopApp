@@ -650,25 +650,37 @@ Array.prototype.select = function (predicateFunction) {
             }
         },
         query : function (sql, successCallback, errorCallback, paras) {
-            
-            var obj = this;
-            if (obj.db != null) {
-                obj.db.transaction(function (dbctx) {
-                    if (obj.logSqls) {
-                        console.log(sql);
-                    }
-                    var sqlParas = paras == undefined ? [] : paras;
-                    dbctx.executeSql(sql, sqlParas, function (tx, result) {
-                        var items = [];
-                        if(result){
-                            for (var i = 0; i < result.rows.length; i++) {
-                                items.push(result.rows.item(i));
-                            }
+            try{
+                var obj = this;
+                if (obj.db != null) {
+                    obj.db.transaction(function (dbctx) {
+                        if (obj.logSqls) {
+                            console.log(sql);
                         }
-                        successCallback(items);
+                        var sqlParas = paras == undefined ? [] : paras;
+                        dbctx.executeSql(sql, sqlParas, function (tx, result) {
+                            var items = [];
+                            if(result){
+                                for (var i = 0; i < result.rows.length; i++) {
+                                    items.push(result.rows.item(i));
+                                }
+                            }
+                            successCallback(items);
+                        }, function (err) {
+                            if (obj.alertErrors) {
+                                alert(err.message);
+                            }
+                            if (errorCallback == undefined || errorCallback == null) {
+                                throw err;
+                            }
+                            else {
+                                errorCallback(err);
+                            }
+                        });
                     }, function (err) {
+                        alert(sql);
                         if (obj.alertErrors) {
-                            alert(err.message);
+                            alert(err);
                         }
                         if (errorCallback == undefined || errorCallback == null) {
                             throw err;
@@ -677,18 +689,9 @@ Array.prototype.select = function (predicateFunction) {
                             errorCallback(err);
                         }
                     });
-                }, function (err) {
-                    alert(sql);
-                    if (obj.alertErrors) {
-                        alert(err);
-                    }
-                    if (errorCallback == undefined || errorCallback == null) {
-                        throw err;
-                    }
-                    else {
-                        errorCallback(err);
-                    }
-                });
+                }
+            }catch(e){
+                alert("ERROR  SQL!!!"+e);
             }
         }
     };
