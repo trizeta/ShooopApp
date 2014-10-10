@@ -832,11 +832,16 @@ require([
                 errorlog("ERROR INIT DB",e);
             } 
             
-            tinymce.init({selector:'textarea#offerhtmleditor'});
-            tinymce.init({selector:'textarea#messagehtmleditor'});
-            tinymce.init({selector:'textarea#eventhtmleditor'});
-            tinymce.init({selector:'textarea#showcasehtmleditor'});          
             
+            try{
+                tinymce.init({selector:'textarea#offerhtmleditor'});
+                tinymce.init({selector:'textarea#messagehtmleditor'});
+                tinymce.init({selector:'textarea#eventhtmleditor'});
+                tinymce.init({selector:'textarea#showcasehtmleditor'});          
+            }catch(e){
+                errorlog("ERROR TINYMCE",e);
+            }
+                
             //window.plugin.backgroundMode.disable();
             
             
