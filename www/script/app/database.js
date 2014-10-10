@@ -7,18 +7,22 @@
         db: {
             _instance: null,
             init: function (callback) {
-                if (this._instance == null) {
-                    var db = new ShooopitDBContext();
-                    try {
-                        db.init(function () {
-                            shopdb.db._instance = db;
-                            callback && callback();
-                        });
-                    } catch (ex) {
-                        alert(ex);
+                try{
+                    if (this._instance == null) {
+                        var db = new ShooopitDBContext();
+                        try {
+                            db.init(function () {
+                                shopdb.db._instance = db;
+                                callback && callback();
+                            });
+                        } catch (ex) {
+                            alert(ex);
+                        }
+                    } else {
+                        callback();
                     }
-                } else {
-                    callback();
+                }catch(e){
+                    alert("ERROR INIT",e);
                 }
             },
             getInstance: function () {

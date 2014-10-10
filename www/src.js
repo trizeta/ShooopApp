@@ -798,7 +798,8 @@ require([
                 
                 alert("device is ready ok!!!"); 
                 startLoading();
-                shopdb.db.init(function () {
+                alert("AFTER LOADING!!!"); 
+                window.shopdb.db.init(function () {
                     /* DB CARICATO */
                     /* Lancio processo di sincronizzazione con il server */  
                     //Inizializzo il valore delle variabile di default del file system
