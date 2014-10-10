@@ -771,7 +771,7 @@ deleteevento = function(evento,callback){
 
 
 
-/* Aggiunge l'immagine alla vetrina */
+/* Aggiunge l'immagine all'evento */
 addImageEvento = function(evento,imageURI,order,callback){
     try{
         window.resolveLocalFileSystemURL(imageURI, function(targetEntry){

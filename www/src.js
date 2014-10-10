@@ -299,8 +299,9 @@ require([
             /***************************************** VETRINA **************************************************/
 
 			dojo.connect(registry.byId("tabShowcase"), "onBeforeTransitionIn", null, function() {
-                if(showcase){
-                    showcase.description = registry.byId("showcasehtmleditor").set("value",showcase.description);
+                if(showcase) {
+                    tinymce.get("showcasehtmleditor").setContent(showcase.description);                    
+                    //showcase.description = registry.byId("showcasehtmleditor").set("value",showcase.description);
                 }
                 domStyle.set('headingshowcase', 'display', 'inline');               
                 showheadingbuttons([imageshowcase]);
@@ -333,7 +334,7 @@ require([
 				//Salvo la vetrina
                 if(showcase){
                     startLoading();
-                    showcase.description = registry.byId("showcasehtmleditor").get("value");
+                    showcase.description = tinymce.get("showcasehtmleditor").getContent();
                     if(!showcase.id) {
                         showcase.showcase_id = getUUID(); 
                         showcase.utente_id = user.utente_id;
@@ -381,7 +382,7 @@ require([
             dojo.connect(registry.byId("detaileventdescription"), "onBeforeTransitionOut", null, function() {
                 //Salvo l'html della pubblicazione sulla pagina
                 try{
-                    var htmldesc = registry.byId("eventhtmleditor").get("value");
+                    var htmldesc = tinymce.get("eventhtmleditor").getContent();
                     registry.byId("description_evento").set("label",htmldesc); 
                     salvaevento();
                     
@@ -1178,7 +1179,7 @@ require([
         /*
         * Gestione del metodo di recupero dell'immagine
         */
-        takepictureoffer = function takepictureoffer(sourcetype) {
+        takepictureoffer = function(sourcetype) {
             try{
             var cameraPopoverHandle = navigator.camera.getPicture(
                         function(urlimg){
@@ -1278,7 +1279,7 @@ require([
         /* Salva il messaggio */
         savemessage = function(){
             startLoading();
-            message.description = registry.byId("messagehtmleditor").get("value");
+            message.description = tinymce.get("messagehtmleditor").getContent();
             if(message.id){
                 //update messaggio
                 try{
@@ -1309,12 +1310,15 @@ require([
         setDetailMessage = function(bean){
             try{
                 message = bean;
-                registry.byId("messagehtmleditor").set("value",bean.description); 
+                tinymce.get("messagehtmleditor").setContent(bean.description);
+                
                 if(message.state=='W'){
-                    //Stato di modifica devo ancora inviare il messaggio                    
-                    registry.byId("messagehtmleditor").set('disabled',false);                    
+                    //Stato di modifica devo ancora inviare il messaggio   
+                    tinymce.get("messagehtmleditor").getBody().setAttribute('contenteditable', false);
+                    //registry.byId("messagehtmleditor").set('disabled',false);                    
                 }else{
-                    registry.byId("messagehtmleditor").set('disabled',true);                    
+                    tinymce.get("messagehtmleditor").getBody().setAttribute('contenteditable', true);
+                    //registry.byId("messagehtmleditor").set('disabled',true);                    
                     registry.byId("sendmessageid").destroyRecursive();
                 }               
             }catch(e){
@@ -1332,7 +1336,8 @@ require([
                 message.description = '';               
                 message.state = 'W';
                 //Visualizzo il dettaglio  
-                registry.byId("messagehtmleditor").set("value",""); 
+                tinymce.get("messagehtmleditor").setContent("");
+                //registry.byId("messagehtmleditor").set("value",""); 
                 registry.byId("tabMessaggi").performTransition("dettaglioMessage", 1, "slide");                
             } catch(e) {
                errorlog("NUOVAPUBBLICAZONE - 100",e);   
@@ -1363,7 +1368,7 @@ require([
                 startLoading();
                 //Setto i dati di messaggio
                 message.state = 'S';
-                message.description = registry.byId("messagehtmleditor").get("value");
+                message.description = tinymce.get("messagehtmleditor").getContent();
                 try {
                     updatemessage(message,storemessage, function(){
                         registry.byId("dettaglioMessage").performTransition("tabMessaggi", -1, "slide");
@@ -1641,7 +1646,8 @@ require([
         sethtmldescriptionevento = function(){
             try{
                 startLoading();
-                registry.byId("eventhtmleditor").set("value",registry.byId("description_evento").label); 
+                tinymce.get("eventhtmleditor").setContent(registry.byId("description_evento").label);
+                //registry.byId("eventhtmleditor").set("value",registry.byId("description_evento").label); 
                 stopLoading(); 
             }catch(e){
                 errorlog("ERROR",e);
