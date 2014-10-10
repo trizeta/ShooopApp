@@ -5,6 +5,7 @@ searchoffer = function(store, callback) {
     try{
         var service = new OfferService();
         service.query("select *, (select full_path_name from image join offer_image using (image_id) where offer_id = offerimg.offer_id and predefined = 1 and offer_image.deleted = 0 limit 1) as full_path_name, (select desc2 from category where offerimg.cat_1 = category_id) as cat_1_desc from offer as offerimg where merchant_id = '"+user.merchant_id+"' and deleted != 1", function(offer) { 
+            debuglog("SEARCH OFFER --"+offer);
             for(i=0;i<offer.length;i++){
                 bean = offer[i];  
                 bean.id = 'offer'+bean.id;

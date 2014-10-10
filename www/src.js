@@ -2,7 +2,7 @@
 * Variabili globali di utenza
 */
 user = null;
-debug = false;
+debug = true;
 //url = "http://192.168.1.201:8080/messaging/rest/";
 //url = "http://192.168.1.10:8080/messaging/rest/";
 url = "http://37.59.80.107/messaging/rest/";
