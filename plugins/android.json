@@ -35,7 +35,7 @@
         }
     },
     "installed_plugins": {
-        "com.brodysoft.sqlitePlugin": {
+        "com.phonegap.plugins.sqlite": {
             "PACKAGE_NAME": "it.trizeta.shooopapp"
         }
     },
