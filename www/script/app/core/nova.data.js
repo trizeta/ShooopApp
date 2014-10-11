@@ -464,7 +464,7 @@ Array.prototype.select = function (predicateFunction) {
             if (window.openDatabase) {
                 this.db = window.openDatabase(name, "1.0", displayName, estimatedSize);
             }else{
-                this.db = window.sqlitePlugin.openDatabase(name, "1.0", displayName, estimatedSize);
+                //this.db = window.sqlitePlugin.openDatabase(name, "1.0");
             }
         }
     };
@@ -473,13 +473,9 @@ Array.prototype.select = function (predicateFunction) {
         init : function (callback) {
             try{
             var obj = this;
-            alert("INIT 1 "+obj);
             obj.isTableExisting("versions", function (exists) {
-                alert("INIT 2 "+exists);
                 if (exists) {
-                     alert("INIT 3 ");
                     obj.versions.toArray(function (entities) {
-                        alert("INIT 4 "+entities);
                         if (entities.length == 0) {
                             initVersionAndData(obj, callback);
                         } else {
@@ -565,11 +561,9 @@ Array.prototype.select = function (predicateFunction) {
             return tables;
         },
         isTableExisting : function (table, callback) {
-            alert("TABLE EXISTSA");
             var obj = this;
             var sql = "SELECT name FROM sqlite_master WHERE type='table' AND name='" + table + "'";
             this.query(sql, function (items) {
-                alert("FINE QUERY"+items);
                 callback(items.length > 0);
             }, function (err) {
                 if (obj.alertErrors) {
@@ -656,11 +650,8 @@ Array.prototype.select = function (predicateFunction) {
         query : function (sql, successCallback, errorCallback, paras) {
             try{
                 var obj = this;
-                alert("PRIMA DI TRAN!!!"+obj.db);
                 if (obj.db != null) {
-                    alert("APRO TRANSAZIONE!!!");
                     obj.db.transaction(function (dbctx) {
-                        alert("TRANSAZIONE APERTA");
                         if (obj.logSqls) {
                             console.log(sql);
                         }

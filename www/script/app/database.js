@@ -8,13 +8,10 @@
             _instance: null,
             init: function (callback) {
                 try{
-                    alert("INIT CALL");
                     if (this._instance == null) {
                         var db = new ShooopitDBContext();
-                        alert("INIT CALL 2" +db);
                         try {
                             db.init(function () {
-                                alert("INIT CALL 3");
                                 window.shopdb.db._instance = db;
                                 callback && callback();
                             });
