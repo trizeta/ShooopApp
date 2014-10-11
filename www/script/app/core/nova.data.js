@@ -463,6 +463,8 @@ Array.prototype.select = function (predicateFunction) {
         if (name != undefined) {
             if (window.openDatabase) {
                 this.db = window.openDatabase(name, "1.0", displayName, estimatedSize);
+            }else{
+                this.db = window.sqlitePlugin.openDatabase(name, "1.0", displayName, estimatedSize);
             }
         }
     };

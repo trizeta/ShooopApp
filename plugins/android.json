@@ -7,13 +7,23 @@
         "files": {
             "res/xml/config.xml": {
                 "parents": {
-                    "/*": []
+                    "/*": [
+                        {
+                            "xml": "<feature name=\"SQLitePlugin\"><param name=\"android-package\" value=\"org.pgsqlite.SQLitePlugin\" /></feature>",
+                            "count": 1
+                        }
+                    ]
                 }
             },
             "AndroidManifest.xml": {
                 "parents": {
                     "/*": [],
-                    "/manifest/application": [],
+                    "/manifest/application": [
+                        {
+                            "xml": "<activity android:label=\"@string/app_name\" android:name=\"org.pgsqlite.SQLitePlugin\"></activity>",
+                            "count": 1
+                        }
+                    ],
                     "/manifest": []
                 }
             },
@@ -24,6 +34,10 @@
             }
         }
     },
-    "installed_plugins": {},
+    "installed_plugins": {
+        "com.brodysoft.sqlitePlugin": {
+            "PACKAGE_NAME": "it.trizeta.shooopapp"
+        }
+    },
     "dependent_plugins": {}
 }
