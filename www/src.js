@@ -854,9 +854,11 @@ require([
             }catch(e){
                 errorlog("ERROR INIT DB",e);
             } 
-                        
+             
+            
+            /*
             try{
-                var offereditor = tinymce.init({selector:'textarea#offerhtmleditor'});
+                tinymce.init({selector:'textarea#offerhtmleditor'});
                 
             }catch(e){
                 errorlog("ERROR TINYMCE 1",e);
@@ -879,7 +881,13 @@ require([
             }catch(e){
                  errorlog("ERROR TINYMCE 4",e);
             }
+            */
             
+            try{
+                tinymce.init({selector:'textarea'});
+            }catch(e){
+                errorlog("ERROR TINYMCE 2",e);
+            }
             
             alert(tinymce.editors.length);
                 
