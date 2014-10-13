@@ -791,9 +791,21 @@ require([
                 ); */                   
 			});
             
+            try{
+                var ed = new tinymce.Editor('showcasehtmleditor', {
+                    some_setting: 1
+                }, tinymce.EditorManager);
+                
+                //tinymce.init({selector:'textarea.tinyedit'});
+                
+            }catch(e){
+                errorlog("ERROR TINYMCE 1",e);
+            }
+            
+
             
             //TODO DA COMMENTARE PER NATIVA
-            onDeviceReady(); 
+            //onDeviceReady(); 
 	    });
 						
 		function onDeviceReady() {
@@ -855,12 +867,7 @@ require([
                 errorlog("ERROR INIT DB",e);
             } 
                 
-            try{
-                tinymce.init({selector:'textarea.tinyedit'});
-                
-            }catch(e){
-                errorlog("ERROR TINYMCE 1",e);
-            }
+           
                 
             
                 
