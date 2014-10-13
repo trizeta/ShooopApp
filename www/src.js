@@ -301,7 +301,7 @@ require([
 			dojo.connect(registry.byId("tabShowcase"), "onBeforeTransitionIn", null, function() {
                 try{
                     if(showcase) {
-                     
+                        alert("QUIIIIIII:"+tinymce.get("showcasehtmleditor"));
                         tinymce.get("showcasehtmleditor").setContent(showcase.description);                    
                     }
                     domStyle.set('headingshowcase', 'display', 'inline');               
