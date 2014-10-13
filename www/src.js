@@ -2,7 +2,7 @@
 * Variabili globali di utenza
 */
 user = null;
-debug = true;
+debug = false;
 //url = "http://192.168.1.201:8080/messaging/rest/";
 //url = "http://192.168.1.10:8080/messaging/rest/";
 url = "http://37.59.80.107/messaging/rest/";
@@ -795,17 +795,19 @@ require([
             //Inizializzo il Database
             try {
                 //Visualizzo splashscreen
-                
-                alert("device is ready ok!!!"); 
                 startLoading();
-                alert("AFTER LOADING!!!"); 
                 window.shopdb.db.init(function () {
                     /* DB CARICATO */
                     /* Lancio processo di sincronizzazione con il server */  
                     //Inizializzo il valore delle variabile di default del file system
-                    alert("db is ready ok!!!"); 
                     try{
-                        path = cordova.file.applicationStorageDirectory;
+                        try{
+                            path = cordova.file.applicationStorageDirectory;
+                        }catch(e){
+                            path = "file:\\\localhost\www\images";
+                        }
+                            
+                            
                         window.resolveLocalFileSystemURL(path,function(entry){
                             var pathimages = "files";                        
                             try{
@@ -831,8 +833,7 @@ require([
             }catch(e){
                 errorlog("ERROR INIT DB",e);
             } 
-            
-            
+                        
             try{
                 tinymce.init({selector:'textarea#offerhtmleditor'});
                 tinymce.init({selector:'textarea#messagehtmleditor'});
