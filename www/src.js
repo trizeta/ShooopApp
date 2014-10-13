@@ -301,7 +301,7 @@ require([
 			dojo.connect(registry.byId("tabShowcase"), "onBeforeTransitionIn", null, function() {
                 try{
                     if(showcase) {
-                        alert("VETRINA 2:"+tinymce.get(3));
+                     
                         tinymce.get("showcasehtmleditor").setContent(showcase.description);                    
                     }
                     domStyle.set('headingshowcase', 'display', 'inline');               
@@ -311,9 +311,6 @@ require([
                 }
 			});
 
-            dojo.connect(registry.byId("tabShowcase"), "onAfterTransitionIn", null, function() {
-                alert("VETRINA 3:"+tinymce.get("showcasehtmleditor"));
-            });
 
             dojo.connect(registry.byId("tabShowcase"), "onBeforeTransitionOut", null, function() {
                 domStyle.set('headingshowcase', 'display', 'none');
@@ -859,13 +856,30 @@ require([
             } 
                         
             try{
-                tinymce.init({selector:'textarea#offerhtmleditor'});
-                tinymce.init({selector:'textarea#messagehtmleditor'});
-                tinymce.init({selector:'textarea#eventhtmleditor'});
-                tinymce.init({selector:'textarea#showcasehtmleditor'});                          
+                var offereditor = tinymce.init({selector:'textarea#offerhtmleditor'});
+                alert("OFFER EDITOR"+offereditor);
             }catch(e){
-                errorlog("ERROR TINYMCE",e);
+                errorlog("ERROR TINYMCE 1",e);
             }
+            
+            try{
+                tinymce.init({selector:'textarea#messagehtmleditor'});
+            }catch(e){
+                errorlog("ERROR TINYMCE 2",e);
+            }
+            
+            try{
+                tinymce.init({selector:'textarea#eventhtmleditor'});
+            }catch(e){
+                errorlog("ERROR TINYMCE 3",e);
+            }
+                
+            try{
+                tinymce.init({selector:'textarea#showcasehtmleditor'}); 
+            }catch(e){
+                 errorlog("ERROR TINYMCE 4",e);
+            }
+            
                 
             //window.plugin.backgroundMode.disable();
             
