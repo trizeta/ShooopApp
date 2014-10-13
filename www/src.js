@@ -301,6 +301,7 @@ require([
 			dojo.connect(registry.byId("tabShowcase"), "onBeforeTransitionIn", null, function() {
                 try{
                     if(showcase) {
+                        alert("VETRINA:"+tinymce.get("showcasehtmleditor"));
                         tinymce.get("showcasehtmleditor").setContent(showcase.description);                    
                     }
                     domStyle.set('headingshowcase', 'display', 'inline');               
@@ -1169,9 +1170,8 @@ require([
         */
         sethtmldescriptionoffer = function(){
             try{
-                startLoading();
-                alert(tinymce.get("offerhtmleditor"));
-                tinymce.get("offerhtmleditor").setContent(registry.byId("description").label);
+                startLoading();                
+                tinymce.get("offerhtmleditor").setContent(registry.byId("description").label);                
                 stopLoading(); 
             }catch(e){
                 errorlog("ERROR",e);
