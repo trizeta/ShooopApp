@@ -311,6 +311,10 @@ require([
                 }
 			});
 
+            dojo.connect(registry.byId("tabShowcase"), "onAfterTransitionIn", null, function() {
+                alert("VETRINA 3:"+tinymce.get("showcasehtmleditor"));
+            });
+
             dojo.connect(registry.byId("tabShowcase"), "onBeforeTransitionOut", null, function() {
                 domStyle.set('headingshowcase', 'display', 'none');
             });
