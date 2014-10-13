@@ -880,6 +880,8 @@ require([
                  errorlog("ERROR TINYMCE 4",e);
             }
             
+            
+            alert(tinymce.editors.length);
                 
             //window.plugin.backgroundMode.disable();
             
