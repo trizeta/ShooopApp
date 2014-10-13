@@ -857,7 +857,7 @@ require([
                         
             try{
                 var offereditor = tinymce.init({selector:'textarea#offerhtmleditor'});
-                alert("OFFER EDITOR"+offereditor);
+                
             }catch(e){
                 errorlog("ERROR TINYMCE 1",e);
             }
@@ -1189,7 +1189,10 @@ require([
         sethtmldescriptionoffer = function(){
             try{
                 startLoading();                
+                alert("my EDITOR:"+tinymce.get("offerhtmleditor"));
+                
                 tinymce.get("offerhtmleditor").setContent(registry.byId("description").label);                
+                
                 stopLoading(); 
             }catch(e){
                 errorlog("ERROR",e);
