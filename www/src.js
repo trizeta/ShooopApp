@@ -802,7 +802,6 @@ require([
                     //Inizializzo il valore delle variabile di default del file system
                     try{
                         path = cordova.file.applicationStorageDirectory;
-                        alert("PATH "+path);
                         window.resolveLocalFileSystemURL(path,function(entry){
                             var pathimages = "files";                        
                             try{
@@ -822,22 +821,27 @@ require([
                             }
                         },function(e){errorlog("ERRORE",e)});
                     }catch(e){
-                        errorlog("CREAZIONE DIR IMAGE - 100",e);                                    
+                        //errorlog("CREAZIONE DIR IMAGE - 100",e);                                    
                         
                         window.requestFileSystem(LocalFileSystem.PERSISTENT, 0, function(entry){
                             alert("DIR OK!!!");
-                             var pathimages = "files";
-                            entry.getDirectory(pathimages, {create:true, exclusive: false}, function(dirEntry) {
-                                    window.rootimages = dirEntry;   
-                                    alert("OKKKKKKKKK!!!");
-                                    debuglog("DIR CREATA 2:"+dirEntry.toURL());  
-                                    //Effettuo login
-                                    try{
-                                       login(null,null);
-                                    }catch(e){
-                                        errorlog("ERROR SYNC 2",e);        
-                                    }
-                                }, function(e){errorlog("CREATE DIR - 201",e)}); 
+                            var pathimages = "files";
+                            try{ 
+                                alert("Entry:"+entry.fullPath);
+                                entry.getDirectory(pathimages, {create:true, exclusive: false}, function(dirEntry) {
+                                        window.rootimages = dirEntry;   
+                                        alert("OKKKKKKKKK!!!");
+                                        debuglog("DIR CREATA 2:"+dirEntry.toURL());  
+                                        //Effettuo login
+                                        try{
+                                           login(null,null);
+                                        }catch(e){
+                                            errorlog("ERROR SYNC 2",e);        
+                                        }
+                                    }, function(e){errorlog("CREATE DIR - 201",e)}); 
+                            }catch(e){
+                                alert("ERROOOROOOO::"+e);
+                            }
                             
                             
                             
