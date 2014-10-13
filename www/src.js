@@ -239,7 +239,7 @@ require([
             
             dojo.connect(registry.byId("detailofferdescription"), "onBeforeTransitionOut", null, function() {
                 //Salvo l'html della pubblicazione sulla pagina
-                try{
+                try{                 
                     var htmldesc = tinymce.get("offerhtmleditor").getContent();
                     registry.byId("description").set("label",htmldesc); 
                     salvapubblicazione();
@@ -299,12 +299,15 @@ require([
             /***************************************** VETRINA **************************************************/
 
 			dojo.connect(registry.byId("tabShowcase"), "onBeforeTransitionIn", null, function() {
-                if(showcase) {
-                    tinymce.get("showcasehtmleditor").setContent(showcase.description);                    
-                    //showcase.description = registry.byId("showcasehtmleditor").set("value",showcase.description);
+                try{
+                    if(showcase) {
+                        tinymce.get("showcasehtmleditor").setContent(showcase.description);                    
+                    }
+                    domStyle.set('headingshowcase', 'display', 'inline');               
+                    showheadingbuttons([imageshowcase]);
+                }catch(e){
+                    errorlog("SHOWCASE ERROR TRANSITION IN",e);
                 }
-                domStyle.set('headingshowcase', 'display', 'inline');               
-                showheadingbuttons([imageshowcase]);
 			});
 
             dojo.connect(registry.byId("tabShowcase"), "onBeforeTransitionOut", null, function() {
@@ -821,16 +824,12 @@ require([
                             }
                         },function(e){errorlog("ERRORE",e)});
                     }catch(e){
-                        //errorlog("CREAZIONE DIR IMAGE - 100",e);                                    
-                        
+                        //FIX WIN PHONE 8                        
                         window.requestFileSystem(LocalFileSystem.PERSISTENT, 0, function(entry){
-                            alert("DIR OK!!!");
                             var pathimages = "files";
                             try{ 
-                                alert("Entry:"+entry.root);
                                 entry.root.getDirectory(pathimages, {create:true, exclusive: false}, function(dirEntry) {
                                         window.rootimages = dirEntry;   
-                                        alert("OKKKKKKKKK!!!");
                                         debuglog("DIR CREATA 2:"+dirEntry.toURL());  
                                         //Effettuo login
                                         try{
@@ -840,13 +839,10 @@ require([
                                         }
                                     }, function(e){errorlog("CREATE DIR - 201",e)}); 
                             }catch(e){
-                                alert("ERROOOROOOO::"+e);
+                                errorlog("ERRORE CREAZIONE DIR",e);
                             }
-                            
-                            
-                            
-                        }, function(){
-                            alert("DIR KO!!!!!");
+                        }, function(e){
+                            errorlog("CREATE DIR - 102",e);
                         });
                         
                         
@@ -1174,6 +1170,7 @@ require([
         sethtmldescriptionoffer = function(){
             try{
                 startLoading();
+                alert(tinymce.get("offerhtmleditor"));
                 tinymce.get("offerhtmleditor").setContent(registry.byId("description").label);
                 stopLoading(); 
             }catch(e){
