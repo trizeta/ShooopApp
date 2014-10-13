@@ -300,19 +300,23 @@ require([
 
 			dojo.connect(registry.byId("tabShowcase"), "onBeforeTransitionIn", null, function() {
                 try{
-                    if(showcase) {
-                        
-                        //tinymce.get("showcasehtmleditor").setContent(showcase.description);                    
-                        //tinymce.get("showcasehtmleditor").setContent("TEST SHOWCASE");                    
-                    }
                     domStyle.set('headingshowcase', 'display', 'inline');               
                     showheadingbuttons([imageshowcase]);
                 }catch(e){
                     errorlog("SHOWCASE ERROR TRANSITION IN",e);
                 }
 			});
-            
 
+            dojo.connect(registry.byId("tabShowcase"), "onBeforeTransitionIn", null, function() {
+                try{
+                    if(showcase && showcase.description) {
+                        tinymce.get("showcasehtmleditor").setContent(showcase.description);                        
+                    }
+                }catch(e){
+                    errorlog("SHOWCASE ERROR TRANSITION IN",e);
+                }
+			});
+            
             dojo.connect(registry.byId("tabShowcase"), "onBeforeTransitionOut", null, function() {
                 domStyle.set('headingshowcase', 'display', 'none');
             });
@@ -793,7 +797,7 @@ require([
 			});
             
             try{
-               tinymce.init({selector:'textarea#showcasehtmleditor', id:'showcasehtmleditor', onInit:"ajaxLoad('Hello world')"});                
+               tinymce.init({selector:'div#showcasehtmleditor'});                
             }catch(e){
                 errorlog("ERROR TINYMCE 1",e);
             }
@@ -802,15 +806,7 @@ require([
             //onDeviceReady(); 
 	    });
 		
-        function ajaxLoad(text) 
-        {
-            try{
-                alert("NIT");
-                tinymce.activeEditor.setContent(text);
-            }catch(e){
-                errorlog("ER",e);
-            }
-        }
+
 
 
 		function onDeviceReady() {
