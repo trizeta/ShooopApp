@@ -792,12 +792,7 @@ require([
 			});
             
             try{
-                var ed = new tinymce.Editor('showcasehtmleditor', {
-                    some_setting: 1
-                }, tinymce.EditorManager);
-                
-                //tinymce.init({selector:'textarea.tinyedit'});
-                
+               tinymce.init({selector:'textarea#showcasehtmleditor', id:'showcasehtmleditor'});                
             }catch(e){
                 errorlog("ERROR TINYMCE 1",e);
             }
