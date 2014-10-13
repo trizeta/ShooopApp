@@ -301,7 +301,7 @@ require([
 			dojo.connect(registry.byId("tabShowcase"), "onBeforeTransitionIn", null, function() {
                 try{
                     if(showcase) {
-                        alert("VETRINA:"+tinymce.get("showcasehtmleditor"));
+                        alert("VETRINA 2:"+tinymce.get(3));
                         tinymce.get("showcasehtmleditor").setContent(showcase.description);                    
                     }
                     domStyle.set('headingshowcase', 'display', 'inline');               
@@ -858,7 +858,7 @@ require([
                 tinymce.init({selector:'textarea#offerhtmleditor'});
                 tinymce.init({selector:'textarea#messagehtmleditor'});
                 tinymce.init({selector:'textarea#eventhtmleditor'});
-                tinymce.init({selector:'textarea#showcasehtmleditor'});          
+                tinymce.init({selector:'textarea#showcasehtmleditor'});                          
             }catch(e){
                 errorlog("ERROR TINYMCE",e);
             }
