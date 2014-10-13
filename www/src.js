@@ -793,7 +793,7 @@ require([
             
             
             //TODO DA COMMENTARE PER NATIVA
-            //onDeviceReady(); 
+            onDeviceReady(); 
 	    });
 						
 		function onDeviceReady() {
@@ -854,42 +854,15 @@ require([
             }catch(e){
                 errorlog("ERROR INIT DB",e);
             } 
-             
-            
-            /*
+                
             try{
-                tinymce.init({selector:'textarea#offerhtmleditor'});
+                tinymce.init({selector:'textarea.tinyedit'});
                 
             }catch(e){
                 errorlog("ERROR TINYMCE 1",e);
             }
-            
-            try{
-                tinymce.init({selector:'textarea#messagehtmleditor'});
-            }catch(e){
-                errorlog("ERROR TINYMCE 2",e);
-            }
-            
-            try{
-                tinymce.init({selector:'textarea#eventhtmleditor'});
-            }catch(e){
-                errorlog("ERROR TINYMCE 3",e);
-            }
                 
-            try{
-                tinymce.init({selector:'textarea#showcasehtmleditor'}); 
-            }catch(e){
-                 errorlog("ERROR TINYMCE 4",e);
-            }
-            */
             
-            try{
-                tinymce.init({selector:'textarea'});
-            }catch(e){
-                errorlog("ERROR TINYMCE 2",e);
-            }
-            
-            alert(tinymce.editors.length);
                 
             //window.plugin.backgroundMode.disable();
             
