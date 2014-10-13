@@ -802,6 +802,7 @@ require([
                     //Inizializzo il valore delle variabile di default del file system
                     try{
                         path = cordova.file.applicationStorageDirectory;
+                        alert("PATH "+path);
                         window.resolveLocalFileSystemURL(path,function(entry){
                             var pathimages = "files";                        
                             try{
