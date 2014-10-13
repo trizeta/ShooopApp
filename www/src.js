@@ -827,8 +827,8 @@ require([
                             alert("DIR OK!!!");
                             var pathimages = "files";
                             try{ 
-                                alert("Entry:"+entry.fullPath);
-                                entry.getDirectory(pathimages, {create:true, exclusive: false}, function(dirEntry) {
+                                alert("Entry:"+entry.root);
+                                entry.root.getDirectory(pathimages, {create:true, exclusive: false}, function(dirEntry) {
                                         window.rootimages = dirEntry;   
                                         alert("OKKKKKKKKK!!!");
                                         debuglog("DIR CREATA 2:"+dirEntry.toURL());  
