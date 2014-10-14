@@ -797,7 +797,14 @@ require([
                 ); */                   
 			});
             
-            try{
+                      
+            //TODO DA COMMENTARE PER NATIVA
+            //onDeviceReady(); 
+	    });
+		
+        function onDeviceReady() {
+                        
+             try{
                 var devicePlatform = device.platform;
                 if(devicePlatform.toLowerCase().indexOf('win')==-1){
                    tinymce.init({selector:'textarea#showcasehtmleditor'});                
@@ -807,12 +814,9 @@ require([
                 }
             } catch(e) {
                 errorlog("ERROR INIT TINYMCE",e);
-            }                
-            //TODO DA COMMENTARE PER NATIVA
-            //onDeviceReady(); 
-	    });
-		
-        function onDeviceReady() {
+            }     
+            
+            
             //Inizializzo il Database
             try {
                 //Visualizzo splashscreen
