@@ -240,7 +240,7 @@ require([
             dojo.connect(registry.byId("detailofferdescription"), "onBeforeTransitionOut", null, function() {
                 //Salvo l'html della pubblicazione sulla pagina
                 try{                 
-                    var htmldesc = tinymce.get("offerhtmleditor").getContent();
+                    var htmldesc = getContentEditor("offerhtmleditor");
                     registry.byId("description").set("label",htmldesc); 
                     salvapubblicazione();
                     
@@ -310,7 +310,8 @@ require([
             dojo.connect(registry.byId("tabShowcase"), "onBeforeTransitionIn", null, function() {
                 try{
                     if(showcase && showcase.description) {
-                        tinymce.get("showcasehtmleditor").setContent(showcase.description);                        
+                        setContentEditor("showcasehtmleditor",showcase.description);
+                                               
                     }
                 }catch(e){
                     errorlog("SHOWCASE ERROR TRANSITION IN",e);
@@ -344,7 +345,7 @@ require([
 				//Salvo la vetrina
                 if(showcase){
                     startLoading();
-                    showcase.description = tinymce.get("showcasehtmleditor").getContent();
+                    showcase.description = getContentEditor("showcasehtmleditor");
                     if(!showcase.id) {
                         showcase.showcase_id = getUUID(); 
                         showcase.utente_id = user.utente_id;
@@ -392,7 +393,7 @@ require([
             dojo.connect(registry.byId("detaileventdescription"), "onBeforeTransitionOut", null, function() {
                 //Salvo l'html della pubblicazione sulla pagina
                 try{
-                    var htmldesc = tinymce.get("eventhtmleditor").getContent();
+                    var htmldesc = getContentEditor("eventhtmleditor");
                     registry.byId("description_evento").set("label",htmldesc); 
                     salvaevento();
                     
@@ -797,19 +798,21 @@ require([
 			});
             
             try{
-               tinymce.init({selector:'div#showcasehtmleditor'});                
-            }catch(e){
-                errorlog("ERROR TINYMCE 1",e);
-            }
-                
+                var devicePlatform = device.platform;
+                if(devicePlatform.toLowerCase().indexOf('win')==-1){
+                   tinymce.init({selector:'textarea#showcasehtmleditor'});                
+                   tinymce.init({selector:'textarea#offerhtmleditor'});                
+                   tinymce.init({selector:'textarea#messagehtmleditor'});                
+                   tinymce.init({selector:'textarea#eventhtmleditor'});                               
+                }
+            } catch(e) {
+                errorlog("ERROR INIT TINYMCE",e);
+            }                
             //TODO DA COMMENTARE PER NATIVA
             //onDeviceReady(); 
 	    });
 		
-
-
-
-		function onDeviceReady() {
+        function onDeviceReady() {
             //Inizializzo il Database
             try {
                 //Visualizzo splashscreen
@@ -916,9 +919,30 @@ require([
                 //Cancello la notifica                                
             };
             */
-            
         };
-    
+
+        getContentEditor = function(id){
+            var devicePlatform = device.platform;
+            if(devicePlatform.toLowerCase().indexOf('win')==-1){
+                //Non WIN8  
+                return tinymce.get(id).getContent();
+            }else{
+                //WIN 8 FIX
+                return registry.byId(id).get("value");                
+            }
+        };
+
+        setContentEditor = function(id,value){
+            var devicePlatform = device.platform;
+            if(devicePlatform.toLowerCase().indexOf('win')==-1){
+                //Non WIN8 
+                 return tinymce.get(id).setContent(value);
+            }else{
+                //WIN 8 FIX
+                registry.byId(id).set("value",value); 
+            }
+        };
+
         /* Store delle pubblicazione in modalità Observable */
         storepubblicazoni = dojo.store.Observable(new Memory({}));
         storemessage = dojo.store.Observable(new Memory({}));
@@ -1036,8 +1060,8 @@ require([
                     }                 
                     
                     //pubblicazione.description = registry.byId("description").get("label");
-                    //alert(tinymce.get("offerhtmleditor").getContent());
-                    pubblicazione.description = tinymce.get("offerhtmleditor").getContent();
+                    
+                    pubblicazione.description = getContentEditor("offerhtmleditor");
                     if(pubblicazione.id) {
                         /* Recupero il servizio di update */                    
                         try{
@@ -1180,10 +1204,7 @@ require([
         sethtmldescriptionoffer = function(){
             try{
                 startLoading();                
-                alert("my EDITOR:"+tinymce.get("offerhtmleditor"));
-                
-                tinymce.get("offerhtmleditor").setContent(registry.byId("description").label);                
-                
+                setContentEditor("offerhtmleditor",registry.byId("description").label);
                 stopLoading(); 
             }catch(e){
                 errorlog("ERROR",e);
@@ -1319,7 +1340,7 @@ require([
         /* Salva il messaggio */
         savemessage = function(){
             startLoading();
-            message.description = tinymce.get("messagehtmleditor").getContent();
+            message.description = getContentEditor("messagehtmleditor"); 
             if(message.id){
                 //update messaggio
                 try{
@@ -1350,14 +1371,15 @@ require([
         setDetailMessage = function(bean){
             try{
                 message = bean;
-                tinymce.get("messagehtmleditor").setContent(bean.description);
+                
+                setContentEditor("messagehtmleditor",bean.description);
                 
                 if(message.state=='W'){
                     //Stato di modifica devo ancora inviare il messaggio   
-                    tinymce.get("messagehtmleditor").getBody().setAttribute('contenteditable', false);
+                    //tinymce.get("messagehtmleditor").getBody().setAttribute('contenteditable', false);
                     //registry.byId("messagehtmleditor").set('disabled',false);                    
                 }else{
-                    tinymce.get("messagehtmleditor").getBody().setAttribute('contenteditable', true);
+                    //tinymce.get("messagehtmleditor").getBody().setAttribute('contenteditable', true);
                     //registry.byId("messagehtmleditor").set('disabled',true);                    
                     registry.byId("sendmessageid").destroyRecursive();
                 }               
@@ -1376,7 +1398,8 @@ require([
                 message.description = '';               
                 message.state = 'W';
                 //Visualizzo il dettaglio  
-                tinymce.get("messagehtmleditor").setContent("");
+                
+                setContentEditor("messagehtmleditor","");
                 //registry.byId("messagehtmleditor").set("value",""); 
                 registry.byId("tabMessaggi").performTransition("dettaglioMessage", 1, "slide");                
             } catch(e) {
@@ -1408,7 +1431,7 @@ require([
                 startLoading();
                 //Setto i dati di messaggio
                 message.state = 'S';
-                message.description = tinymce.get("messagehtmleditor").getContent();
+                message.description = getContentEditor("messagehtmleditor");
                 try {
                     updatemessage(message,storemessage, function(){
                         registry.byId("dettaglioMessage").performTransition("tabMessaggi", -1, "slide");
@@ -1686,8 +1709,7 @@ require([
         sethtmldescriptionevento = function(){
             try{
                 startLoading();
-                tinymce.get("eventhtmleditor").setContent(registry.byId("description_evento").label);
-                //registry.byId("eventhtmleditor").set("value",registry.byId("description_evento").label); 
+                setContentEditor("eventhtmleditor",registry.byId("description_evento").label);
                 stopLoading(); 
             }catch(e){
                 errorlog("ERROR",e);
