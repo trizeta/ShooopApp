@@ -325,6 +325,7 @@ retrieveToken = function(token,callback) {
    try{   
        var serviceconf = new ConfigurationService();
        if(token){
+           debuglog("GET TOKEN 1");
            var service = new UtenteService();
            service.query("select * from utente where token = '"+token+"'", function(result){    
                if(result.length==1) {
@@ -343,8 +344,10 @@ retrieveToken = function(token,callback) {
                }
            });  
        }else{
+           debuglog("GET TOKEN 2");
            //Recupero se esiste l'ultimo login
            serviceconf.query("select * from configuration where chiave = 'LAST_USER_LOG'", function(resultconf){
+                 debuglog("GET TOKEN 3");
                 if(resultconf.length==1) {
                     var service = new UtenteService();
                     service.query("select * from utente where utente_id = '"+resultconf[0].valore+"'", function(result){    
@@ -356,6 +359,7 @@ retrieveToken = function(token,callback) {
                         }
                     });            
                 } else {
+                    debuglog("GET TOKEN 4");
                     //Utente non trovato
                     callback(null);
                 }
