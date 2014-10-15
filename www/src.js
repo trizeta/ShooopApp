@@ -2342,7 +2342,11 @@ resetpunti = function(){
                         registry.byId("ViewApplication").show(false,false);
                     }else{
                         debuglog("DOPO RETRIEVE TOKEN 2");
-                        registry.byId("ViewApplication").show(false,false);
+                        try{
+                            registry.byId("ViewApplication").show(false,false);
+                        }catch(e){
+                            errorlog("ERRORE VIEW APP - 100",e);
+                        }
                         stopLoading();
                     }
                     
