@@ -2303,9 +2303,7 @@ resetpunti = function(){
             } else {
                 //Recupero l'unico utente inserito nella tabella utente
                 retrieveToken(null,function(utente){
-                    debuglog("DOPO RETRIEVE TOKEN");
                     if(utente){
-                        debuglog("DOPO RETRIEVE TOKEN 1");
                         user = utente
                         //Vado alla pagina principale dell'applicazione
                         searchoffer(storepubblicazoni,function(){                            
@@ -2344,12 +2342,13 @@ resetpunti = function(){
                         debuglog("DOPO RETRIEVE TOKEN 2");
                         try{
                             registry.byId("ViewApplication").show(false,false);
-                        }catch(e){
+                            debuglog("DOPO RETRIEVE TOKEN 4");
+                            stopLoading();
+                            debuglog("DOPO RETRIEVE TOKEN 5");
+                        } catch(e) {
                             errorlog("ERRORE VIEW APP - 100",e);
                         }
-                        stopLoading();
                     }
-                    
                 });   
             }
             }catch(e){
