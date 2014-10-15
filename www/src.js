@@ -826,7 +826,8 @@ require([
                     /* Lancio processo di sincronizzazione con il server */  
                     //Inizializzo il valore delle variabile di default del file system
                     try{
-                        path = cordova.file.applicationStorageDirectory;
+                        //path = cordova.file.applicationStorageDirectory;
+                        path = cordova.file.dataDirectory;
                         window.resolveLocalFileSystemURL(path,function(entry){
                             var pathimages = "files";                        
                             try{
