@@ -871,6 +871,15 @@ require([
                         
                             
                     }
+                    
+                     try{   
+                        //Nascondo lo splah screen
+                        navigator.splashscreen.hide();                      
+                    } catch(e) {
+                        errorlog("ERRORE VIEW APP - 100",e);
+                    }
+                    
+                    
                 });           
             }catch(e){
                 errorlog("ERROR INIT DB",e);
@@ -2339,15 +2348,7 @@ resetpunti = function(){
                         });
                         registry.byId("ViewApplication").show(false,false);
                     }else{
-                        debuglog("DOPO RETRIEVE TOKEN 2");
-                        try{
-                            registry.byId("ViewApplication").show(false,false);
-                            stopLoading();
-                            navigator.splashscreen.hide();
-                            debuglog("FINEEE");
-                        } catch(e) {
-                            errorlog("ERRORE VIEW APP - 100",e);
-                        }
+                        stopLoading();
                     }
                 });   
             }
