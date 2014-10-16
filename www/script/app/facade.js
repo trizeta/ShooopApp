@@ -252,7 +252,7 @@ addImageOffer = function(offer,imageURI,order,storeoffer,callback){
                             offerimage.dirty = true;
                             serviceimageoffer.add(offerimage,
                                                     function(){  
-                                                        if(offerimagee && offerimage.ordine==0){
+                                                        if(offerimage && offerimage.ordine==0){
                                                             order.icon = window.rootimages.toURL() + nameimage;
                                                             storeoffer.put(order);
                                                         }
@@ -800,7 +800,7 @@ addImageEvento = function(evento,imageURI,order,callback){
                             eventimage.deleted = false;
                             eventimage.dirty = true;
                             eventimage.last_modified = null;
-                            serviceimageevent.add(eventimage,callback(targetEntry.toURL()));
+                            serviceimageevent.add(eventimage,callback(targetEntry.toURL(),eventimage));
 
                             /* Aggiungo l'immagine come da sincronizzare */
                             var serviceimagesync = new Image_syncService();                                                

@@ -2,7 +2,7 @@
 * Variabili globali di utenza
 */
 user = null;
-debug = true;
+debug = false;
 //url = "http://192.168.1.201:8080/messaging/rest/";
 //url = "http://192.168.1.10:8080/messaging/rest/";
 url = "http://37.59.80.107/messaging/rest/";
@@ -235,6 +235,7 @@ require([
                back.transitionDir = -1;
                showheadingbuttons([back]); 
                 domStyle.set('headingoffer', 'display', 'inline');
+                setContentEditorResize("offerhtmleditor");
 			});
             
             dojo.connect(registry.byId("detailofferdescription"), "onBeforeTransitionOut", null, function() {
@@ -288,6 +289,7 @@ require([
                 back.transitionDir = -1;
                 showheadingbuttons([back,sendmessage,copymessage]);    
                 domStyle.set('headingmessage', 'display', 'inline');
+                setContentEditorResize("messagehtmleditor");
           	});
                     
             dojo.connect(registry.byId("dettaglioMessage"), "onBeforeTransitionOut", null, function() {
@@ -302,6 +304,7 @@ require([
                 try{
                     domStyle.set('headingshowcase', 'display', 'inline');               
                     showheadingbuttons([imageshowcase]);
+                    setContentEditorResize("showcasehtmleditor");
                 }catch(e){
                     errorlog("SHOWCASE ERROR TRANSITION IN",e);
                 }
@@ -388,6 +391,7 @@ require([
                back.transitionDir = -1;
                showheadingbuttons([back]); 
                domStyle.set('headingevent', 'display', 'inline');
+                setContentEditorResize("eventhtmleditor");
 			});
             
             dojo.connect(registry.byId("detaileventdescription"), "onBeforeTransitionOut", null, function() {
@@ -799,13 +803,17 @@ require([
             
                       
             //TODO DA COMMENTARE PER NATIVA
-            //onDeviceReady(); 
+            onDeviceReady(); 
 	    });
 		
         function onDeviceReady() {
-                        
-             try{
-                var devicePlatform = device.platform;
+                try{
+                    var devicePlatform = "chrome";
+                try{
+                    devicePlatform = device.platform;
+                }catch(e){
+
+                }
                 if(devicePlatform.toLowerCase().indexOf('win')==-1){
                    tinymce.init({selector:'textarea#showcasehtmleditor'});                
                    tinymce.init({selector:'textarea#offerhtmleditor'});                
@@ -847,7 +855,8 @@ require([
                             }
                         },function(e){errorlog("ERRORE",e)});
                     }catch(e){
-                        //FIX WIN PHONE 8                        
+                        //FIX WIN PHONE 8  
+                        try{
                         window.requestFileSystem(LocalFileSystem.PERSISTENT, 0, function(entry){
                             var pathimages = "files";
                             try{ 
@@ -866,13 +875,13 @@ require([
                             }
                         }, function(e){
                             errorlog("CREATE DIR - 102",e);
-                        });
-                        
-                        
-                            
+                        }); 
+                        }catch(e){
+                            //Non faccio nulla
+                        }
                     }
-                    
-                     try{   
+      
+                    try{   
                         //Nascondo lo splah screen
                         navigator.splashscreen.hide();                      
                     } catch(e) {
@@ -884,10 +893,6 @@ require([
             }catch(e){
                 errorlog("ERROR INIT DB",e);
             } 
-                
-           
-                
-            
                 
             //window.plugin.backgroundMode.disable();
             
@@ -935,19 +940,53 @@ require([
             */
         };
 
-        getContentEditor = function(id){
-            var devicePlatform = device.platform;
+
+        setContentEditorResize = function(id) {
+            
+            var devicePlatform = "chrome";
+            try{
+                devicePlatform = device.platform;
+            }catch(e){
+            
+            }
+            
+            if(devicePlatform.toLowerCase().indexOf('win')==-1){
+                //Non WIN8 
+                //Recupero l'altezza disponibile                
+                tinymce.get(id).theme.resizeTo('100%',window.innerHeight-92-105);              
+            } else {
+                //WIN 8 FIX  
+                domStyle.set(id, 'height', window.innerHeight-92-105);                 
+            }
+        };
+
+
+        getContentEditor = function(id) {
+            
+            var devicePlatform = "chrome";
+            try{
+                devicePlatform = device.platform;
+            }catch(e){
+            
+            }
+            
             if(devicePlatform.toLowerCase().indexOf('win')==-1){
                 //Non WIN8  
                 return tinymce.get(id).getContent();
             }else{
                 //WIN 8 FIX
+                
                 return registry.byId(id).get("value");                
             }
         };
 
         setContentEditor = function(id,value){
-            var devicePlatform = device.platform;
+            var devicePlatform = "chrome";
+            try{
+                devicePlatform = device.platform;
+            }catch(e){
+            
+            }
             if(devicePlatform.toLowerCase().indexOf('win')==-1){
                 //Non WIN8 
                  return tinymce.get(id).setContent(value);
@@ -1774,7 +1813,7 @@ require([
                                     }catch(error){
                                         errorlog("RECUPERO CAMERA - 102",error);
                                     }
-                                })  
+                                });
                             }catch(error){
                                 errorlog("RECUPERO CAMERA - 103",error);
                             }
