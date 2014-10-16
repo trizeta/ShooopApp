@@ -1805,7 +1805,7 @@ require([
                             try{
                                 var order = registry.byId("imageeventContainer").getChildren().length;
                                 order = order+1;
-                                addImageEvento(evento,urlimg,order,storeeventi, function(url,beanentry) {
+                                addImageEvento(evento,urlimg,order, function(url,beanentry) {
                                     try{
                                         /* Aggiungo l'immagine in visualizzazone */
                                         var container = registry.byId("imageeventContainer");

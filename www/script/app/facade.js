@@ -800,7 +800,11 @@ addImageEvento = function(evento,imageURI,order,callback){
                             eventimage.deleted = false;
                             eventimage.dirty = true;
                             eventimage.last_modified = null;
-                            serviceimageevent.add(eventimage,callback(targetEntry.toURL(),eventimage));
+                            serviceimageevent.add(eventimage,
+                                                   function(){  
+                                                        callback(targetEntry.toURL(),eventimage);
+                                                    }
+                                                 );
 
                             /* Aggiungo l'immagine come da sincronizzare */
                             var serviceimagesync = new Image_syncService();                                                
@@ -835,7 +839,7 @@ deleteImageEvento = function(image_id,evento,callback){
 };
 
 /* Modifica l'ordinamento dell'immagine */
-moveImageOffer = function(imageevento,store,evento,from,to,callback) {
+moveImageEvento = function(imageevento,store,evento,from,to,callback) {
     try{
         //Setto l'immagine di default
         var service = new Event_imageService();
