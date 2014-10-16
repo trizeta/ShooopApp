@@ -754,7 +754,7 @@ require([
                 }
             });
                         
-            connect.connect(ic, "onMoveItem", null, function(widget, from, to){
+            connect.connect(icevent, "onMoveItem", null, function(widget, from, to){
                 try{
                     startLoading();
                     moveImageEvento(widget,storeeventi,evento,from,to,function(defaultimage){
