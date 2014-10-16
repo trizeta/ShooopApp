@@ -207,7 +207,7 @@ require([
             /***************************************** OFFERTE **************************************************/
 
 			dojo.connect(registry.byId("tabPubblicazioni"), "onBeforeTransitionIn", null, function() {
-				showheadingbuttons([newoffer,editoffer]);
+				showheadingbuttons([newoffer]);
                 //Visualizzo il Search Box
                 domStyle.set(registry.byId('filterBoxOffer').domNode, 'display', 'inline');
 			});
@@ -275,7 +275,7 @@ require([
             /***************************************** MESSAGGI **************************************************/
             		
 			dojo.connect(registry.byId("tabMessaggi"), "onBeforeTransitionIn", null, function() {
-                showheadingbuttons([editmessage,newmessage]);
+                showheadingbuttons([newmessage]);
                 domStyle.set(registry.byId('filterBoxMessage').domNode, 'display', 'inline');
                 
           	});
@@ -363,7 +363,7 @@ require([
             /***************************************** EVENTI **************************************************/
 
 			dojo.connect(registry.byId("tabEventi"), "onBeforeTransitionIn", null, function() {
-				showheadingbuttons([newevent,editevent]);
+				showheadingbuttons([newevent]);
                 //Visualizzo il Search Box
                 domStyle.set(registry.byId('filterBoxEvento').domNode, 'display', 'inline');
 			});
@@ -803,7 +803,7 @@ require([
             
                       
             //TODO DA COMMENTARE PER NATIVA
-            //onDeviceReady(); 
+            onDeviceReady(); 
 	    });
 		
         function onDeviceReady() {
@@ -953,10 +953,10 @@ require([
             if(devicePlatform.toLowerCase().indexOf('win')==-1){
                 //Non WIN8 
                 //Recupero l'altezza disponibile                
-                tinymce.get(id).theme.resizeTo('100%',window.innerHeight-92-105);              
+                tinymce.get(id).theme.resizeTo('100%',window.innerHeight-92-109);              
             } else {
                 //WIN 8 FIX  
-                domStyle.set(id, 'height', window.innerHeight-92-105);                 
+                domStyle.set(id, 'height', window.innerHeight-92-109);                 
             }
         };
 

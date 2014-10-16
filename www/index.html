@@ -205,6 +205,10 @@
                 position:relative;
             }
                     
+            
+            .mblListItem{
+                border-bottom:1px solid #70c2e3;
+            }
             /*
             .dijitEditorIFrameContainer{
                 height:95%;
@@ -223,7 +227,11 @@
                 height:100%;
             }
             */
-                .size-12 { font-size: 12px; }
+            
+            
+            
+            
+    .size-12 { font-size: 12px; }
     .size-14 { font-size: 14px; }
     .size-16 { font-size: 16px; }
     .size-18 { font-size: 18px; }
@@ -273,6 +281,9 @@
         		<img alt="ShooopApp" src="img/logoshooopapp.png" align="middle" style="margin-top:2em;width:250px;height:250px">
         	</div>       	
         	
+            
+            
+            
         	<!-- Login Applicativo -->
         	<div style="text-align:center; vertical-align: middle; width: 100%;z-index:1000">
         	      
@@ -289,7 +300,7 @@
         
         
         <!-- View di Dettaglio a Tab -->
-        <div id="ViewApplication"  data-dojo-type="dojox.mobile.View">
+        <div id="ViewApplication"  data-dojo-type="dojox.mobile.View" style="background-color:#fff204">
                     <!-- Header Tab -->    
                     <!-- <ul data-dojo-type="dojox.mobile.TabBar" single="true" fixed="top">
                         <li data-dojo-type="dojox.mobile.TabBarButton" class="icon ion-bag size-48" data-dojo-props="moveTo:'tabPubblicazioni', selected:true" ></li>
@@ -298,7 +309,7 @@
                         <li data-dojo-type="dojox.mobile.TabBarButton" class="icon ion-settings size-48" data-dojo-props="moveTo:'tabMyApp'"></li>
                     </ul>-->
       		    
-                    <div id="headingtop" data-dojo-type="dojox.mobile.Heading" fixed="top">
+                    <div id="headingtop" data-dojo-type="dojox.mobile.Heading" fixed="top" style="border-bottom:2px solid white">
                          <div data-dojo-type="dojox.mobile.ToolBarButton" class="icon ion-navicon-round size-24" onClick="openmenu();"></div>
                         
                          <input data-dojo-type="dojox.mobile.SearchBox" data-dojo-props="queryExpr:'*${0}*'"  type="search" id="filterBoxOffer" class="mblFilteredEdgeToEdgeListSearchBox">
@@ -315,14 +326,14 @@
                          <label id="headingpunti" style="display:none;padding-right:70px">PUNTI</label>
                          <div id="headinghome" style="display:none;align:center;height:90%; padding-top:5px;padding-right:70px">
                              <img src="img/logo36.png"></img>
-                             <label>ShooopIt</label>                           
+                             <label>Shooopit</label>                           
                         </div>
                         
                     </div>
                     
                     <!-- HomePage -->
-                    <div id="homepage"  data-dojo-type="dojox.mobile.ScrollableView">                      
-                        <ul data-dojo-type="dojox.mobile.IconMenu" style="width:90%;height:300px;margin:5%;" data-dojo-props='cols:2'>
+                    <div id="homepage"  data-dojo-type="dojox.mobile.ScrollableView" >                      
+                        <ul data-dojo-type="dojox.mobile.IconMenu" style="width:90%;height:300px;margin:5%;background-color:#f58040" data-dojo-props='cols:2'>
                             <li data-dojo-type="dojox.mobile.IconMenuItem" class="icon ion-bag size-48" data-dojo-props='label:"Offerte", moveTo:"tabPubblicazioni"'></li>
                             <li data-dojo-type="dojox.mobile.IconMenuItem" class="icon ion-ios7-email-outline size-48" data-dojo-props='label:"Messaggi", moveTo:"tabMessaggi"'></li>
                             <li data-dojo-type="dojox.mobile.IconMenuItem" class="icon ion-android-image size-48" data-dojo-props='label:"Vetrina", moveTo:"tabShowcase" '></li>
@@ -333,7 +344,7 @@
                     </div>
                                  
         	        <!-- Vista Pubblicazioni -->	
-                    <div id="tabPubblicazioni" data-dojo-type="dojox.mobile.PullView" data-dojo-props='onPull:onPullOffer, onPulled:onPulledOffer'> 
+                    <div id="tabPubblicazioni" data-dojo-type="dojox.mobile.PullView" data-dojo-props='onPull:onPullOffer, onPulled:onPulledOffer' > 
                         <div id="pulloffer" style="text-align:center">
                              <div id="progoffer"></div>
                              <img id="iconoffer" src="img/refresh-arrow.png">
@@ -345,7 +356,7 @@
                     </div> 
                  
                     <!-- Dettaglio dell'annuncio -->
-					<div id="dettaglioPubblicazione"  data-dojo-type="dojox.mobile.ScrollableView"> 					 										 	
+					<div id="dettaglioPubblicazione"  data-dojo-type="dojox.mobile.ScrollableView" > 					 										 	
 					 	<div data-dojo-type="dojox.mobile.EdgeToEdgeList">
                                 <div class="fieldset" id="item_detailsGroup" data-dojo-type="dojox.mvc.Group">
                                     <div>
@@ -383,14 +394,14 @@
 						</div>					 	
 				</div> 				
 				
-                <div id="tabImagePubblicazioni"  data-dojo-type="dojox.mobile.ScrollableView">
+                <div id="tabImagePubblicazioni"  data-dojo-type="dojox.mobile.ScrollableView" >
                     <div style="position:absolute; left:5px ;width:120px;text-align:center; height:135px ;background-color:rgb(79, 248, 47)">Default</div>
                     <ul data-dojo-type="dojox.mobile.IconContainer" id="imageofferContainer" data-dojo-props='editable:true, transition:"slide"'>
                     </ul>                        
                 </div>
 
 			     <!-- Messaggi -->                
-				<div id="tabMessaggi" data-dojo-type="dojox.mobile.PullView" data-dojo-props='onPull:onPullMessage, onPulled:onPulledMessage'> 
+				<div id="tabMessaggi" data-dojo-type="dojox.mobile.PullView" data-dojo-props='onPull:onPullMessage, onPulled:onPulledMessage' > 
                         <div id="pullmessage" style="text-align:center">
                              <div id="progmessage"></div>
                              <img id="iconmessage" src="img/refresh-arrow.png"> 
@@ -402,19 +413,19 @@
 				</div> 
     
                 <!-- Vetrina -->
-				<div id="tabShowcase" data-dojo-type="dojox.mobile.View"> 
+				<div id="tabShowcase" data-dojo-type="dojox.mobile.View" > 
                         <textarea data-dojo-type="dojox.mobile.TextArea" id="showcasehtmleditor" style="width:100%">                
                         </textarea>
 				</div>
             
-                <div id="tabImageShowcase"  data-dojo-type="dojox.mobile.ScrollableView">
+                <div id="tabImageShowcase"  data-dojo-type="dojox.mobile.ScrollableView" >
                      <div style="position:absolute; left:5px ;width:120px;text-align:center; height:135px ;background-color:rgb(79, 248, 47)">Default</div>
                     <ul data-dojo-type="dojox.mobile.IconContainer" id="imageshowcaseContainer" data-dojo-props='editable:true, transition:"slide"'>
                     </ul>                        
                 </div>
             					
                 <!-- Form con le configurazioni principali -->
-				<div id="tabMyApp" data-dojo-type="dojox.mobile.ScrollableView"> 
+				<div id="tabMyApp" data-dojo-type="dojox.mobile.ScrollableView" > 
 					<div data-dojo-type="dojox.mobile.EdgeToEdgeList">
                           <div class="fieldset" data-dojo-type="dojox.mvc.Group">
                                 <li data-dojo-type="dojox.mobile.ListItem">  
@@ -437,13 +448,13 @@
                     </div>                                    
 				</div>											
 				
-                <div id="detailofferdescription" data-dojo-type="dojox.mobile.View">
+                <div id="detailofferdescription" data-dojo-type="dojox.mobile.View" >
 
                         <textarea data-dojo-type="dojox.mobile.TextArea" id="offerhtmleditor" class="tinyedit" style="width:100%">                
                         </textarea>
                 </div>
                     
-                 <div id="dettaglioMessage" data-dojo-type="dojox.mobile.View">
+                 <div id="dettaglioMessage" data-dojo-type="dojox.mobile.View" >
          
                         <textarea data-dojo-type="dojox.mobile.TextArea" id="messagehtmleditor" class="tinyedit" style="width:100%">                
                         </textarea>
@@ -451,7 +462,7 @@
                 </div>
                 
                 <!-- Categoria -->
-                <div id="selectedPicker" data-dojo-type="dojox.mobile.ScrollableView"> 
+                <div id="selectedPicker" data-dojo-type="dojox.mobile.ScrollableView" > 
                         <div id="listcategory" data-dojo-type="dojox.mobile.EdgeToEdgeStoreList" 
                              data-dojo-props="store:storecategory, placeHolder:'Search', filterBoxRef: 'filterBoxCategory'"
                              data-dojo-mixins="dojox.mobile.FilteredListMixin"></div>	
@@ -459,7 +470,7 @@
                 </div>
             
                 <!-- Vista Eventi -->	
-                <div id="tabEventi" data-dojo-type="dojox.mobile.PullView" data-dojo-props='onPull:onPullEventi, onPulled:onPulledEventi'> 
+                <div id="tabEventi" data-dojo-type="dojox.mobile.PullView" data-dojo-props='onPull:onPullEventi, onPulled:onPulledEventi' > 
                     <div id="pulleventi" style="text-align:center">
                          <div id="progeventi"></div>
                          <img id="iconeventi" src="img/refresh-arrow.png">
@@ -472,7 +483,7 @@
             
             
                 <!-- Dettaglio Evento -->
-                <div id="dettaglioEvento"  data-dojo-type="dojox.mobile.ScrollableView"> 					 										 	
+                <div id="dettaglioEvento"  data-dojo-type="dojox.mobile.ScrollableView" > 					 										 	
 					 	<div data-dojo-type="dojox.mobile.EdgeToEdgeList">
                                 <div class="fieldset" data-dojo-type="dojox.mvc.Group">
                                     <div>
@@ -493,14 +504,14 @@
 						</div>					 	
 				</div>
             
-                <div id="detaileventdescription" data-dojo-type="dojox.mobile.View">
+                <div id="detaileventdescription" data-dojo-type="dojox.mobile.View" >
                                             
                         <textarea id="eventhtmleditor" data-dojo-type="dojox.mobile.TextArea" class="tinyedit" style="width:100%">                
                         </textarea>
                      
                 </div>
                   
-                <div id="tabImageEventi"  data-dojo-type="dojox.mobile.ScrollableView">
+                <div id="tabImageEventi"  data-dojo-type="dojox.mobile.ScrollableView" >
                     <div style="position:absolute; left:5px ;width:120px;text-align:center; height:135px ;background-color:rgb(79, 248, 47)">Default</div>
                     <ul data-dojo-type="dojox.mobile.IconContainer" id="imageeventContainer" data-dojo-props='editable:true, transition:"slide"'>
                     </ul>                        
@@ -508,7 +519,7 @@
                 
 
                 <!-- Punteggi -->
-				<div id="tabPunti" data-dojo-type="dojox.mobile.ScrollableView"> 
+				<div id="tabPunti" data-dojo-type="dojox.mobile.ScrollableView" > 
 					<div data-dojo-type="dojox.mobile.EdgeToEdgeList">
                           <div class="fieldset" data-dojo-type="dojox.mvc.Group">
                                 <li id="eanpunti" data-dojo-type="dojox.mobile.ListItem" data-dojo-props="label:'Codice Cliente', clickable: true"></li>
@@ -518,22 +529,22 @@
                     </div>                                    
 				</div>
                 
-                <div id="detailpuntidescription" data-dojo-type="dojox.mobile.ScrollableView">                                            
+                <div id="detailpuntidescription" data-dojo-type="dojox.mobile.ScrollableView" >                                            
                         <textarea id="puntihtmleditor" data-dojo-type="dojox.mobile.TextArea" class="tinyedit" style="width:100%; height:250px">                
                         </textarea>                     
                 </div>                
             
             
                 <!-- Image Swap -->
-                <div id="swapviewofferimage" data-dojo-type="dojox.mobile.ScrollableView"></div>
+                <div id="swapviewofferimage" data-dojo-type="dojox.mobile.ScrollableView" ></div>
 
                 <!-- Image Swap Showcase -->
-                <div id="swapviewshowcaseimage" data-dojo-type="dojox.mobile.ScrollableView"></div>
+                <div id="swapviewshowcaseimage" data-dojo-type="dojox.mobile.ScrollableView" ></div>
             
                 <!-- Image Swap Eventi -->
-                <div id="swapvieweventimage" data-dojo-type="dojox.mobile.ScrollableView"></div>
+                <div id="swapvieweventimage" data-dojo-type="dojox.mobile.ScrollableView" ></div>
             
-                <div id="heading" data-dojo-type="dojox.mobile.Heading" fixed="bottom"></div>
+                <div id="heading" data-dojo-type="dojox.mobile.Heading" fixed="bottom" style="border-top:2px solid white"></div>
         		
         </div> 
               

@@ -12,8 +12,14 @@ html.mobile,
   color: #000000;
 }
 .mblBackground {
-  background-color: #c0c0c0;
+  
+  background-color: none;
+  background-image: url('../../../../../img/SfondoHome.png');
+  background-repeat: no-repeat;
+  background-size: 100%;
+  background-position: center;
 }
+
 .mblColorBlue {
   color: #ffffff;
   background-color: #048bf4;
