@@ -68,7 +68,11 @@
             .mblFilteredEdgeToEdgeListSearchBox{
                 align:center;
                 width:80%;
-                height:100%;
+                text-align:left;
+                height:25px;
+                margin-top:5px;
+                outline:5px solid #1c85c2;
+                margin-right:5px
             }
             
             /* CSS IMMAGINi OFFERTA */
@@ -209,6 +213,36 @@
             .mblListItem{
                 border-bottom:1px solid #70c2e3;
             }
+           
+            
+            .notviewlabel{
+                font-size: 0.6em;
+                float: left;
+                padding-top: 4px;
+            }
+                        
+            .mblSimpleDialog{
+                width:80%;
+            }
+            
+            
+            .SearchBoxdiv{
+                width:100%;
+                height:35px; 
+                background-color:transparent;
+                align:center;
+                text-align:right;
+                margin-right:5px;  
+            }
+            
+            .rotate-180{
+                -webkit-transform: rotate(180deg);     /* Chrome and other webkit browsers */
+                -moz-transform: rotate(180deg);        /* FF */
+                -o-transform: rotate(180deg);          /* Opera */
+                -ms-transform: rotate(180deg);         /* IE9 */
+                transform: rotate(180deg);             /* W3C complaint browsers */
+            }
+            
             /*
             .dijitEditorIFrameContainer{
                 height:95%;
@@ -238,10 +272,15 @@
     .size-21 { font-size: 21px; }
     .size-24 { font-size: 24px; }
     .size-32 { font-size: 32px; }
+    .size-36 { font-size: 36px; }
     .size-48 { font-size: 48px; }
     .size-64 { font-size: 64px; }
     .size-96 { font-size: 96px; }
             
+            .mblDomButtonOrange{
+                color:#f58040;
+                margin-top:22px;
+            }
             
             
 	   </style>
@@ -268,10 +307,13 @@
         
     </head>
     <body>
-		    
+		  <img src="img/SfondoHome.png" style="width:100%;height:100%;z-index:-100;position:absolute;top:0;left:0" > </img>   
         <!-- View di Login -->
         <div id="ViewLogin"  data-dojo-type="dojox.mobile.View"> 
-        	<h1 data-dojo-type="dojox.mobile.Heading" class="mblTabBarTabBar{">
+        	
+           
+            
+            <h1 data-dojo-type="dojox.mobile.Heading" class="mblTabBarTabBar{">
         		<div id="buttonattiva" data-dojo-type="dojox.mobile.ToolBarButton" onClick="window.open(urlregister, '_system');" style="float:left; color:white" >Registrati</div>
         		<div id="buttondemo" data-dojo-type="dojox.mobile.ToolBarButton" data-dojo-props="moveTo:'ViewApplication', callback: acessdemo" style="float:right; color:white">Demo</div>
         	</h1>
@@ -312,45 +354,45 @@
                     <div id="headingtop" data-dojo-type="dojox.mobile.Heading" fixed="top" style="border-bottom:2px solid white">
                          <div data-dojo-type="dojox.mobile.ToolBarButton" class="icon ion-navicon-round size-24" onClick="openmenu();"></div>
                         
-                         <input data-dojo-type="dojox.mobile.SearchBox" data-dojo-props="queryExpr:'*${0}*'"  type="search" id="filterBoxOffer" class="mblFilteredEdgeToEdgeListSearchBox">
-                         <input data-dojo-type="dojox.mobile.SearchBox" data-dojo-props="queryExpr:'*${0}*'"  type="search" id="filterBoxMessage" class="mblFilteredEdgeToEdgeListSearchBox">
-                         <input data-dojo-type="dojox.mobile.SearchBox" data-dojo-props="queryExpr:'*${0}*'"  type="search" id="filterBoxCategory" class="mblFilteredEdgeToEdgeListSearchBox">
-                         <input data-dojo-type="dojox.mobile.SearchBox" data-dojo-props="queryExpr:'*${0}*'"  type="search" id="filterBoxEvento" class="mblFilteredEdgeToEdgeListSearchBox">
-                        
-                         <label id="headingshowcase" style="display:none;padding-right:70px">VETRINA</label>
-                         <label id="headingmessage" style="display:none;padding-right:70px">MESSAGGIO</label>
-                         <label id="headingimage" style="display:none;padding-right:70px">IMMAGINI</label>
-                         <label id="headingpreference" style="display:none;padding-right:70px">PREFERENZE</label>
-                         <label id="headingoffer" style="display:none;padding-right:70px">OFFERTA</label>
-                         <label id="headingevent" style="display:none;padding-right:70px">EVENTI</label>
+                         <label id="headingshowcase" style="display:none;color:white">Gestione Vetrina</label>
+                         <label id="headingmessage" style="display:none;color:white">Gestione Messaggi</label>
+                         <label id="headingimage" style="display:none;color:white">Immagini</label>
+                         <label id="headingpreference" style="display:none;color:white">Preferenze</label>
+                         <label id="headingoffer" style="display:none;color:white">Gestione Offerte</label>
+                         <label id="headingevent" style="display:none;padding-right:70px;color:white">Gestione Eventi</label>
                          <label id="headingpunti" style="display:none;padding-right:70px">PUNTI</label>
-                         <div id="headinghome" style="display:none;align:center;height:90%; padding-top:5px;padding-right:70px">
+                         <div id="headinghome" style="display:none;align:center;height:90%; padding-top:5px">
                              <img src="img/logo36.png"></img>
                              <label>Shooopit</label>                           
                         </div>
-                        
+                                    
+                        <div id="homepagebutton" data-dojo-type="dojox.mobile.ToolBarButton" class="icon ion-ios7-home size-24" style="float:right;width:20px" onClick="movetohomepage();"></div>
+                        <div id="searchfilterbutton" data-dojo-type="dojox.mobile.ToolBarButton" class="icon ion-android-search size-24" style="float:right;width:20px" onClick="opensearch();"></div>
                     </div>
                     
                     <!-- HomePage -->
                     <div id="homepage"  data-dojo-type="dojox.mobile.ScrollableView" >                      
-                        <ul data-dojo-type="dojox.mobile.IconMenu" style="width:90%;height:300px;margin:5%;background-color:#f58040" data-dojo-props='cols:2'>
-                            <li data-dojo-type="dojox.mobile.IconMenuItem" class="icon ion-bag size-48" data-dojo-props='label:"Offerte", moveTo:"tabPubblicazioni"'></li>
-                            <li data-dojo-type="dojox.mobile.IconMenuItem" class="icon ion-ios7-email-outline size-48" data-dojo-props='label:"Messaggi", moveTo:"tabMessaggi"'></li>
-                            <li data-dojo-type="dojox.mobile.IconMenuItem" class="icon ion-android-image size-48" data-dojo-props='label:"Vetrina", moveTo:"tabShowcase" '></li>
-                            <li data-dojo-type="dojox.mobile.IconMenuItem" class="icon ion-calendar size-48" data-dojo-props='label:"Eventi", moveTo:"tabEventi"'></li> 
-                            <li data-dojo-type="dojox.mobile.IconMenuItem" class="icon ion-settings size-48" data-dojo-props='label:"MyApp", moveTo:"tabMyApp"'></li> 
+                        <ul data-dojo-type="dojox.mobile.IconMenu" style="width:90%;height:300px;margin:5%;background-color:#f58040;border:1px solid white" data-dojo-props='cols:2'>
+                            <li data-dojo-type="dojox.mobile.IconMenuItem" class="icon ion-bag size-48"  style="color:white;border-bottom:1px solid white;border-right:1px solid white" data-dojo-props='label:"Offerte", moveTo:"tabPubblicazioni"'></li>
+                            <li data-dojo-type="dojox.mobile.IconMenuItem" class="icon ion-ios7-email-outline size-48" style="color:white;border-bottom:1px solid white" data-dojo-props='label:"Messaggi", moveTo:"tabMessaggi"'></li>
+                            <li data-dojo-type="dojox.mobile.IconMenuItem" class="icon ion-android-image size-48" style="color:white;border-bottom:1px solid white;border-right:1px solid white" data-dojo-props='label:"Vetrina", moveTo:"tabShowcase" '></li>
+                            <li data-dojo-type="dojox.mobile.IconMenuItem" class="icon ion-calendar size-48"  style="color:white;border-bottom:1px solid white" data-dojo-props='label:"Eventi", moveTo:"tabEventi"'></li> 
+                            <li data-dojo-type="dojox.mobile.IconMenuItem" class="icon ion-settings size-48"  style="color:white" data-dojo-props='label:"MyApp", moveTo:"tabMyApp"'></li> 
                             
                         </ul>
                     </div>
                                  
         	        <!-- Vista Pubblicazioni -->	
-                    <div id="tabPubblicazioni" data-dojo-type="dojox.mobile.PullView" data-dojo-props='onPull:onPullOffer, onPulled:onPulledOffer' > 
+                    <div id="tabPubblicazioni" data-dojo-type="dojox.mobile.PullView" data-dojo-props='onPull:onPullOffer, onPulled:onPulledOffer' >                         
                         <div id="pulloffer" style="text-align:center">
                              <div id="progoffer"></div>
                              <img id="iconoffer" src="img/refresh-arrow.png">
                              <div id="msg1offer"></div>
                         </div>
-						<div id="list" data-dojo-type="dojox.mobile.EdgeToEdgeStoreList" 
+                        <div class="SearchBoxdiv" id="filterBoxOfferDiv">
+                           <input data-dojo-type="dojox.mobile.SearchBox" data-dojo-props="queryExpr:'*${0}*'" type="search" id="filterBoxOffer" class="mblFilteredEdgeToEdgeListSearchBox">
+                        </div>
+                        <div id="list" data-dojo-type="dojox.mobile.EdgeToEdgeStoreList" 
                              data-dojo-props="store:storepubblicazoni,  editable:true, stateful:true, placeHolder:'Search', filterBoxRef: 'filterBoxOffer'"
                              data-dojo-mixins="dojox.mobile.FilteredListMixin" class="offerlist"></div>			
                     </div> 
@@ -395,7 +437,9 @@
 				</div> 				
 				
                 <div id="tabImagePubblicazioni"  data-dojo-type="dojox.mobile.ScrollableView" >
-                    <div style="position:absolute; left:5px ;width:120px;text-align:center; height:135px ;background-color:rgb(79, 248, 47)">Default</div>
+                    <div style="position:absolute; left:5px ;width:120px;text-align:center; height:135px ;background-color:#1c85c2;color:white">
+                        Trascina qui l'immagine principale
+                    </div>
                     <ul data-dojo-type="dojox.mobile.IconContainer" id="imageofferContainer" data-dojo-props='editable:true, transition:"slide"'>
                     </ul>                        
                 </div>
@@ -407,6 +451,11 @@
                              <img id="iconmessage" src="img/refresh-arrow.png"> 
                              <div id="msg1message"></div>                             
                         </div>
+                    
+                        <div class="SearchBoxdiv" id="filterBoxMessageDiv">
+                             <input data-dojo-type="dojox.mobile.SearchBox" data-dojo-props="queryExpr:'*${0}*'"  type="search" id="filterBoxMessage" class="mblFilteredEdgeToEdgeListSearchBox"> 
+                        </div>
+                    
 						<div id="listmessage" data-dojo-type="dojox.mobile.EdgeToEdgeStoreList" 
                              data-dojo-props="store:storemessage,  editable:true, stateful:true, placeHolder:'Search', filterBoxRef: 'filterBoxMessage'"
                              data-dojo-mixins="dojox.mobile.FilteredListMixin" class="offerlist"></div>	
@@ -419,7 +468,9 @@
 				</div>
             
                 <div id="tabImageShowcase"  data-dojo-type="dojox.mobile.ScrollableView" >
-                     <div style="position:absolute; left:5px ;width:120px;text-align:center; height:135px ;background-color:rgb(79, 248, 47)">Default</div>
+                     <div style="position:absolute; left:5px ;width:120px;text-align:center; height:135px ;background-color:#1c85c2;color:white">
+                         Trascina qui l'immagine principale
+                    </div>
                     <ul data-dojo-type="dojox.mobile.IconContainer" id="imageshowcaseContainer" data-dojo-props='editable:true, transition:"slide"'>
                     </ul>                        
                 </div>
@@ -463,6 +514,10 @@
                 
                 <!-- Categoria -->
                 <div id="selectedPicker" data-dojo-type="dojox.mobile.ScrollableView" > 
+                    <div class="SearchBoxdiv" id="filterBoxCategoryDiv">
+                         <input data-dojo-type="dojox.mobile.SearchBox" data-dojo-props="queryExpr:'*${0}*'"  type="search" id="filterBoxCategory" class="mblFilteredEdgeToEdgeListSearchBox">    
+                        </div>
+                    
                         <div id="listcategory" data-dojo-type="dojox.mobile.EdgeToEdgeStoreList" 
                              data-dojo-props="store:storecategory, placeHolder:'Search', filterBoxRef: 'filterBoxCategory'"
                              data-dojo-mixins="dojox.mobile.FilteredListMixin"></div>	
@@ -476,7 +531,12 @@
                          <img id="iconeventi" src="img/refresh-arrow.png">
                          <div id="msg1eventi"></div>
                     </div>
-					<div id="listeventi" data-dojo-type="dojox.mobile.EdgeToEdgeStoreList" 
+                    
+                   <div class="SearchBoxdiv" id="filterBoxEventoDiv">
+                      <input data-dojo-type="dojox.mobile.SearchBox" data-dojo-props="queryExpr:'*${0}*'"  type="search" id="filterBoxEvento" class="mblFilteredEdgeToEdgeListSearchBox">
+                   </div> 
+                   
+				   <div id="listeventi" data-dojo-type="dojox.mobile.EdgeToEdgeStoreList" 
                          data-dojo-props="store:storeeventi,  editable:true, stateful:true, placeHolder:'Search', filterBoxRef: 'filterBoxEvento'"
                          data-dojo-mixins="dojox.mobile.FilteredListMixin" class="offerlist"></div>			
                 </div>
@@ -512,7 +572,9 @@
                 </div>
                   
                 <div id="tabImageEventi"  data-dojo-type="dojox.mobile.ScrollableView" >
-                    <div style="position:absolute; left:5px ;width:120px;text-align:center; height:135px ;background-color:rgb(79, 248, 47)">Default</div>
+                    <div style="position:absolute; left:5px ;width:120px;color:white;text-align:center; height:135px ;background-color:#1c85c2">
+                        Trascina qui l'immagine principale
+                    </div>
                     <ul data-dojo-type="dojox.mobile.IconContainer" id="imageeventContainer" data-dojo-props='editable:true, transition:"slide"'>
                     </ul>                        
                 </div>

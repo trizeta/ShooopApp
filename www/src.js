@@ -24,6 +24,9 @@ evento = null;
 //Variabile per punteggio
 punti = null;
 
+//Filtro id
+actualfilterid = null;
+
 
 /* Configurazione Iniziale */
 var dojoConfig={
@@ -65,6 +68,7 @@ require([
     "dojox/mobile/PageIndicator",
     "dojo/request", 
     "dojo/json",
+    "dojox/mobile/CheckBox",
     "dojo/_base/Deferred",
 	"dojox/mobile/parser",
 	"dojox/mobile",
@@ -81,7 +85,6 @@ require([
 	"dojox/mobile/ToolBarButton",
 	"dojox/mobile/TextBox",
 	"dojox/mobile/TextArea",
-	"dojox/mobile/CheckBox",
 	"dojox/mobile/Switch",
 	"dojox/mobile/Button",
 	"dojox/mobile/EdgeToEdgeStoreList",
@@ -106,7 +109,7 @@ require([
     "dojox/mobile/Badge",
     "dojox/mobile/IconMenuItem"  
 	
-], function(ready, win, domConstruct, Memory, Observable, registry, on, dom,ProgressIndicator,stamp,locale,domStyle,ListItem,array,connect,domClass,ToolBarButton,IconItem,SimpleDialog,Button,SwapView,CarouselItem,Icon,PageIndicator,request,json) {
+], function(ready, win, domConstruct, Memory, Observable, registry, on, dom,ProgressIndicator,stamp,locale,domStyle,ListItem,array,connect,domClass,ToolBarButton,IconItem,SimpleDialog,Button,SwapView,CarouselItem,Icon,PageIndicator,request,json,CheckBox) {
 	
 		var dateformat = "dd/MM/yyyy";
         var progoffer, progmessage, progshowcase,progeventi; 
@@ -117,7 +120,16 @@ require([
             registry.byId("heading").destroyDescendants();
             for(i=0;i<buttons.length;i++){ 
                 registry.byId("heading").addChild(new ToolBarButton(buttons[i]));             
-            }               
+            }
+
+            //Controllo il bottone di filtrop 
+            if(actualfilterid){
+                domStyle.set('searchfilterbutton', 'visibility', 'visible');       
+            }else{
+                domStyle.set('searchfilterbutton', 'visibility', 'hidden');       
+            }
+
+
         } 
           
 		ready(function() {
@@ -128,7 +140,7 @@ require([
             *****************************************************************************/
             
             //Back Button
-            var back =  {class:"icon ion-ios7-arrow-back size-32", style:"float:left"};
+            var back =  {class:"icon ion-ios7-play-outline size-48 rotate-180", style:"float:left"};
             
             //Logout Button
             var logout =  {class:"icon ion-log-out size-32", onTouchStart:logoutuser,  style:"float:left"};
@@ -177,10 +189,12 @@ require([
             var reset =  {class:"icon ion-alert-circled size-32", onTouchStart:function(){resettable();},style:"float:right"};            
 
             //Nascondo i search
-            domStyle.set(registry.byId('filterBoxOffer').domNode, 'display', 'none');
-            domStyle.set(registry.byId('filterBoxMessage').domNode, 'display', 'none');
-            domStyle.set(registry.byId('filterBoxCategory').domNode, 'display', 'none');
-            domStyle.set(registry.byId('filterBoxEvento').domNode, 'display', 'none');
+            domStyle.set('filterBoxOfferDiv', 'display', 'none');
+            domStyle.set('filterBoxMessageDiv', 'display', 'none');
+            domStyle.set('filterBoxCategoryDiv', 'display', 'none');
+            domStyle.set('filterBoxEventoDiv', 'display', 'none');
+            
+
                         
             /****************************************************************************
             *   Aggiungo il controllo dei bottoni prima della transazione di apertura   *
@@ -207,13 +221,17 @@ require([
             /***************************************** OFFERTE **************************************************/
 
 			dojo.connect(registry.byId("tabPubblicazioni"), "onBeforeTransitionIn", null, function() {
-				showheadingbuttons([newoffer]);
-                //Visualizzo il Search Box
-                domStyle.set(registry.byId('filterBoxOffer').domNode, 'display', 'inline');
-			});
+				  actualfilterid = 'filterBoxOfferDiv';
+                showheadingbuttons([newoffer]);
+                //Controllo HELP
+                showhelp("OFFER");
+                domStyle.set('headingoffer', 'display', 'inline');
+            });
             
             dojo.connect(registry.byId("tabPubblicazioni"), "onBeforeTransitionOut", null, function() {
-                domStyle.set(registry.byId('filterBoxOffer').domNode, 'display', 'none');
+                domStyle.set('filterBoxOfferDiv', 'display', 'none');
+                actualfilterid = null;
+                domStyle.set('headingoffer', 'display', 'none');
 			});
 		
 			dojo.connect(registry.byId("dettaglioPubblicazione"), "onBeforeTransitionIn", null, function() {
@@ -221,7 +239,7 @@ require([
                back.moveTo = "tabPubblicazioni";
                back.transitionDir = -1;
                showheadingbuttons([publicoffer,imageoffer,back]);               
-                domStyle.set('headingoffer', 'display', 'inline');
+               domStyle.set('headingoffer', 'display', 'inline');
 			});
                         
             dojo.connect(registry.byId("dettaglioPubblicazione"), "onBeforeTransitionOut", null, function() {
@@ -275,13 +293,16 @@ require([
             /***************************************** MESSAGGI **************************************************/
             		
 			dojo.connect(registry.byId("tabMessaggi"), "onBeforeTransitionIn", null, function() {
-                showheadingbuttons([newmessage]);
-                domStyle.set(registry.byId('filterBoxMessage').domNode, 'display', 'inline');
-                
+                actualfilterid = 'filterBoxMessageDiv'; 
+                showheadingbuttons([newmessage]); 
+                showhelp("MESSAGE");
+                domStyle.set('headingmessage', 'display', 'inline');
+                               
           	});
 
             dojo.connect(registry.byId("tabMessaggi"), "onBeforeTransitionOut", null, function() {
-                domStyle.set(registry.byId('filterBoxMessage').domNode, 'display', 'none');
+                actualfilterid = null;
+                domStyle.set('headingmessage', 'display', 'none');
             });
                 
             dojo.connect(registry.byId("dettaglioMessage"), "onBeforeTransitionIn", null, function(bean) {
@@ -305,6 +326,7 @@ require([
                     domStyle.set('headingshowcase', 'display', 'inline');               
                     showheadingbuttons([imageshowcase]);
                     setContentEditorResize("showcasehtmleditor");
+                    showhelp("SHOWCASE");
                 }catch(e){
                     errorlog("SHOWCASE ERROR TRANSITION IN",e);
                 }
@@ -363,13 +385,16 @@ require([
             /***************************************** EVENTI **************************************************/
 
 			dojo.connect(registry.byId("tabEventi"), "onBeforeTransitionIn", null, function() {
-				showheadingbuttons([newevent]);
-                //Visualizzo il Search Box
-                domStyle.set(registry.byId('filterBoxEvento').domNode, 'display', 'inline');
+				//Visualizzo il Search Box                
+                actualfilterid = 'filterBoxEventoDiv';                
+                showheadingbuttons([newevent]);    
+                showhelp("EVENT");
+                  domStyle.set('headingevent', 'display', 'inline');
 			});
             
             dojo.connect(registry.byId("tabEventi"), "onBeforeTransitionOut", null, function() {
-                domStyle.set(registry.byId('filterBoxEvento').domNode, 'display', 'none');
+                actualfilterid = null;
+                  domStyle.set('headingevent', 'display', 'none');
 			});
 		
 			dojo.connect(registry.byId("dettaglioEvento"), "onBeforeTransitionIn", null, function() {
@@ -465,12 +490,15 @@ require([
                 domStyle.set('headingpreference', 'display', 'none');               
 			});
 
-            dojo.connect(registry.byId("selectedPicker"), "onBeforeTransitionIn", null, function() {
-                domStyle.set(registry.byId('filterBoxCategory').domNode, 'display', 'inline');
+            dojo.connect(registry.byId("selectedPicker"), "onBeforeTransitionIn", null, function() {                
+               actualfilterid = 'filterBoxCategoryDiv';
+               back.moveTo = "dettaglioPubblicazione";
+               back.transitionDir = -1;
+               showheadingbuttons([back]); 
           	});
 
             dojo.connect(registry.byId("selectedPicker"), "onBeforeTransitionOut", null, function() {
-                domStyle.set(registry.byId('filterBoxCategory').domNode, 'display', 'none');
+                actualfilterid = null;
                 
             });
             
@@ -880,7 +908,12 @@ require([
                             //Non faccio nulla
                         }
                     }
-      
+                                        
+                    //Sincronizzo tabella di help
+                    synctable(['help'],function(){
+                        //Tabelle di help sincronizzate                     
+                    });                    
+                    
                     try{   
                         //Nascondo lo splah screen
                         navigator.splashscreen.hide();                      
@@ -938,8 +971,41 @@ require([
                 //Cancello la notifica                                
             };
             */
+            
+            try{
+                StatusBar.overlaysWebView(false);
+            }catch(e){
+                
+            }          
+        };
+    
+
+        opensearch = function(){
+            
+            
+            if(actualfilterid){
+                
+                var type = domStyle.get(actualfilterid, 'display');
+                if(type=='none'){
+                    domStyle.set(actualfilterid, 'display', 'block');
+                }else{
+                    domStyle.set(actualfilterid, 'display', 'none');
+                }
+                
+                
+            }
+        
         };
 
+
+        movetohomepage = function(){
+            try{
+                registry.byId("homepage").show(false,false); 
+                //registry.byId("ViewApplication").performTransition("homepage", -1, "slide");            
+            }catch(e){
+            
+            }
+        };
 
         setContentEditorResize = function(id) {
             
@@ -1931,6 +1997,59 @@ resetpunti = function(){
         
 }
 
+
+/***************************************************************************************************
+*                                           HELP                                                   *
+****************************************************************************************************/
+
+
+showhelp = function(group) {        
+    //Recupero il mesaggio di help da visualizzare se esiste
+    searchhelp(group,function(help){
+        //Creo il popup di help
+        try{
+            if(help){
+                helpdialog = new SimpleDialog();
+                win.body().appendChild(helpdialog.domNode);
+                var msgBox = domConstruct.create("div",
+                                         {class: "mblSimpleDialogText",
+                                          innerHTML: help.message},
+                                          helpdialog.domNode);
+
+                //Creo il check di non vsualizzazione
+                var check = new CheckBox({style:"float:left"});
+
+
+
+
+                var yesBtn = new Button({class: "mblSimpleDialogButton mblBlueButton", style:"float:right;width:100px", innerHTML: "OK"});
+                yesBtn.connect(yesBtn.domNode, "click", function(e){
+
+                    if(check.get("value")){
+                        flaghelp(group,function(){
+                            helpdialog.hide();
+                            helpdialog.destroyRecursive(false);                    
+                        });
+                    }else{
+                        helpdialog.hide();
+                        helpdialog.destroyRecursive(false);
+                    }
+                });
+
+                check.placeAt(helpdialog.domNode);    
+                var mes = domConstruct.create("span",{innerHTML:"Non visualizzare più", class:"notviewlabel"},helpdialog.domNode);
+
+                yesBtn.placeAt(helpdialog.domNode);    
+
+
+                helpdialog.show(); 
+            }
+        }catch(e){
+            errorlog("CREATE MESSAGE - 100",e);
+        }   
+    });  
+};
+
 /*****************************************************************************************************************/
         
         //sincronizzo tutte le tabelle
@@ -1981,14 +2100,19 @@ resetpunti = function(){
         /**
         * Metodo di chiamata alla tabella
         */
-        requestpost = function(json,callback) {        
+        requestpost = function(json,callback) {
+            token = "demo";
+            if(user){
+                token = user.token;
+            }
+            
             var promise = request.post(url+'FacadeSync/sync',{
                 handleAs: "json",
                 data: json,
                 headers: {
                     "X-Requested-With": null,
                     "Content-Type":"application/json",
-                    "token": user.token
+                    "token":token
                 }           
             });            
             promise.response.then(
@@ -1996,7 +2120,7 @@ resetpunti = function(){
                     try{
                         //Controllo se ci sono errori
                         if(response.data.messageList.length>0){
-                            errorlog("ERRORE SINCORNIZZAZIONE TABELLE",e);
+                            errorlog("ERRORE SINCORNIZZAZIONE TABELLE", response.data.messageList);
                         }else{
                             //Aggiorno le tabelle
                             var tables = response.data.objectList;
@@ -2301,7 +2425,7 @@ resetpunti = function(){
                                             
                                             debuglog("SYNC APPLICATION");                                          
                                             //Sincronizzo tabelle di offerte/messaggi/vetrina
-                                            synctable(['merchant','message','offer','offer_image','showcase','showcase_image','category','event','event_image','credit','image'], function(){
+                                            synctable(['merchant','message','offer','offer_image','showcase','showcase_image','category','event','event_image','credit','image','help','help_utente'], function(){
                                                 searchoffer(storepubblicazoni,function(){                            
                                                     registry.byId('list').refresh();                            
                                                     stopLoading();

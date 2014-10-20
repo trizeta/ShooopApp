@@ -13,11 +13,11 @@ html.mobile,
 }
 .mblBackground {
   
-  background-color: none;
-  background-image: url('../../../../../img/SfondoHome.png');
+  background-color: transparent;
+  /*background-image: url('../../../../../img/SfondoHome.png');
   background-repeat: no-repeat;
   background-size: 100%;
-  background-position: center;
+  background-position: center;*/
 }
 
 .mblColorBlue {

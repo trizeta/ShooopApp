@@ -24,6 +24,7 @@ searchoffer = function(store, callback) {
                 bean.moveTo = "dettaglioPubblicazione";
                 bean.variableHeight = true;                                
                 bean.class = 'offer_'+bean.state;
+                bean.rightIcon = "mblDomButtonOrange ion-arrow-right-b size-48";
                 bean.callback = function() {setDetailPubblicazione(this)};        
             }            
             store.setData(offer);
@@ -916,6 +917,74 @@ resettablefacade = function(tables, callback){
     }
 }
 
+
+/******************************************************************************************************
+/*                                      HELP                                                          *
+/******************************************************************************************************/
+
+searchhelp = function(message_group,callback) {
+    try{
+        var service = new HelpService();
+        service.query("select * from help left join help_utente using (help_id) where help.deleted != 1 and help_utente.active is null and help.message_group = '"+message_group+"';", function(helps) { 
+        if(callback) {
+           callback(helps[getRandomInt(0,helps.length-1)]);
+        }
+       });  
+    }catch(e){
+        errorlog("FACACE -  125",e);
+    }
+};
+
+
+flaghelp = function(message_group,callback){
+    try{
+        var service = new Help_utenteService();
+        
+        var servicehelp = new Help_utenteService();
+       
+        //Elimino le righe di gruppo dell'utente
+        service.query("delete from help_utente where utente_id = '"+user.utente_id+"' and help_id in (select help_id from help where message_group = '"+message_group+"')", function(){
+            //Recupero gli help del gruppo
+            servicehelp.query("select * from help where message_group = '"+message_group+"'",function(helps) {
+                    last = false;
+                    for(i=0;i<helps.length;i++){                        
+                        var utente = new Help_utente();
+                        utente.utente_id = user.utente_id;
+                        utente.dirty = true;
+                        utente.active = false;
+                        utente.help_id = helps[i].help_id;
+                        utente.help_utente_id = getUUID(); 
+                        if(!last){
+                             last = (i==(helps.length-1));
+                        }
+                        servicehelp.add(utente, function() { 
+                            if(last){
+                                if(callback){
+                                   callback();
+                                }
+                            }                           
+                        });
+                    }
+            });           
+        });        
+        
+    }catch(e){
+        errorlog("FACACE -  126",e);
+    }    
+};
+
+function getRandomInt(min, max) {       
+    // Create byte array and fill with 1 random number
+    var byteArray = new Uint8Array(1);
+    window.crypto.getRandomValues(byteArray);
+
+    var range = max - min + 1;
+    var max_range = 256;
+    if (byteArray[0] >= Math.floor(max_range / range) * range)
+        return getRandomInt(min, max);
+    return min + (byteArray[0] % range);
+};
+
 /******************************************************************************************************
 /*                          METODI DI SINCRONIZZAZIONE                                                *
 /******************************************************************************************************/
@@ -1117,7 +1186,11 @@ syncRecords = function(records,table,callback){
                         record.values.predefined = (record.values.predefined == 'Y')
                     }               
                     
-
+                    if(table=='help_utente'){
+                        record.values.active = (record.values.active == 'Y')
+                    }
+                    
+                    
                     service.update(record.values, function(){
                        syncRecords(records,table,callback);  
                     });
@@ -1221,6 +1294,16 @@ getServiceToTableName = function(tablename){
                     break;
                 case "event_image":
                     service = new Event_imageService();
+                  
+                    break;
+             
+             case "help":
+                    service = new HelpService();
+                  
+                    break;
+             
+             case "help_utente":
+                    service = new Help_utenteService();
                   
                     break;
              

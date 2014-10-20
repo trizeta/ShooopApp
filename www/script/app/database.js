@@ -7,22 +7,18 @@
         db: {
             _instance: null,
             init: function (callback) {
-                try{
-                    if (this._instance == null) {
-                        var db = new ShooopitDBContext();
-                        try {
-                            db.init(function () {
-                                window.shopdb.db._instance = db;
-                                callback && callback();
-                            });
-                        } catch (ex) {
-                            alert(ex);
-                        }
-                    } else {
-                        callback();
+                if (this._instance == null) {
+                    var db = new ShooopitDBContext();
+                    try {
+                        db.init(function () {
+                            shopdb.db._instance = db;
+                            callback && callback();
+                        });
+                    } catch (ex) {
+                        alert(ex);
                     }
-                }catch(e){
-                    alert("ERROR INIT",e);
+                } else {
+                    callback();
                 }
             },
             getInstance: function () {
@@ -34,7 +30,7 @@
 
 
 ShooopitDBContext = function () {
-    nova.data.DbContext.call(this, "ShoopIt", 1, "ShoopIt", 1000000);
+    nova.data.DbContext.call(this, "ShoopIt", 2, "ShoopIt", 1000000);
     this.logSqls = true;
     this.alertErrors = true;
 	this.app_msg = new nova.data.Repository(this, App_msg, "app_msg");
@@ -49,6 +45,8 @@ ShooopitDBContext = function () {
 	this.ean = new nova.data.Repository(this, Ean, "ean");
 	this.event = new nova.data.Repository(this, Event, "event");
 	this.event_image = new nova.data.Repository(this, Event_image, "event_image");
+	this.help = new nova.data.Repository(this, Help, "help");
+	this.help_utente = new nova.data.Repository(this, Help_utente, "help_utente");
 	this.image = new nova.data.Repository(this, Image, "image");
 	this.merchant = new nova.data.Repository(this, Merchant, "merchant");
 	this.message = new nova.data.Repository(this, Message, "message");
@@ -178,7 +176,7 @@ var Category = function () {
 	this.desc1 = '';
 	this.desc2 = '';
 	this.desc3 = '';
-	this.ordine = 0;
+	this.ordine = '';
 };
 
 Category.prototype = new nova.data.Entity();
@@ -308,7 +306,8 @@ ClientService.prototype = {
     },
     
     
-    /* Metodi per foreingkey */        
+    /* Metodi per foreingkey */
+        
     get: function(id, callback) {
         shopdb.db.getInstance().client.firstOrDefault(callback, "id=" + id);
     },
@@ -694,6 +693,7 @@ var Device = function () {
 	this.model = '';
 	this.op_system = '';
 	this.op_system_ver = '';
+	this.last_update = new Date();
 };
 
 Device.prototype = new nova.data.Entity();
@@ -706,6 +706,7 @@ Device.prototype.updateFrom = function(bean) {
 	this.model = bean.model;
 	this.op_system = bean.op_system;
 	this.op_system_ver = bean.op_system_ver;
+	this.last_update = bean.last_update;
 };/*
 * AUTOGENERATE NOT MODIFY
 */
@@ -902,7 +903,7 @@ var Event_image = function () {
 	this.image_id = '';
 	this.event_id = '';
 	this.predefined = false;
-	this.ordine = 0;
+	this.ordine = '';
 	this.last_modified = new Date();
 	this.deleted = false;
 	this.dirty = true;
@@ -959,6 +960,148 @@ Event_imageService.prototype = {
     
     query: function(sql, callback, extrafields){
     	 shopdb.db.getInstance().event_image.query(sql,callback,extrafields);
+    }
+    
+    
+    
+      
+};
+/*
+* AUTOGENERATE NOT MODIFY
+*/
+var Help = function () {
+    nova.data.Entity.call(this);
+	this.help_id = '';
+	this.message = '';
+	this.message_group = '';
+	this.deleted = false;
+	this.dirty = true;
+	this.last_modified = new Date();
+};
+
+Help.prototype = new nova.data.Entity();
+Help.constructor = Help;
+
+Help.prototype.updateFrom = function(bean) {
+	this.help_id = bean.help_id;
+	this.message = bean.message;
+	this.message_group = bean.message_group;
+	this.deleted = bean.deleted;
+	this.dirty = bean.dirty;
+	this.last_modified = bean.last_modified;
+};/*
+* AUTOGENERATE NOT MODIFY
+*/
+
+var HelpService = function() {};
+
+HelpService.prototype = {
+    getAll: function(callback) {
+        shopdb.db.getInstance().help.toArray(callback);
+    },
+    add: function(help, callback) {
+        var db = shopdb.db.getInstance();
+        db.help.add(help);
+        db.saveChanges(callback);
+    },
+    deleteUser: function(id, callback) {
+        var db = shopdb.db.getInstance();
+        db.help.removeByWhere("id=" + id, callback);
+    },
+    update: function(help, callback) {
+        var db = shopdb.db.getInstance();
+        db.help.where("id=" + help.id).firstOrDefault(function(dbhelp) {
+            dbhelp.updateFrom(help);
+            db.help.update(dbhelp);
+            db.saveChanges(function() {
+               callback && callback();
+            });
+        });
+    },
+    
+    
+    /* Metodi per foreingkey */
+    getHelp_utenteWithhelpids: function(bean, callback){
+		var db = shopdb.db.getInstance();
+       	db.help_utente.where("help_id=" +bean.help_id).toArray(callback);
+},
+        
+    get: function(id, callback) {
+        shopdb.db.getInstance().help.firstOrDefault(callback, "id=" + id);
+    },
+    
+    query: function(sql, callback, extrafields){
+    	 shopdb.db.getInstance().help.query(sql,callback,extrafields);
+    }
+    
+    
+    
+      
+};
+/*
+* AUTOGENERATE NOT MODIFY
+*/
+var Help_utente = function () {
+    nova.data.Entity.call(this);
+	this.help_utente_id = '';
+	this.utente_id = '';
+	this.help_id = '';
+	this.active = false;
+	this.deleted = false;
+	this.dirty = true;
+	this.last_modified = new Date();
+};
+
+Help_utente.prototype = new nova.data.Entity();
+Help_utente.constructor = Help_utente;
+
+Help_utente.prototype.updateFrom = function(bean) {
+	this.help_utente_id = bean.help_utente_id;
+	this.utente_id = bean.utente_id;
+	this.help_id = bean.help_id;
+	this.active = bean.active;
+	this.deleted = bean.deleted;
+	this.dirty = bean.dirty;
+	this.last_modified = bean.last_modified;
+};/*
+* AUTOGENERATE NOT MODIFY
+*/
+
+var Help_utenteService = function() {};
+
+Help_utenteService.prototype = {
+    getAll: function(callback) {
+        shopdb.db.getInstance().help_utente.toArray(callback);
+    },
+    add: function(help_utente, callback) {
+        var db = shopdb.db.getInstance();
+        db.help_utente.add(help_utente);
+        db.saveChanges(callback);
+    },
+    deleteUser: function(id, callback) {
+        var db = shopdb.db.getInstance();
+        db.help_utente.removeByWhere("id=" + id, callback);
+    },
+    update: function(help_utente, callback) {
+        var db = shopdb.db.getInstance();
+        db.help_utente.where("id=" + help_utente.id).firstOrDefault(function(dbhelp_utente) {
+            dbhelp_utente.updateFrom(help_utente);
+            db.help_utente.update(dbhelp_utente);
+            db.saveChanges(function() {
+               callback && callback();
+            });
+        });
+    },
+    
+    
+    /* Metodi per foreingkey */
+        
+    get: function(id, callback) {
+        shopdb.db.getInstance().help_utente.firstOrDefault(callback, "id=" + id);
+    },
+    
+    query: function(sql, callback, extrafields){
+    	 shopdb.db.getInstance().help_utente.query(sql,callback,extrafields);
     }
     
     
@@ -1066,6 +1209,7 @@ var Merchant = function () {
 	this.rag_soc = '';
 	this.piva = '';
 	this.qr_code = '';
+	this.state = '';
 };
 
 Merchant.prototype = new nova.data.Entity();
@@ -1092,6 +1236,7 @@ Merchant.prototype.updateFrom = function(bean) {
 	this.rag_soc = bean.rag_soc;
 	this.piva = bean.piva;
 	this.qr_code = bean.qr_code;
+	this.state = bean.state;
 };/*
 * AUTOGENERATE NOT MODIFY
 */
@@ -1426,7 +1571,7 @@ var Offer_image = function () {
 	this.offer_id = '';
 	this.image_id = '';
 	this.predefined = false;
-	this.ordine = 0;
+	this.ordine = '';
 	this.last_modified = new Date();
 	this.deleted = false;
 	this.dirty = true;
@@ -1724,7 +1869,7 @@ var Showcase_image = function () {
 	this.showcase_id = '';
 	this.image_id = '';
 	this.predefined = false;
-	this.ordine = 0;
+	this.ordine = '';
 	this.last_modified = new Date();
 	this.deleted = false;
 	this.dirty = true;
@@ -1850,6 +1995,10 @@ UtenteService.prototype = {
     
     
     /* Metodi per foreingkey */
+    getHelp_utenteWithutenteids: function(bean, callback){
+		var db = shopdb.db.getInstance();
+       	db.help_utente.where("utente_id=" +bean.utente_id).toArray(callback);
+},
     getMessageWithutenteids: function(bean, callback){
 		var db = shopdb.db.getInstance();
        	db.message.where("utente_id=" +bean.utente_id).toArray(callback);

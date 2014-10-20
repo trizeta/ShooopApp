@@ -25,6 +25,7 @@
     <preference name="disable-cursor" value="false" />
     <preference name="android-minSdkVersion" value="7" />
     <preference name="android-installLocation" value="auto" />
+    <preference name="StatusBarOverlaysWebView" value="false" />
     <gap:plugin name="org.apache.cordova.battery-status" />
     <gap:plugin name="org.apache.cordova.camera"  />
     <gap:plugin name="org.apache.cordova.console" />
@@ -43,6 +44,7 @@
     <gap:plugin name="org.apache.cordova.network-information"  />
     <gap:plugin name="org.apache.cordova.splashscreen"  />
     <gap:plugin name="org.apache.cordova.vibration"  />
+    <gap:plugin name="org.apache.cordova.statusbar"  />
     <gap:plugin name="com.brodysoft.sqlitePlugin" />
     <icon src="icon.png" />
     <icon gap:platform="android" gap:qualifier="ldpi" src="res/icon/android/icon-36-ldpi.png" />
