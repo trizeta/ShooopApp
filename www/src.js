@@ -828,10 +828,9 @@ require([
                   }
                 ); */                   
 			});
-            
-                      
+                                  
             //TODO DA COMMENTARE PER NATIVA
-            onDeviceReady(); 
+            //onDeviceReady(); 
 	    });
 		
         function onDeviceReady() {
@@ -927,11 +926,8 @@ require([
                 errorlog("ERROR INIT DB",e);
             } 
                 
-            //window.plugin.backgroundMode.disable();
-            
-            
             //Test push notification
-            /*
+            
             var now  = new Date().getTime(),
             _60_seconds_from_now = new Date(now + 5*1000);
 
@@ -966,12 +962,13 @@ require([
                 }, 3000);
             };
             
-             window.plugin.notification.local.onclick = function (id, state, json) {
+            window.plugin.notification.local.onclick = function (id, state, json) {
                 alert("CLICK SYNC  ---> "+id+"--"+state);
                 //Cancello la notifica                                
             };
-            */
             
+            
+            //FIX STATUS BAR IOS
             try{
                 StatusBar.overlaysWebView(false);
             }catch(e){
@@ -981,34 +978,26 @@ require([
     
 
         opensearch = function(){
-            
-            
             if(actualfilterid){
-                
                 var type = domStyle.get(actualfilterid, 'display');
                 if(type=='none'){
                     domStyle.set(actualfilterid, 'display', 'block');
                 }else{
                     domStyle.set(actualfilterid, 'display', 'none');
                 }
-                
-                
-            }
-        
+            }        
         };
-
 
         movetohomepage = function(){
             try{
                 registry.byId("homepage").show(false,false); 
                 //registry.byId("ViewApplication").performTransition("homepage", -1, "slide");            
             }catch(e){
-            
+                
             }
         };
 
         setContentEditorResize = function(id) {
-            
             var devicePlatform = "chrome";
             try{
                 devicePlatform = device.platform;
@@ -1026,22 +1015,19 @@ require([
             }
         };
 
-
         getContentEditor = function(id) {
-            
             var devicePlatform = "chrome";
             try{
                 devicePlatform = device.platform;
             }catch(e){
             
-            }
+            }   
             
             if(devicePlatform.toLowerCase().indexOf('win')==-1){
                 //Non WIN8  
                 return tinymce.get(id).getContent();
             }else{
                 //WIN 8 FIX
-                
                 return registry.byId(id).get("value");                
             }
         };
@@ -1115,7 +1101,6 @@ require([
                registry.byId('listeventi').refresh();  
                stopLoading();
             });
-            
         };
         
         /**
@@ -1123,13 +1108,11 @@ require([
         */
         openmenu = function(){
             registry.byId('menu').show();
-                
         };
 
         closemenu = function(){
             registry.byId('menu').hide();
         };
-
 
         /**
         * Metodo per cancellazione pubblicazione
@@ -1161,14 +1144,13 @@ require([
         */
         salvapubblicazione = function salvapubblicazione(callback){
             try {
-               
                 pubblicazione.title = registry.byId("title").get("value");
                 if(pubblicazione.title.length>0){
                     startLoading();
                     
                     if(registry.byId("prenotable").get("value")=='off'){
                         pubblicazione.prenotable = 0;
-                    }else{
+                    } else {
                         pubblicazione.prenotable = 1;
                     }
                     
@@ -1222,6 +1204,18 @@ require([
                     startLoading();
                     pubblicazione.state = 'P';
                     registry.byId("dettaglioPubblicazione").performTransition("tabPubblicazioni", -1, "slide");
+                    
+                    startLoading();
+                    //Effettuo una sincronizzazione delle offerte
+                    synctable(['offer','offer_image','image'], function() {
+                            syncimages(function(){
+                                //Ricarico i valori
+                                searchoffer(storepubblicazoni,function(){                            
+                                    registry.byId('list').refresh();                            
+                                    stopLoading();
+                                });             
+                            });               
+                    });
                 }
             }catch(e){
                errorlog("SALVAPUBBLICAZIONE - 100",e);   
@@ -2127,13 +2121,17 @@ showhelp = function(group) {
                             syncTables(tables, callback);                           
                         }                        
                     }catch(e) {
-                        errorlog("RESPONSE 101",e);
+                        stopLoading();
+                        //NON FACCIO NULLA TABELLE NON SINCRONIZZATE
+                        //errorlog("RESPONSE 101",e);
+                        callback();
                     }
                     
                     //Parse della risposta e sincornizzazione delle tabelle locali               
                 },
                 function(error){
-                    errorlog("ERROR SYNC",error); 
+                    stopLoading();
+                    //errorlog("ERROR SYNC",error); 
                     callback();
                 }                     
             );   
