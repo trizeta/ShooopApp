@@ -45,7 +45,6 @@
     <gap:plugin name="org.apache.cordova.splashscreen"  />
     <gap:plugin name="org.apache.cordova.vibration"  />
     <gap:plugin name="org.apache.cordova.statusbar"  />   
-    <gap:plugin name="de.appplant.cordova.plugin.local-notification"  />
     <gap:plugin name="com.brodysoft.sqlitePlugin" />
     <icon src="icon.png" />
     <icon gap:platform="android" gap:qualifier="ldpi" src="res/icon/android/icon-36-ldpi.png" />

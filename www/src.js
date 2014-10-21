@@ -928,7 +928,7 @@ require([
                 
             //Test push notification
             
-            var now  = new Date().getTime(),
+            /*var now  = new Date().getTime(),
             _60_seconds_from_now = new Date(now + 5*1000);
 
             window.plugin.notification.local.add({
@@ -965,7 +965,7 @@ require([
             window.plugin.notification.local.onclick = function (id, state, json) {
                 alert("CLICK SYNC  ---> "+id+"--"+state);
                 //Cancello la notifica                                
-            };
+            };*/
             
             
             //FIX STATUS BAR IOS
