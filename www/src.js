@@ -914,6 +914,7 @@ require([
                     });                    
                     
                     try{   
+                        domStyle.set('sfondo','z-index',-100);
                         //Nascondo lo splah screen
                         navigator.splashscreen.hide();                      
                     } catch(e) {

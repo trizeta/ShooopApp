@@ -7,7 +7,7 @@ html.mobile,
 .mobile body {
   overflow-x: hidden;
   -webkit-text-size-adjust: none;
-  font-family: Helvetica;
+  /*font-family: Helvetica;*/
   font-size: 17px;
   color: #000000;
 }
@@ -75,7 +75,7 @@ html.mobile,
   z-index: 1;
   padding: 0;
   height: 42px;
-  font-family: Helvetica;
+  /*/*font-family: Helvetica;*/*/
   font-size: 20px;
   font-weight: bold;
   text-align: center;
@@ -236,7 +236,7 @@ html.mobile,
   height: 29px;
   line-height: 29px;
   text-align: center;
-  font-family: Helvetica;
+  
   font-size: 13px;
   font-weight: bold;
   vertical-align: middle;
@@ -336,7 +336,7 @@ html.mobile,
   margin: 0;
   padding: 0 10px;
   overflow: hidden;
-  font-family: Helvetica;
+ 
   font-size: 16px;
   font-weight: bold;
   text-overflow: ellipsis;
@@ -353,7 +353,7 @@ html.mobile,
 .mblRoundRectCategory {
   margin: 18px 0 0 20px;
   padding: 0;
-  font-family: Helvetica;
+  ///*font-family: Helvetica;*/
   font-size: 16px;
   white-space: nowrap;
   text-overflow: ellipsis;
@@ -576,7 +576,7 @@ html.mobile,
   top: 0;
   width: 94px;
   height: 27px;
-  font-family: Helvetica;
+  /*font-family: Helvetica;*/
   font-size: 16px;
   font-weight: bold;
   line-height: 29px;
@@ -1662,7 +1662,7 @@ html.mobile,
   padding: 0px 5px;
   top: 7px;
   color: white;
-  font-family: Helvetica;
+  /*font-family: Helvetica;*/
   font-size: 12px;
   border-radius: 4px;
   background-color: #949ba5;
@@ -3494,7 +3494,7 @@ html.mobile,
   position: relative;
   height: 30px;
   width: 100%;
-  font-family: Helvetica;
+  /*font-family: Helvetica;*/
   font-size: 17px;
   font-weight: bold;
   line-height: 30px;
@@ -3546,7 +3546,7 @@ html.mobile,
   border-width: 1px;
   background-image: -webkit-gradient(linear, left top, left bottom, from(#ffffff), to(#e2e2e2));
   background-image: linear-gradient(to bottom, #ffffff 0%, #e2e2e2 100%);
-  font-family: Helvetica;
+  /*font-family: Helvetica;*/
   line-height: 29px;
   cursor: pointer;
   -webkit-tap-highlight-color: rgba(255, 255, 255, 0);
@@ -3966,7 +3966,7 @@ html.mobile,
 .mblIconArea {
   position: relative;
   height: 78px;
-  font-family: Helvetica;
+  ///*font-family: Helvetica;*/
   font-size: 12px;
   text-align: center;
   margin-top: 5px;
@@ -4049,7 +4049,7 @@ table.mblClose {
   border-bottom: 1px solid #717d85;
   background-image: -webkit-gradient(linear, left top, left bottom, from(#e0e4e7), to(#b4bec6), color-stop(0.5, #c4ccd2), color-stop(0.5, #bfc8ce));
   background-image: linear-gradient(to bottom, #e0e4e7 0%, #c4ccd2 50%, #bfc8ce 50%, #b4bec6 100%);
-  font-family: Helvetica;
+  ///*font-family: Helvetica;*/
   font-size: 14px;
   color: white;
   line-height: 26px;
@@ -4240,7 +4240,7 @@ table.mblClose {
 .mblIconMenuItemAnchor {
   display: block;
   height: 100%;
-  font-family: Helvetica;
+  ///*font-family: Helvetica;*/
   text-decoration: none;
   font-size: 13px;
   color: #ffffff;
@@ -4914,7 +4914,7 @@ table.mblClose {
   width: 100px;
   height: 29px;
   border-width: 1px 1px 1px 0px;
-  font-family: Helvetica;
+  ///*font-family: Helvetica;*/
   font-size: 13px;
   font-weight: bold;
   text-align: center;
@@ -4964,7 +4964,7 @@ table.mblClose {
   border: 1px solid #62676d;
   border-top-left-radius: 4px;
   border-top-right-radius: 4px;
-  font-family: Helvetica;
+  ///*font-family: Helvetica;*/
   font-size: 14px;
   font-weight: bold;
   color: #000000;
@@ -4997,7 +4997,7 @@ table.mblClose {
   border-right: 1px solid #4e4e4e;
   background-image: -webkit-gradient(linear, left top, left bottom, from(#2d2d2d), to(#000000), color-stop(0.5, #141414), color-stop(0.5, #000000));
   background-image: linear-gradient(to bottom, #2d2d2d 0%, #141414 50%, #000000 50%, #000000 100%);
-  font-family: Helvetica;
+  /*font-family: Helvetica;*/
   font-size: 14px;
   font-weight: bold;
   color: white;
@@ -5030,7 +5030,7 @@ table.mblClose {
 .mblTabBarFlatTab .mblTabBarButton {
   padding: 7px;
   background-image: none;
-  font-family: Helvetica;
+  /*font-family: Helvetica;*/
   font-size: 14px;
   font-weight: bold;
   text-shadow: rgba(100, 100, 100, 0.6) 0px -1px 0px;
@@ -5061,7 +5061,7 @@ table.mblClose {
   border-color: black #182018 black #393c39;
   background-image: -webkit-gradient(linear, left top, left bottom, from(#181818), to(#100c10), color-stop(0.1, #313031));
   background-image: linear-gradient(to bottom, #181818 0%, #313031 10%, #100c10 100%);
-  font-family: Helvetica;
+  /*font-family: Helvetica;*/
   font-size: 13px;
   color: white;
   text-align: center;
@@ -5081,7 +5081,7 @@ table.mblClose {
   padding: 4px 1px;
   border-width: 1px;
   border-style: inset;
-  font-family: Helvetica;
+  /*font-family: Helvetica;*/
   font-size: 13px;
   border: 1px solid #c0c0c0;
   border-bottom-color: #9b9b9b;
@@ -5094,7 +5094,7 @@ table.mblClose {
   height: 22px;
   border-width: 1px;
   border-style: inset;
-  font-family: Helvetica;
+  /*font-family: Helvetica;*/
   font-size: 13px;
   border: 1px solid #c0c0c0;
   border-bottom-color: #9b9b9b;
@@ -5161,7 +5161,7 @@ table.mblClose {
   border-style: outset;
   background-image: -webkit-gradient(linear, left top, left bottom, from(#ffffff), to(#e2e2e2));
   background-image: linear-gradient(to bottom, #ffffff 0%, #e2e2e2 100%);
-  font-family: Helvetica;
+  /*font-family: Helvetica;*/
   line-height: 29px;
   cursor: pointer;
   -webkit-tap-highlight-color: rgba(255, 255, 255, 0);
