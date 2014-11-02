@@ -69,6 +69,8 @@ require([
     "dojo/request", 
     "dojo/json",
     "dojox/mobile/CheckBox",
+    "dojo/dom-geometry",
+        "dojo/query",
     "dojo/_base/Deferred",
 	"dojox/mobile/parser",
 	"dojox/mobile",
@@ -103,13 +105,13 @@ require([
     "dojox/uuid/generateRandomUuid",
     "dojox/mobile/PullView",
     "dojox/mobile/IconContainer",
-    
+    "dojox/mobile/FixedView",
     "dojox/mobile/RadioButton",
     "dojox/mobile/IconMenu",
     "dojox/mobile/Badge",
     "dojox/mobile/IconMenuItem"  
 	
-], function(ready, win, domConstruct, Memory, Observable, registry, on, dom,ProgressIndicator,stamp,locale,domStyle,ListItem,array,connect,domClass,ToolBarButton,IconItem,SimpleDialog,Button,SwapView,CarouselItem,Icon,PageIndicator,request,json,CheckBox) {
+], function(ready, win, domConstruct, Memory, Observable, registry, on, dom,ProgressIndicator,stamp,locale,domStyle,ListItem,array,connect,domClass,ToolBarButton,IconItem,SimpleDialog,Button,SwapView,CarouselItem,Icon,PageIndicator,request,json,CheckBox,domGeometry,query) {
 	
 		var dateformat = "dd/MM/yyyy";
         var progoffer, progmessage, progshowcase,progeventi; 
@@ -830,7 +832,7 @@ require([
 			});
                                   
             //TODO DA COMMENTARE PER NATIVA
-            //onDeviceReady(); 
+            onDeviceReady(); 
 	    });
 		
         function onDeviceReady() {
@@ -842,10 +844,29 @@ require([
 
                 }
                 if(devicePlatform.toLowerCase().indexOf('win')==-1){
-                   tinymce.init({selector:'textarea#showcasehtmleditor'});                
-                   tinymce.init({selector:'textarea#offerhtmleditor'});                
-                   tinymce.init({selector:'textarea#messagehtmleditor'});                
-                   tinymce.init({selector:'textarea#eventhtmleditor'});                               
+                   tinymce.init({
+                       selector:'textarea#showcasehtmleditor', 
+                        statusbar: false,
+                        resize: false,
+                        width: "100%",
+                        height: '100%',
+                        autoresize: true                       
+                   });                
+                   tinymce.init({selector:'textarea#offerhtmleditor',statusbar: false,
+                        resize: false,
+                        width: "100%",
+                        height: '100%',
+                        autoresize: true });                
+                   tinymce.init({selector:'textarea#messagehtmleditor',statusbar: false,
+                        resize: false,
+                        width: "100%",
+                        height: '100%',
+                        autoresize: true });                
+                   tinymce.init({selector:'textarea#eventhtmleditor',statusbar: false,
+                        resize: false,
+                        width: "100%",
+                        height: '100%',
+                        autoresize: true });                               
                 }
             } catch(e) {
                 errorlog("ERROR INIT TINYMCE",e);
@@ -978,6 +999,10 @@ require([
         };
     
 
+
+
+
+
         opensearch = function(){
             if(actualfilterid){
                 var type = domStyle.get(actualfilterid, 'display');
@@ -1006,13 +1031,41 @@ require([
             
             }
             
-            if(devicePlatform.toLowerCase().indexOf('win')==-1){
+            var vieweditor = dom.byId('tabShowcase');
+            var viewmargin = domGeometry.getMarginBox(vieweditor);
+                  
+            var vieweheading = dom.byId("heading");
+            var viewmarginheading = domGeometry.getMarginBox(vieweheading);
+               
+            var myheight = viewmargin.h-viewmarginheading.h-3;
+                    
+            
+            
+             if(devicePlatform.toLowerCase().indexOf('win')==-1){
                 //Non WIN8 
                 //Recupero l'altezza disponibile                
-                tinymce.get(id).theme.resizeTo('100%',window.innerHeight-92-109);              
+                var nl4 = query(".mce-toolbar");
+                var nl5 = query(".mce-toolbar-grp");
+            
+                var viewmarginh4 = domGeometry.getMarginBox(nl4[0]);
+                var viewmarginh5 = domGeometry.getMarginBox(nl5[0]); 
+                
+                myheight = myheight-viewmarginh4.h-viewmarginh5.h
+                 
+                var nl2 = query(".mce-tinymce");
+                for(i=0;i<nl2.length;i++) {                
+                    domStyle.set(nl2[i].id,"height","100%");
+                }
+
+                var nl3 = query(".mce-edit-area");
+                for(i=0;i<nl3.length;i++) {               
+                    domStyle.set(nl3[i].id,"height",myheight+"px");                
+                }                 
+                 
+                
             } else {
                 //WIN 8 FIX  
-                domStyle.set(id, 'height', window.innerHeight-92-109);                 
+                domStyle.set(id, 'height', window.innerHeight-92-109); 
             }
         };
 

@@ -255,6 +255,14 @@
                 transform: rotate(180deg);             /* W3C complaint browsers */
             }
             
+            
+            #showcasehtmleditor{
+                margin:auto;
+                height:100%;
+                width:100%;
+            }
+            
+            
             /*
             .dijitEditorIFrameContainer{
                 height:95%;
@@ -295,6 +303,31 @@
             }
             
             
+            #sfondo{
+                width:auto;
+                height:auto;
+                vertical-align: middle;
+                text-align: center;
+                position:absolute;
+                overflow: hidden;
+            }
+            
+            
+            #sfondo { 
+              background: url(img/SfondoHome.png) no-repeat center center fixed; 
+              -webkit-background-size: cover;
+              -moz-background-size: cover;
+              -o-background-size: cover;
+              background-size: cover;
+              position:absolute;;
+              left: 0;
+              top:0;   
+              width:100%;
+              height:100%;
+              z-index:10;             
+            }
+                        
+            
 	   </style>
         
         
@@ -319,7 +352,7 @@
         
     </head>
     <body>
-        <img id="sfondo" src="img/SfondoHome.png" style="width:100%;height:100%;z-index:10;position:absolute;top:0;left:0" > </img>   
+        <div id="sfondo" src="img/SfondoHome.png"> </div>   
         
     <!-- View di Login -->
         <div id="ViewLogin"  data-dojo-type="dojox.mobile.View"> 
@@ -333,7 +366,7 @@
         	
         	<!-- Immagine Shooopapp -->
         	<div style="clear:left; text-align:center; vertical-align: middle; width: 100%">
-        		<img alt="ShooopApp" src="img/logoshooopapp.png" align="middle" style="margin-top:2em;width:250px;height:250px">
+        		<img alt="ShooopApp" src="img/logoshooopapp.png" align="middle" style="margin-top:2em;width:200px;height:200px">
         	</div>       	
         	
             
@@ -365,7 +398,7 @@
                     </ul>-->
       		    
                     <div id="headingtop" data-dojo-type="dojox.mobile.Heading" fixed="top" style="border-bottom:2px solid white">
-                         <div data-dojo-type="dojox.mobile.ToolBarButton" class="icon ion-navicon-round size-24" onClick="openmenu();"></div>
+                         <div data-dojo-type="dojox.mobile.ToolBarButton" style="margin-left:-20px" class="icon ion-drag size-36" onClick="openmenu();"></div>
                         
                          <label id="headingshowcase" style="display:none;color:white">Gestione Vetrina</label>
                          <label id="headingmessage" style="display:none;color:white">Gestione Messaggi</label>
@@ -376,7 +409,7 @@
                          <label id="headingpunti" style="display:none;padding-right:70px">PUNTI</label>
                          <div id="headinghome" style="display:none;align:center;height:90%; padding-top:5px">
                              <img src="img/logo36.png"></img>
-                             <label>Shooopit</label>                           
+                             <label style="color:white">Shooopit</label>                           
                         </div>
                                     
                         <div id="homepagebutton" data-dojo-type="dojox.mobile.ToolBarButton" class="icon ion-ios7-home size-24" style="float:right;width:20px" onClick="movetohomepage();"></div>
@@ -385,7 +418,7 @@
                     
                     <!-- HomePage -->
                     <div id="homepage"  data-dojo-type="dojox.mobile.ScrollableView" >                      
-                        <ul data-dojo-type="dojox.mobile.IconMenu" style="width:90%;height:300px;margin:5%;background-color:#f58040;border:1px solid white" data-dojo-props='cols:2'>
+                        <ul data-dojo-type="dojox.mobile.IconMenu" style="width:90%;height:300px;margin:5%;background-color:#70c2e3;border:1px solid white" data-dojo-props='cols:2'>
                             <li data-dojo-type="dojox.mobile.IconMenuItem" class="icon ion-bag size-48"  style="color:white;border-bottom:1px solid white;border-right:1px solid white" data-dojo-props='label:"Offerte", moveTo:"tabPubblicazioni"'></li>
                             <li data-dojo-type="dojox.mobile.IconMenuItem" class="icon ion-ios7-email-outline size-48" style="color:white;border-bottom:1px solid white;padding-top:5px" data-dojo-props='label:"Messaggi", moveTo:"tabMessaggi"'></li>
                             <li data-dojo-type="dojox.mobile.IconMenuItem" class="icon ion-android-image size-48" style="color:white;border-bottom:1px solid white;border-right:1px solid white;padding-top:5px" data-dojo-props='label:"Vetrina", moveTo:"tabShowcase" '></li>
@@ -481,8 +514,8 @@
 				</div> 
     
                 <!-- Vetrina -->
-				<div id="tabShowcase" data-dojo-type="dojox.mobile.View" > 
-                        <textarea data-dojo-type="dojox.mobile.TextArea" id="showcasehtmleditor" style="width:100%">                
+				<div id="tabShowcase" data-dojo-type="dojox.mobile.FixedView" > 
+                        <textarea data-dojo-type="dojox.mobile.TextArea" id="showcasehtmleditor" style="width:100%;height:100%">                
                         </textarea>
 				</div>
             
@@ -631,7 +664,7 @@
               
         
         <!-- Simple Dialog Menu -->
-        <div id="menu" data-dojo-type="dojox.mobile.SimpleDialog" data-dojo-props="modal:true,left:0" style="width:40%;height:95%">
+        <div id="menu" data-dojo-type="dojox.mobile.SimpleDialog" data-dojo-props="modal:true,left:0" style="width:250px;height:95%">
             <div data-dojo-type="dojox.mobile.EdgeToEdgeList">
                  
                         <li data-dojo-type="dojox.mobile.ListItem" data-dojo-props="icon:'mblDomButton ion-ios7-home size-24', label:'Home' , moveTo:'homepage', onTouchStart:closemenu"></li>
