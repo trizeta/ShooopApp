@@ -832,7 +832,7 @@ require([
 			});
                                   
             //TODO DA COMMENTARE PER NATIVA
-            onDeviceReady(); 
+            //onDeviceReady(); 
 	    });
 		
         function onDeviceReady() {
@@ -947,49 +947,7 @@ require([
             }catch(e){
                 errorlog("ERROR INIT DB",e);
             } 
-                
-            //Test push notification
-            
-            /*var now  = new Date().getTime(),
-            _60_seconds_from_now = new Date(now + 5*1000);
-
-            window.plugin.notification.local.add({
-                id:      1,
-                title:   'ShooopApp',
-                message: 'Sincronizzazione....',
-                repeat:  'minutely',
-                date:    _60_seconds_from_now,
-                sound:    null,
-                autoCancel: true
-            });
-            
-            window.plugin.notification.local.ontrigger = function (id, state, json) {
-                
-                //Sincronizzo il dispositivo
-                setTimeout(function(){
-                    window.plugin.notification.local.cancel(id);                             
-                    
-                    var now  = new Date().getTime(),
-                    _60_seconds_from_now = new Date(now + 5*1000);
-                    //Add della nuova notifica
-                    window.plugin.notification.local.add({
-                        id:      1,
-                        title:   'ShooopApp',
-                        message: 'Sincronizzazione....',
-                        repeat:  'minutely',
-                        date:    _60_seconds_from_now,
-                        sound:    null,
-                        autoCancel: true
-                    });              
-                }, 3000);
-            };
-            
-            window.plugin.notification.local.onclick = function (id, state, json) {
-                alert("CLICK SYNC  ---> "+id+"--"+state);
-                //Cancello la notifica                                
-            };*/
-            
-            
+           
             //FIX STATUS BAR IOS
             try{
                 StatusBar.overlaysWebView(false);
