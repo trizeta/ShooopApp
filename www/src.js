@@ -5,7 +5,7 @@ user = null;
 debug = false;
 //url = "http://192.168.1.201:8080/messaging/rest/";
 //url = "http://192.168.1.10:8080/messaging/rest/";
-url = "http://37.59.80.107/messaging/rest/";
+url = "http://app.sh1.it/messaging/rest/";
 urlregister = "http://www.shooopapp.com/attivazione";
 
 //Variabile per la nuova pubblicazone
@@ -32,7 +32,7 @@ actualfilterid = null;
 var dojoConfig={
     baseUrl: "",
     tlmSiblingOfDojo: false,
-    isDebug: true, 
+    isDebug: false, 
     packages: [
         { name: "dojo", location: "script/dojo" },
         { name: "dijit", location: "script/dijit" },
@@ -196,8 +196,9 @@ require([
             domStyle.set('filterBoxCategoryDiv', 'display', 'none');
             domStyle.set('filterBoxEventoDiv', 'display', 'none');
             
-
-                        
+           
+                
+                
             /****************************************************************************
             *   Aggiungo il controllo dei bottoni prima della transazione di apertura   *
             *****************************************************************************/                
@@ -255,7 +256,7 @@ require([
                back.transitionDir = -1;
                showheadingbuttons([back]); 
                 domStyle.set('headingoffer', 'display', 'inline');
-                setContentEditorResize("offerhtmleditor");
+                setContentEditorResize("offerhtmleditor","detailofferdescription");
 			});
             
             dojo.connect(registry.byId("detailofferdescription"), "onBeforeTransitionOut", null, function() {
@@ -312,7 +313,7 @@ require([
                 back.transitionDir = -1;
                 showheadingbuttons([back,sendmessage,copymessage]);    
                 domStyle.set('headingmessage', 'display', 'inline');
-                setContentEditorResize("messagehtmleditor");
+                setContentEditorResize("messagehtmleditor","dettaglioMessage");
           	});
                     
             dojo.connect(registry.byId("dettaglioMessage"), "onBeforeTransitionOut", null, function() {
@@ -327,7 +328,7 @@ require([
                 try{
                     domStyle.set('headingshowcase', 'display', 'inline');               
                     showheadingbuttons([imageshowcase]);
-                    setContentEditorResize("showcasehtmleditor");
+                    setContentEditorResize("showcasehtmleditor",'tabShowcase');
                     showhelp("SHOWCASE");
                 }catch(e){
                     errorlog("SHOWCASE ERROR TRANSITION IN",e);
@@ -418,9 +419,9 @@ require([
                back.transitionDir = -1;
                showheadingbuttons([back]); 
                domStyle.set('headingevent', 'display', 'inline');
-                setContentEditorResize("eventhtmleditor");
+               setContentEditorResize("eventhtmleditor","detaileventdescription");
 			});
-            
+        
             dojo.connect(registry.byId("detaileventdescription"), "onBeforeTransitionOut", null, function() {
                 //Salvo l'html della pubblicazione sulla pagina
                 try{
@@ -830,43 +831,59 @@ require([
                   }
                 ); */                   
 			});
-                                  
+           
             //TODO DA COMMENTARE PER NATIVA
             //onDeviceReady(); 
 	    });
 		
         function onDeviceReady() {
-                try{
-                    var devicePlatform = "chrome";
-                try{
-                    devicePlatform = device.platform;
-                }catch(e){
+            
+            //FIX STATUS BAR IOS
+            try{
+                StatusBar.overlaysWebView(false);
+            }catch(e){
+                
+            }  
+            
+            try{   
+               domStyle.set('sfondo','z-index',-100);
+               //Nascondo lo splah screen
+               navigator.splashscreen.hide();                      
+            } catch(e) {
+                errorlog("ERRORE VIEW APP - 100",e);
+            }
+                        
+            try{
+                var devicePlatform = "chrome";
+            try{
+                devicePlatform = device.platform;
+            }catch(e){
 
-                }
-                if(devicePlatform.toLowerCase().indexOf('win')==-1){
-                   tinymce.init({
-                       selector:'textarea#showcasehtmleditor', 
-                        statusbar: false,
-                        resize: false,
-                        width: "100%",
-                        height: '100%',
-                        autoresize: true                       
-                   });                
-                   tinymce.init({selector:'textarea#offerhtmleditor',statusbar: false,
-                        resize: false,
-                        width: "100%",
-                        height: '100%',
-                        autoresize: true });                
-                   tinymce.init({selector:'textarea#messagehtmleditor',statusbar: false,
-                        resize: false,
-                        width: "100%",
-                        height: '100%',
-                        autoresize: true });                
-                   tinymce.init({selector:'textarea#eventhtmleditor',statusbar: false,
-                        resize: false,
-                        width: "100%",
-                        height: '100%',
-                        autoresize: true });                               
+            }
+            if(devicePlatform.toLowerCase().indexOf('win')==-1){
+               tinymce.init({
+                   selector:'textarea#showcasehtmleditor', 
+                    statusbar: false,
+                    resize: false,
+                    width: "100%",
+                    height: '100%',
+                    autoresize: true                       
+               });                
+                tinymce.init({selector:'textarea#offerhtmleditor',statusbar: false,
+                    resize: false,
+                    width: "100%",
+                    height: '100%',
+                    autoresize: true });                
+                  tinymce.init({selector:'textarea#messagehtmleditor',statusbar: false,
+                    resize: false,
+                    width: "100%",
+                    height: '100%',
+                    autoresize: true });                
+                  tinymce.init({selector:'textarea#eventhtmleditor',statusbar: false,
+                    resize: false,
+                    width: "100%",
+                    height: '100%',
+                    autoresize: true });                               
                 }
             } catch(e) {
                 errorlog("ERROR INIT TINYMCE",e);
@@ -927,33 +944,16 @@ require([
                         }catch(e){
                             //Non faccio nulla
                         }
-                    }
-                                        
+                    }                                        
                     //Sincronizzo tabella di help
                     synctable(['help'],function(){
-                        //Tabelle di help sincronizzate                     
-                    });                    
-                    
-                    try{   
-                        domStyle.set('sfondo','z-index',-100);
-                        //Nascondo lo splah screen
-                        navigator.splashscreen.hide();                      
-                    } catch(e) {
-                        errorlog("ERRORE VIEW APP - 100",e);
-                    }
-                    
-                    
+                        //Tabelle di help sincronizzate  
+                        stopLoading();
+                    });
                 });           
             }catch(e){
                 errorlog("ERROR INIT DB",e);
-            } 
-           
-            //FIX STATUS BAR IOS
-            try{
-                StatusBar.overlaysWebView(false);
-            }catch(e){
-                
-            }          
+            }       
         };
     
 
@@ -981,7 +981,7 @@ require([
             }
         };
 
-        setContentEditorResize = function(id) {
+        setContentEditorResize = function(id,tabid) {
             var devicePlatform = "chrome";
             try{
                 devicePlatform = device.platform;
@@ -989,7 +989,10 @@ require([
             
             }
             
-            var vieweditor = dom.byId('tabShowcase');
+            var vieweditor = dom.byId(tabid);
+            
+            
+            
             var viewmargin = domGeometry.getMarginBox(vieweditor);
                   
             var vieweheading = dom.byId("heading");
@@ -2142,6 +2145,7 @@ showhelp = function(group) {
                     //Parse della risposta e sincornizzazione delle tabelle locali               
                 },
                 function(error){
+                    
                     stopLoading();
                     //errorlog("ERROR SYNC",error); 
                     callback();
@@ -2155,14 +2159,23 @@ showhelp = function(group) {
 		 * Visibile Durante gli accessi al DB
 		 */
 		startLoading = function startLoading(){
-            var prog = ProgressIndicator.getInstance();
-			dom.byId("ViewApplication").appendChild(prog.domNode);
-		    prog.start();
+            
+            registry.byId('loading').show();
+            
+            //var prog = ProgressIndicator.getInstance();
+			//dom.byId("ViewApplication").appendChild(prog.domNode);
+		   //prog.start();
+            
+            
+            
 		};
 		
 		stopLoading = function stopLoading(){
-			var prog = ProgressIndicator.getInstance();
-			prog.stop();
+            
+			//var prog = ProgressIndicator.getInstance();
+			//prog.stop();
+            registry.byId('loading').hide();
+            
 		};	
 		
 		/**

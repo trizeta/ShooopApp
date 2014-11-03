@@ -360,7 +360,7 @@
            
             
             <h1 data-dojo-type="dojox.mobile.Heading" class="mblTabBarTabBar{">
-        		<div id="buttonattiva" data-dojo-type="dojox.mobile.ToolBarButton" onClick="window.open(urlregister, '_system');" style="float:left; color:white" >Registrati</div>
+        		<div id="buttonattiva" data-dojo-type="dojox.mobile.ToolBarButton" onClick="window.open(urlregister, '_system');" style="float:left; color:white;width:100px;text-align:left" >Registrati</div>
         		<div id="buttondemo" data-dojo-type="dojox.mobile.ToolBarButton" data-dojo-props="moveTo:'ViewApplication', callback: acessdemo" style="float:right; color:white">Demo</div>
         	</h1>
         	
@@ -551,13 +551,13 @@
                     </div>                                    
 				</div>											
 				
-                <div id="detailofferdescription" data-dojo-type="dojox.mobile.View" >
+                <div id="detailofferdescription" data-dojo-type="dojox.mobile.FixedView" >
 
                         <textarea data-dojo-type="dojox.mobile.TextArea" id="offerhtmleditor" class="tinyedit" style="width:100%">                
                         </textarea>
                 </div>
                     
-                 <div id="dettaglioMessage" data-dojo-type="dojox.mobile.View" >
+                 <div id="dettaglioMessage" data-dojo-type="dojox.mobile.FixedView" >
          
                         <textarea data-dojo-type="dojox.mobile.TextArea" id="messagehtmleditor" class="tinyedit" style="width:100%">                
                         </textarea>
@@ -616,7 +616,7 @@
 						</div>					 	
 				</div>
             
-                <div id="detaileventdescription" data-dojo-type="dojox.mobile.View" >
+                <div id="detaileventdescription" data-dojo-type="dojox.mobile.FixedView" >
                                             
                         <textarea id="eventhtmleditor" data-dojo-type="dojox.mobile.TextArea" class="tinyedit" style="width:100%">                
                         </textarea>
@@ -739,6 +739,9 @@
                 <button  data-dojo-type="dojox.mobile.Button" class="baseBtn mblBlueButton" style="width: 200px;margin-top: 20px" onClick="setNumericSpinner()">Conferma</button>            
         </div>
     
-                       
+         <div id="loading"  data-dojo-type="dojox.mobile.SimpleDialog" style="background-color:transparent;width:100px;height:100px;border:none">
+              <img src="img/logo36.png"></img>
+            <label>Loading....</label>
+        </div>              
     </body>
 </html>
