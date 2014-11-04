@@ -3,9 +3,8 @@
 */
 user = null;
 debug = false;
-//url = "http://192.168.1.201:8080/messaging/rest/";
-//url = "http://192.168.1.10:8080/messaging/rest/";
 url = "http://app.sh1.it/messaging/rest/";
+//url = "http://192.168.30.121:8080/messaging/rest/";
 urlregister = "http://www.shooopapp.com/attivazione";
 
 //Variabile per la nuova pubblicazone
@@ -70,7 +69,7 @@ require([
     "dojo/json",
     "dojox/mobile/CheckBox",
     "dojo/dom-geometry",
-        "dojo/query",
+    "dojo/query",
     "dojo/_base/Deferred",
 	"dojox/mobile/parser",
 	"dojox/mobile",
@@ -120,7 +119,7 @@ require([
         /* Caricamento dinamico dei bottoni */
         showheadingbuttons = function(buttons){
             registry.byId("heading").destroyDescendants();
-            for(i=0;i<buttons.length;i++){ 
+            for(i=0;i<buttons.length;i++) { 
                 registry.byId("heading").addChild(new ToolBarButton(buttons[i]));             
             }
 
@@ -130,9 +129,8 @@ require([
             }else{
                 domStyle.set('searchfilterbutton', 'visibility', 'hidden');       
             }
-
-
         } 
+        
           
 		ready(function() {
 	    	document.addEventListener("deviceready", onDeviceReady, false);   
@@ -140,76 +138,86 @@ require([
             /****************************************************************************
             *                   Definizione dei bottoni di header                       *
             *****************************************************************************/
-            
             //Back Button
-            var back =  {class:"icon ion-ios7-play-outline size-48 rotate-180", style:"float:left"};
+            back =  {class:"icon ion-ios7-play-outline size-48 rotate-180", style:"float:left"};
             
             //Logout Button
-            var logout =  {class:"icon ion-log-out size-32", onTouchStart:logoutuser,  style:"float:left"};
+            logout =  {class:"icon ion-log-out size-32", onTouchStart:logoutuser,  style:"float:left"};
             
             //Button Offer
-            var imageoffer =  {class:"icon ion-images size-32", moveTo:'tabImagePubblicazioni', callback:loadofferimage, style:"float:right"};
-            var editoffer =  {class:"icon ion-edit size-32", onTouchStart:function(){registry.byId("list").startEdit();},style:"float:right"};
-            var uneditoffer =  {class:"icon ion-edit size-32", onTouchStart:function(){registry.byId("list").endEdit();},style:"float:right"};                    
-            var newoffer =  {class:"icon ion-ios7-plus-outline size-32", moveTo:'dettaglioPubblicazione', callback:nuovapubblicazione, style:"float:right"};
-            var publicoffer =  {class:"icon ion-ios7-cloud-upload-outline size-32", onClick:function(){pubblicacoffer()} , style:"float:right"};
-            var editingofferimage =  {class:"icon  ion-ios7-compose-outline size-32", onClick:function(){registry.byId("imageofferContainer").startEdit()},style:"float:right"};
-            var uneditingofferimage =  {class:"icon  ion-ios7-compose-outline size-32", onClick:function(){registry.byId("imageofferContainer").endEdit()},style:"float:right" };
-            var newofferimagegallery =  {class:"icon ion-image size-32", onClick:function(){takepictureoffer(Camera.PictureSourceType.PHOTOLIBRARY)},style:"float:right"};
-            var newofferimagecamera =  {class:"icon ion-ios7-camera size-32", onClick:function(){takepictureoffer(Camera.PictureSourceType.CAMERA)},style:"float:right"};
-                       
+            imageoffer =  {class:"icon ion-images size-32", moveTo:'tabImagePubblicazioni', callback:loadofferimage, style:"float:right"};
+            editoffer =  {class:"icon ion-edit size-32", onTouchStart:function(){registry.byId("list").startEdit();},style:"float:right"};
+            deleteofferbutton =  {class:"icon ion-trash-a size-32", onTouchStart:function(){deleteofferfunction()},style:"float:right"};
+            uneditoffer =  {class:"icon ion-edit size-32", onTouchStart:function(){registry.byId("list").endEdit();},style:"float:right"};                    
+            newoffer =  {class:"icon ion-ios7-plus-outline size-32", moveTo:'dettaglioPubblicazione', callback:nuovapubblicazione, style:"float:right"};
+            publicoffer =  {class:"icon ion-ios7-cloud-upload-outline size-32", onClick:function(){pubblicacoffer()} , style:"float:right"};
+            unpublicoffer =  {class:"icon ion-ios7-cloud-download-outline size-32", onClick:function(){unpubblicacoffer()} , style:"float:right"};
+            
+            editingofferimage =  {class:"icon  ion-ios7-compose-outline size-32", onClick:function(){registry.byId("imageofferContainer").startEdit()},style:"float:right"};
+            uneditingofferimage =  {class:"icon  ion-ios7-compose-outline size-32", onClick:function(){registry.byId("imageofferContainer").endEdit()},style:"float:right" };
+            newofferimagegallery =  {class:"icon ion-image size-32", onClick:function(){takepictureoffer(Camera.PictureSourceType.PHOTOLIBRARY)},style:"float:right"};
+            newofferimagecamera =  {class:"icon ion-ios7-camera size-32", onClick:function(){takepictureoffer(Camera.PictureSourceType.CAMERA)},style:"float:right"};
+              
             //Message Button
-            var newmessage =  {class:"icon ion-ios7-plus-outline size-32", moveTo:'dettaglioMessage', callback:nuovomessaggio, style:"float:right"};
-            var copymessage =  {class:"icon ion-ios7-copy-outline size-32", onClick:copiamessaggio, style:"float:right"};
-            var sendmessage =  {id:"sendmessageid", class:"icon ion-android-send size-32", onClick:inviamessaggio, style:"float:right"};
-            var editmessage =  {class:"icon ion-edit size-32", onTouchStart:function(){registry.byId("listmessage").startEdit();},style:"float:right"};
-            var uneditmessage =  {class:"icon ion-edit size-32", onTouchStart:function(){registry.byId("listmessage").endEdit();},style:"float:right"};
+            newmessage =  {class:"icon ion-ios7-plus-outline size-32", moveTo:'dettaglioMessage', callback:nuovomessaggio, style:"float:right"};
+            copymessage =  {class:"icon ion-ios7-copy-outline size-32", onClick:copiamessaggio, style:"float:right"};
+            sendmessage =  {id:"sendmessageid", class:"icon ion-android-send size-32", onClick:inviamessaggio, style:"float:right"};
+            editmessage =  {class:"icon ion-edit size-32", onTouchStart:function(){registry.byId("listmessage").startEdit();},style:"float:right"};
+            uneditmessage =  {class:"icon ion-edit size-32", onTouchStart:function(){registry.byId("listmessage").endEdit();},style:"float:right"};
+            deletemessagebutton =  {class:"icon ion-trash-a size-32", onTouchStart:function(){deletemessagefunction()},style:"float:right"};
             
             //Showcase Button
-            var imageshowcase =  {class:"icon ion-images size-32", moveTo:'tabImageShowcase', callback:loadshowcaseimage, style:"float:right"};
-            var editingshowcaseimage =  {class:"icon  ion-ios7-compose-outline size-32", onClick:function(){registry.byId("imageshowcaseContainer").startEdit()},style:"float:right"};
-            var uneditingshowcaseimage =  {class:"icon  ion-ios7-compose-outline size-32", onClick:function(){registry.byId("imageshowcaseContainer").endEdit()},style:"float:right"};
-            var newshowcaseimagegallery =  {class:"icon ion-image size-32", onClick:function(){takepictureshowcase(Camera.PictureSourceType.PHOTOLIBRARY)},style:"float:right"};
-            var newshowcaseimagecamera =  {class:"icon ion-ios7-camera size-32", onClick:function(){takepictureshowcase(Camera.PictureSourceType.CAMERA)},style:"float:right"};
+            imageshowcase =  {class:"icon ion-images size-32", moveTo:'tabImageShowcase', callback:loadshowcaseimage, style:"float:right"};
+            editingshowcaseimage =  {class:"icon  ion-ios7-compose-outline size-32", onClick:function(){registry.byId("imageshowcaseContainer").startEdit()},style:"float:right"};
+            uneditingshowcaseimage =  {class:"icon  ion-ios7-compose-outline size-32", onClick:function(){registry.byId("imageshowcaseContainer").endEdit()},style:"float:right"};
+            newshowcaseimagegallery =  {class:"icon ion-image size-32", onClick:function(){takepictureshowcase(Camera.PictureSourceType.PHOTOLIBRARY)},style:"float:right"};
+            newshowcaseimagecamera =  {class:"icon ion-ios7-camera size-32", onClick:function(){takepictureshowcase(Camera.PictureSourceType.CAMERA)},style:"float:right"};
             
             //Event Button 
-            var imageevent =  {class:"icon ion-images size-32", moveTo:'tabImageEventi', callback:loadeventimage, style:"float:right"};
-            var editevent =  {class:"icon ion-edit size-32", onTouchStart:function(){registry.byId("listeventi").startEdit();},style:"float:right"};
-            var uneditevent =  {class:"icon ion-edit size-32", onTouchStart:function(){registry.byId("listeventi").endEdit();},style:"float:right"};                    
-            var newevent =  {class:"icon ion-ios7-plus-outline size-32", moveTo:'dettaglioEvento', callback:nuovoevento, style:"float:right"};
-            var publicevent =  {class:"icon ion-ios7-cloud-upload-outline size-32", onClick:function(){pubblicaevento()} , style:"float:right"};
-            var editingeventimage =  {class:"icon  ion-ios7-compose-outline size-32", onClick:function(){registry.byId("imageeventContainer").startEdit()},style:"float:right"};
-            var uneditingeventimage =  {class:"icon  ion-ios7-compose-outline size-32", onClick:function(){registry.byId("imageeventContainer").endEdit()},style:"float:right" };
-            var neweventimagegallery =  {class:"icon ion-image size-32", onClick:function(){takepictureevento(Camera.PictureSourceType.PHOTOLIBRARY)},style:"float:right"};
-            var neweventimagecamera =  {class:"icon ion-ios7-camera size-32", onClick:function(){takepictureevento(Camera.PictureSourceType.CAMERA)},style:"float:right"};    
+            imageevent =  {class:"icon ion-images size-32", moveTo:'tabImageEventi', callback:loadeventimage, style:"float:right"};
+            editevent =  {class:"icon ion-edit size-32", onTouchStart:function(){registry.byId("listeventi").startEdit();},style:"float:right"};
+            uneditevent =  {class:"icon ion-edit size-32", onTouchStart:function(){registry.byId("listeventi").endEdit();},style:"float:right"};                    
+            newevent =  {class:"icon ion-ios7-plus-outline size-32", moveTo:'dettaglioEvento', callback:nuovoevento, style:"float:right"};
+            publicevent =  {class:"icon ion-ios7-cloud-upload-outline size-32", onClick:function(){pubblicaevento()} , style:"float:right"};
+            unpublicevent =  {class:"icon ion-ios7-cloud-download-outline size-32", onClick:function(){unpubblicaevento()} , style:"float:right"};
+            editingeventimage =  {class:"icon  ion-ios7-compose-outline size-32", onClick:function(){registry.byId("imageeventContainer").startEdit()},style:"float:right"};
+            uneditingeventimage =  {class:"icon  ion-ios7-compose-outline size-32", onClick:function(){registry.byId("imageeventContainer").endEdit()},style:"float:right" };
+            neweventimagegallery =  {class:"icon ion-image size-32", onClick:function(){takepictureevento(Camera.PictureSourceType.PHOTOLIBRARY)},style:"float:right"};
+            neweventimagecamera =  {class:"icon ion-ios7-camera size-32", onClick:function(){takepictureevento(Camera.PictureSourceType.CAMERA)},style:"float:right"};   
+            deleteeventbutton =  {class:"icon ion-trash-a size-32", onTouchStart:function(){deleteeventfunction()},style:"float:right"};
             
+            //HomePAge Sync
+            syncallbutton =  {id:"syncallbutton", class:"icon ion-loop size-32", onTouchStart:function(){syncall();} , style:"float:right"};
+
             //Punti Button
-            var salvapunti =  {class:"icon ion-images size-32",  onTouchStart:savepunti, style:"float:right"};
-
+            salvapunti =  {class:"icon ion-images size-32",  onTouchStart:savepunti, style:"float:right"};
+    
             //Immagine di test
-            var sync =  {class:"icon ion-ios7-refresh-empty size-32", onTouchStart:function(){syncall();},style:"float:right"};
-            var reset =  {class:"icon ion-alert-circled size-32", onTouchStart:function(){resettable();},style:"float:right"};            
-
+            sync =  {class:"icon ion-ios7-refresh-empty size-32", onTouchStart:function(){syncall();},style:"float:right"};
+            reset =  {class:"icon ion-alert-circled size-32", onTouchStart:function(){resettable();},style:"float:right"};   
+                  
+            
             //Nascondo i search
             domStyle.set('filterBoxOfferDiv', 'display', 'none');
             domStyle.set('filterBoxMessageDiv', 'display', 'none');
             domStyle.set('filterBoxCategoryDiv', 'display', 'none');
             domStyle.set('filterBoxEventoDiv', 'display', 'none');
             
-           
-                
-                
             /****************************************************************************
             *   Aggiungo il controllo dei bottoni prima della transazione di apertura   *
             *****************************************************************************/                
             dojo.connect(registry.byId("ViewApplication"), "onBeforeTransitionIn", null, function(){
-                showheadingbuttons([]);
-                domStyle.set('headinghome', 'display', 'inline');     
+               domStyle.set('headinghome', 'display', 'inline');     
+               showheadingbuttons([syncallbutton]);
             });
 
             dojo.connect(registry.byId("homepage"), "onBeforeTransitionIn", null, function(){
-                showheadingbuttons([]);
                 domStyle.set('headinghome', 'display', 'inline');               
+                showheadingbuttons([syncallbutton]);
+                
+                //Setto i badge
+                controllsync();
+                
             });    
 
             dojo.connect(registry.byId("homepage"), "onBeforeTransitionOut", null, function(){
@@ -225,7 +233,9 @@ require([
 
 			dojo.connect(registry.byId("tabPubblicazioni"), "onBeforeTransitionIn", null, function() {
 				  actualfilterid = 'filterBoxOfferDiv';
-                showheadingbuttons([newoffer]);
+                back.moveTo = "homepage";
+                back.transitionDir = -1;
+                showheadingbuttons([newoffer,back]);
                 //Controllo HELP
                 showhelp("OFFER");
                 domStyle.set('headingoffer', 'display', 'inline');
@@ -241,11 +251,12 @@ require([
                //Distruggo i bottoni e ne creo di nuovi
                back.moveTo = "tabPubblicazioni";
                back.transitionDir = -1;
-               showheadingbuttons([publicoffer,imageoffer,back]);               
+               showheadingbuttons([publicoffer,imageoffer,back]);                                          
                domStyle.set('headingoffer', 'display', 'inline');
 			});
-                        
+                            
             dojo.connect(registry.byId("dettaglioPubblicazione"), "onBeforeTransitionOut", null, function() {
+                
                 salvapubblicazione(function(){});
                 domStyle.set('headingoffer', 'display', 'none');                
             });           
@@ -256,9 +267,13 @@ require([
                back.transitionDir = -1;
                showheadingbuttons([back]); 
                 domStyle.set('headingoffer', 'display', 'inline');
-                setContentEditorResize("offerhtmleditor","detailofferdescription");
+               
 			});
             
+            dojo.connect(registry.byId("detailofferdescription"), "onAfterTransitionIn", null, function() {
+                setContentEditorResize("offerhtmleditor","detailofferdescription"); 
+            });
+
             dojo.connect(registry.byId("detailofferdescription"), "onBeforeTransitionOut", null, function() {
                 //Salvo l'html della pubblicazione sulla pagina
                 try{                 
@@ -297,7 +312,9 @@ require([
             		
 			dojo.connect(registry.byId("tabMessaggi"), "onBeforeTransitionIn", null, function() {
                 actualfilterid = 'filterBoxMessageDiv'; 
-                showheadingbuttons([newmessage]); 
+                back.moveTo = "homepage";
+                back.transitionDir = -1;
+                showheadingbuttons([newmessage,back]); 
                 showhelp("MESSAGE");
                 domStyle.set('headingmessage', 'display', 'inline');
                                
@@ -313,8 +330,13 @@ require([
                 back.transitionDir = -1;
                 showheadingbuttons([back,sendmessage,copymessage]);    
                 domStyle.set('headingmessage', 'display', 'inline');
-                setContentEditorResize("messagehtmleditor","dettaglioMessage");
+               
           	});
+
+            dojo.connect(registry.byId("dettaglioMessage"), "onAfterTransitionIn", null, function(bean) {
+                setContentEditorResize("messagehtmleditor","dettaglioMessage");
+            });
+
                     
             dojo.connect(registry.byId("dettaglioMessage"), "onBeforeTransitionOut", null, function() {
                 //Esco dal dettaglio e salvo il messaggio
@@ -326,8 +348,11 @@ require([
 
 			dojo.connect(registry.byId("tabShowcase"), "onBeforeTransitionIn", null, function() {
                 try{
-                    domStyle.set('headingshowcase', 'display', 'inline');               
-                    showheadingbuttons([imageshowcase]);
+                    domStyle.set('headingshowcase', 'display', 'inline');   
+                    back.moveTo = "homepage";
+                    back.transitionDir = -1;
+                    
+                    showheadingbuttons([imageshowcase,back]);
                     setContentEditorResize("showcasehtmleditor",'tabShowcase');
                     showhelp("SHOWCASE");
                 }catch(e){
@@ -389,8 +414,10 @@ require([
 
 			dojo.connect(registry.byId("tabEventi"), "onBeforeTransitionIn", null, function() {
 				//Visualizzo il Search Box                
-                actualfilterid = 'filterBoxEventoDiv';                
-                showheadingbuttons([newevent]);    
+                actualfilterid = 'filterBoxEventoDiv';   
+                back.moveTo = "homepage";
+                back.transitionDir = -1;
+                showheadingbuttons([newevent,back]);    
                 showhelp("EVENT");
                   domStyle.set('headingevent', 'display', 'inline');
 			});
@@ -419,9 +446,12 @@ require([
                back.transitionDir = -1;
                showheadingbuttons([back]); 
                domStyle.set('headingevent', 'display', 'inline');
-               setContentEditorResize("eventhtmleditor","detaileventdescription");
 			});
-        
+
+            dojo.connect(registry.byId("detaileventdescription"), "onAfterTransitionIn", null, function() {
+                setContentEditorResize("eventhtmleditor","detaileventdescription");
+            });
+                                
             dojo.connect(registry.byId("detaileventdescription"), "onBeforeTransitionOut", null, function() {
                 //Salvo l'html della pubblicazione sulla pagina
                 try{
@@ -485,7 +515,9 @@ require([
             /***************************************** MY APP **************************************************/
 			
 			dojo.connect(registry.byId("tabMyApp"), "onBeforeTransitionIn", null, function(){
-				showheadingbuttons([reset,sync]);                   
+                back.moveTo = "homepage";
+                back.transitionDir = -1;
+				showheadingbuttons([reset,back]);                   
                 domStyle.set('headingpreference', 'display', 'inline');               
 			});
 
@@ -842,7 +874,7 @@ require([
             try{
                 StatusBar.overlaysWebView(false);
             }catch(e){
-                
+               //Non fa nulla 
             }  
             
             try{   
@@ -852,54 +884,60 @@ require([
             } catch(e) {
                 errorlog("ERRORE VIEW APP - 100",e);
             }
-                        
-            try{
-                var devicePlatform = "chrome";
+                
+            
+            var devicePlatform = "chrome";
             try{
                 devicePlatform = device.platform;
             }catch(e){
 
             }
-            if(devicePlatform.toLowerCase().indexOf('win')==-1){
-               tinymce.init({
-                   selector:'textarea#showcasehtmleditor', 
-                    statusbar: false,
-                    resize: false,
-                    width: "100%",
-                    height: '100%',
-                    autoresize: true                       
-               });                
-                tinymce.init({selector:'textarea#offerhtmleditor',statusbar: false,
-                    resize: false,
-                    width: "100%",
-                    height: '100%',
-                    autoresize: true });                
-                  tinymce.init({selector:'textarea#messagehtmleditor',statusbar: false,
-                    resize: false,
-                    width: "100%",
-                    height: '100%',
-                    autoresize: true });                
-                  tinymce.init({selector:'textarea#eventhtmleditor',statusbar: false,
-                    resize: false,
-                    width: "100%",
-                    height: '100%',
-                    autoresize: true });                               
+            
+            try{
+                if(devicePlatform.toLowerCase().indexOf('win')==-1){
+                   tinymce.init({
+                       selector:'textarea#showcasehtmleditor', 
+                        statusbar: false,
+                        resize: false,
+                        width: "100%",
+                        height: '100%',
+                        autoresize: true                       
+                   });                
+                   tinymce.init({selector:'textarea#offerhtmleditor',
+                        statusbar: false,
+                        resize: false,
+                        width: "100%",
+                        height: '100%',
+                        autoresize: true 
+                   });                
+                   tinymce.init({selector:'textarea#messagehtmleditor',
+                        statusbar: false,
+                        resize: false,
+                        width: "100%",
+                        height: '100%',
+                        autoresize: true 
+                    });                
+                    tinymce.init({selector:'textarea#eventhtmleditor',
+                        statusbar: false,
+                        resize: false,
+                        width: "100%",
+                        height: '100%',
+                        autoresize: true 
+                    });                               
                 }
             } catch(e) {
                 errorlog("ERROR INIT TINYMCE",e);
-            }     
-            
-            
+            }  
+                
             //Inizializzo il Database
             try {
-                //Visualizzo splashscreen
+                //Visualizzo il loading
                 startLoading();
                 window.shopdb.db.init(function () {
                     /* DB CARICATO */
                     /* Lancio processo di sincronizzazione con il server */  
                     //Inizializzo il valore delle variabile di default del file system
                     try{
-                        //path = cordova.file.applicationStorageDirectory;
                         path = cordova.file.dataDirectory;
                         window.resolveLocalFileSystemURL(path,function(entry){
                             var pathimages = "files";                        
@@ -917,7 +955,7 @@ require([
                                 }, function(e){errorlog("CREATE DIR - 101",e)});
                             }catch(e){
                                 errorlog("CREATE DIR - 100",e);
-                            }
+                            } 
                         },function(e){errorlog("ERRORE",e)});
                     }catch(e){
                         //FIX WIN PHONE 8  
@@ -943,6 +981,11 @@ require([
                         }); 
                         }catch(e){
                             //Non faccio nulla
+                            try{
+                               login(null,null);
+                            }catch(e){
+                                errorlog("ERROR SYNC 2",e);        
+                            }
                         }
                     }                                        
                     //Sincronizzo tabella di help
@@ -955,11 +998,38 @@ require([
                 errorlog("ERROR INIT DB",e);
             }       
         };
-    
+        
 
-
-
-
+        //Verifico i dati di syncronizzazione
+        controllsync = function() {                                
+            getCountSyncOffer(function(countobj){
+                domConstruct.destroy("badgepubblicazioni");
+                if(countobj && countobj>0){
+                    domConstruct.create("div",{id:"badgepubblicazioni", innerHTML:"<div>"+countobj+"</div>", class:"mblBadge mblDomButtonRedBadge mblDomButton", style:"font-size: 14px; position: absolute; top: 2px; right:35%;"},registry.byId('iconmenupubblicazioni').domNode); 
+                }
+            });             
+            
+            getCountSyncMessage(function(countobj){
+                domConstruct.destroy("badgemessaggi");
+                if(countobj && countobj>0){
+                    domConstruct.create("div",{id:"badgemessaggi", innerHTML:"<div>"+countobj+"</div>", class:"mblBadge mblDomButtonRedBadge mblDomButton", style:"font-size: 14px; position: absolute; top: 2px; right:35%;"},registry.byId('iconmenumessaggi').domNode); 
+                }
+            });
+            
+            getCountSyncEvent(function(countobj){
+                domConstruct.destroy("badgeeventi");
+                if(countobj && countobj>0){
+                    domConstruct.create("div",{id:"badgeeventi", innerHTML:"<div>"+countobj+"</div>", class:"mblBadge mblDomButtonRedBadge mblDomButton", style:"font-size: 14px; position: absolute; top: 2px; right:35%;"},registry.byId('iconmenueventi').domNode); 
+                }
+            });
+            
+            getCountSyncShowcase(function(countobj){
+                domConstruct.destroy("badgeshowcase");
+                if(countobj && countobj>0){
+                    domConstruct.create("div",{id:"badgeshowcase", innerHTML:"<div>"+countobj+"</div>", class:"mblBadge mblDomButtonRedBadge mblDomButton", style:"font-size: 14px; position: absolute; top: 2px; right:35%;"},registry.byId('iconmenushowcase').domNode); 
+                }
+            });
+        };
 
         opensearch = function(){
             if(actualfilterid){
@@ -989,18 +1059,17 @@ require([
             
             }
             
-            var vieweditor = dom.byId(tabid);
-            
-            
-            
+            var vieweditor = dom.byId(tabid);                
             var viewmargin = domGeometry.getMarginBox(vieweditor);
                   
+           
+            
             var vieweheading = dom.byId("heading");
             var viewmarginheading = domGeometry.getMarginBox(vieweheading);
                
             var myheight = viewmargin.h-viewmarginheading.h-3;
                     
-            
+           
             
              if(devicePlatform.toLowerCase().indexOf('win')==-1){
                 //Non WIN8 
@@ -1010,9 +1079,9 @@ require([
             
                 var viewmarginh4 = domGeometry.getMarginBox(nl4[0]);
                 var viewmarginh5 = domGeometry.getMarginBox(nl5[0]); 
-                
+
                 myheight = myheight-viewmarginh4.h-viewmarginh5.h
-                 
+        
                 var nl2 = query(".mce-tinymce");
                 for(i=0;i<nl2.length;i++) {                
                     domStyle.set(nl2[i].id,"height","100%");
@@ -1128,83 +1197,79 @@ require([
         closemenu = function(){
             registry.byId('menu').hide();
         };
-
-        /**
-        * Metodo per cancellazione pubblicazione
-        */
-        cancellapubblicazione = function cancellapubblicazione(){
-            try{
-             storepubblicazoni.remove(pubblicazione, function(){
-                 try{
-                    var children = registry.byId('list').getChildren();
-                    var arr = array.filter(children, function(w){
-                        return w.selected;
-                    });
-                    array.forEach(arr, function(listItem){
-                        registry.byId('list').removeChild(listItem);
-                        //Move to dettaglio
-                        //TODO DA FARE
-                    }); 
-                }catch(e){
-                    errorlog("CANCELLAPUBBLICAZIONE - 101",e);   
-                }
-             });
-             }catch(e){
-               errorlog("CANCELLAPUBBLICAZIONE - 100",e);   
-            }                
-        };
       
         /**
-        * Metodo per update della publicazione
+        * Metodo per update della pubblicazione
         */
         salvapubblicazione = function salvapubblicazione(callback){
             try {
-                pubblicazione.title = registry.byId("title").get("value");
-                if(pubblicazione.title.length>0){
-                    startLoading();
-                    
-                    if(registry.byId("prenotable").get("value")=='off'){
-                        pubblicazione.prenotable = 0;
-                    } else {
-                        pubblicazione.prenotable = 1;
-                    }
-                    
-                    if(registry.byId("buyable").get("value")=='off'){
-                        pubblicazione.buyable = 0;
-                    }else{
-                        pubblicazione.buyable = 1;
-                    }                 
-                    
-                    //pubblicazione.description = registry.byId("description").get("label");
-                    
-                    pubblicazione.description = getContentEditor("offerhtmleditor");
-                    if(pubblicazione.id) {
-                        /* Recupero il servizio di update */                    
-                        try{
-                            updateoffer(pubblicazione,storepubblicazoni, function(){
-                                if(callback){
-                                    callback();
-                                }
-                                stopLoading();
-                            });
-                        }catch(e){
-                                errorlog("SALVAPUBBLICAZIONE - 101",e);   
-                        }                                      
-                    } else {
-                        var uuid = getUUID();
-                        pubblicazione.offer_id = uuid;
-                        pubblicazione.utente_id = user.utente_id;
-                        pubblicazione.date_created = new Date();
-                        pubblicazione.merchant_id = user.merchant_id;
-                        try {
-                            addoffer(pubblicazione,storepubblicazoni, function(){
-                                if(callback){
-                                    callback();
-                                }
-                                stopLoading();
-                            });
-                        }catch(e){
-                             errorlog("SALVAPUBBLICAZIONE - 102",e);   
+                if(pubblicazione){
+                    pubblicazione.title = registry.byId("title").get("value");
+                    if(pubblicazione.title.length>0){
+                        //startLoading();
+
+                        if(registry.byId("prenotable").get("value")=='off'){
+                            pubblicazione.prenotable = 0;
+                        } else {
+                            pubblicazione.prenotable = 1;
+                        }
+
+                        if(registry.byId("buyable").get("value")=='off'){
+                            pubblicazione.buyable = 0;
+                        }else{
+                            pubblicazione.buyable = 1;
+                        }                 
+
+                        //pubblicazione.description = registry.byId("description").get("label");
+
+                        pubblicazione.description = getContentEditor("offerhtmleditor");
+                        if(pubblicazione.id) {
+                            /* Recupero il servizio di update */                    
+                            try{                                
+                                updateoffer(pubblicazione,storepubblicazoni, function(){
+                                    
+                                    
+                                    if(pubblicazione.state=='P'){
+                                        startLoading();
+                                        //Effettuo una sincronizzazione delle offerte
+                                        synctable(['offer','offer_image','image'], function() {
+                                                syncimages(function(){
+                                                    //Ricarico i valori
+                                                    searchoffer(storepubblicazoni,function(){                            
+                                                        registry.byId('list').refresh();                            
+                                                        stopLoading();
+                                                    });             
+                                                });               
+                                        });
+                                    }else{
+                                       if(callback){
+                                           callback();
+                                       }    
+                                    }
+                                    
+                                    
+                                    
+                                    //stopLoading();
+                                });
+                            }catch(e){
+                                    errorlog("SALVAPUBBLICAZIONE - 101",e);   
+                            }                                      
+                        } else {
+                            var uuid = getUUID();
+                            pubblicazione.offer_id = uuid;
+                            pubblicazione.utente_id = user.utente_id;
+                            pubblicazione.date_created = new Date();
+                            pubblicazione.merchant_id = user.merchant_id;
+                            try {
+                                addoffer(pubblicazione,storepubblicazoni, function(){
+                                    if(callback){
+                                        callback();
+                                    }
+                                    //stopLoading();
+                                });
+                            }catch(e){
+                                 errorlog("SALVAPUBBLICAZIONE - 102",e);   
+                            }
                         }
                     }
                 }
@@ -1213,30 +1278,37 @@ require([
             }
         };
         
+        /**
+        * Pubblica offerta
+        */
          pubblicacoffer = function(){
             try {
                 if(pubblicazione.title.length>0){
                     startLoading();
                     pubblicazione.state = 'P';
                     registry.byId("dettaglioPubblicazione").performTransition("tabPubblicazioni", -1, "slide");
-                    
-                    startLoading();
-                    //Effettuo una sincronizzazione delle offerte
-                    synctable(['offer','offer_image','image'], function() {
-                            syncimages(function(){
-                                //Ricarico i valori
-                                searchoffer(storepubblicazoni,function(){                            
-                                    registry.byId('list').refresh();                            
-                                    stopLoading();
-                                });             
-                            });               
-                    });
                 }
             }catch(e){
                errorlog("SALVAPUBBLICAZIONE - 100",e);   
             }
         };
-    
+
+        /**
+        * Togli l'offerta dalla pubblicazione
+        */
+        unpubblicacoffer = function(){
+            try {
+                if(pubblicazione.title.length>0){
+                    startLoading();
+                    pubblicazione.state = 'M';
+                    registry.byId("dettaglioPubblicazione").performTransition("tabPubblicazioni", -1, "slide");
+                    
+                  
+                }
+            }catch(e){
+               errorlog("SALVAPUBBLICAZIONE - 100",e);   
+            }
+        };
     
         /**
         *   Metodo che effettua un reset del form di pubblicazione
@@ -1283,7 +1355,16 @@ require([
 		 * */
 		setDetailPubblicazione = function setDetailPubblicazione(bean) {
             try{
-                pubblicazione = bean;  
+                pubblicazione = bean;                               
+                back.moveTo = "tabPubblicazioni";
+                back.transitionDir = -1;               
+                
+                if(pubblicazione && pubblicazione.state != 'P'){                
+                    showheadingbuttons([publicoffer,imageoffer,deleteofferbutton,back]);   
+                }else{
+                    showheadingbuttons([unpublicoffer,imageoffer,back]);   
+                }
+                
                 resetFormPubblicazione();
                 registry.byId("title").set("value",bean.title);
                 if(bean.description){registry.byId("description").set("label",bean.description);}                
@@ -1337,7 +1418,98 @@ require([
             }catch(e){
                 errorlog("ERROR",e);
             }            
-        };    
+        };
+
+        /* Delete Offer */
+        deleteofferfunction = function(){
+             try {                    
+                    createConfirmation("Vuoi cancellare "+pubblicazione.label+"?",
+                                        function(){
+                                            startLoading();
+                                            dlg.hide();
+                                            dlg.destroyRecursive(false);
+                                            deleteoffer(pubblicazione, function(){
+                                               storepubblicazoni.remove(pubblicazione.id);
+                                               stopLoading();
+                                               pubblicazione = null;
+                                               registry.byId("dettaglioPubblicazione").performTransition("tabPubblicazioni", -1, "slide");  
+                                               
+                                            });   
+                                        }, 
+                                        function(dlg){
+                                            dlg.hide();
+                                            dlg.destroyRecursive(false);
+                                        });                  
+                }catch(e){
+                    errorlog("DELETEITEM - 100",e);
+                }
+        
+        };
+
+        /* Delete Message */
+        deletemessagefunction = function() {
+             try {  
+                    var labelconf = message.label
+                    
+                    if(labelconf.length>25){
+                        labelconf = labelconf.substring(0,22)+"...";
+                    }
+                 
+                    createConfirmation("Vuoi cancellare "+labelconf+"?",
+                                        function(){
+                                            startLoading();
+                                            dlg.hide();
+                                            dlg.destroyRecursive(false);
+                                            deletemessage(message, function(){
+                                               storemessage.remove(message.id);
+                                               stopLoading();
+                                               message = null;
+                                               registry.byId("dettaglioMessage").performTransition("tabMessaggi", -1, "slide");  
+                                               
+                                            });   
+                                        }, 
+                                        function(dlg){
+                                            dlg.hide();
+                                            dlg.destroyRecursive(false);
+                                        });                  
+                }catch(e){
+                    errorlog("DELETEITEM - 100",e);
+                }
+        
+        }
+        
+        
+          /* Delete Message */
+        deleteeventfunction = function() {
+             try {  
+                    var labelconf = evento.label;
+                    
+                    if(labelconf.length>25){
+                        labelconf = labelconf.substring(0,22)+"...";
+                    }                 
+                    createConfirmation("Vuoi cancellare "+labelconf+"?",
+                                        function(){
+                                            startLoading();
+                                            dlg.hide();
+                                            dlg.destroyRecursive(false);
+                                            deleteevento(evento, function(){
+                                               storeeventi.remove(evento.id);
+                                               stopLoading();
+                                               evento = null;
+                                               registry.byId("dettaglioEvento").performTransition("tabEventi", -1, "slide");  
+                                               
+                                            });   
+                                        }, 
+                                        function(dlg){
+                                            dlg.hide();
+                                            dlg.destroyRecursive(false);
+                                        });                  
+                }catch(e){
+                    errorlog("DELETEITEM - 100",e);
+                }
+        
+        }
+
     
         /**
          * Metodo che carica le immagini del dettaglio
@@ -1467,38 +1639,54 @@ require([
     
         /* Salva il messaggio */
         savemessage = function(){
-            startLoading();
-            message.description = getContentEditor("messagehtmleditor"); 
-            if(message.id){
-                //update messaggio
-                try{
-                    updatemessage(message,storemessage, function(){
-                        stopLoading();
-                    });
-                }catch(e){
-                        errorlog("SALVAPUBBLICAZIONE - 101",e);   
-                }                  
-            } else {
-                //nuovo messaggio
-                var uuid = getUUID();
-                message.message_id = uuid;
-                message.utente_id = user.utente_id;
-                message.date_created = new Date();
-                message.merchant_id = user.merchant_id;
-                try {
-                    addmessage(message,storemessage, function(){
-                        stopLoading();
-                    });
-                }catch(e){
-                     errorlog("SALVAMESSAGGIO - 102",e);   
-                }                    
-            }              
+            try{
+                if(message){
+                    startLoading();
+                    message.description = getContentEditor("messagehtmleditor"); 
+                    if(message.id){
+                        //update messaggio
+                        try{
+                            updatemessage(message,storemessage, function(){
+                                stopLoading();
+                            });
+                        }catch(e){
+                                errorlog("SALVAPUBBLICAZIONE - 101",e);   
+                        }                  
+                    } else {
+                        if(message.description){
+                            //nuovo messaggio
+                            var uuid = getUUID();
+                            message.message_id = uuid;
+                            message.utente_id = user.utente_id;
+                            message.date_created = new Date();
+                            message.merchant_id = user.merchant_id;
+                            try {
+                                addmessage(message,storemessage, function(){
+                                    stopLoading();
+                                });
+                            }catch(e){
+                                 errorlog("SALVAMESSAGGIO - 102",e);   
+                            }  
+                        }else{
+                             stopLoading();
+                        }
+                    }
+                }
+            }catch(e){
+                errorlog("ERRORE SALVATAGGIO MESSAGIO - 100",e);
+            }
         };   
         
         /* Setto il dettaglio del messaggio */
         setDetailMessage = function(bean){
             try{
                 message = bean;
+                
+                if(message && message.state == 'W'){
+                    back.moveTo = "tabMessaggi";
+                    back.transitionDir = -1;
+                    showheadingbuttons([back,sendmessage,copymessage,deletemessagebutton]);   
+                }
                 
                 setContentEditor("messagehtmleditor",bean.description);
                 
@@ -1556,14 +1744,23 @@ require([
         */
         inviamessaggio = function(){
             try{
-                startLoading();
                 //Setto i dati di messaggio
                 message.state = 'S';
                 message.description = getContentEditor("messagehtmleditor");
                 try {
                     updatemessage(message,storemessage, function(){
                         registry.byId("dettaglioMessage").performTransition("tabMessaggi", -1, "slide");
-                        stopLoading();
+                        
+                        //Aggungi sincronizzazione tabelle messaggi
+                        startLoading();
+                        //Effettuo una sincronizzazione delle offerte
+                        synctable(['message'], function() {
+                           //Ricarico i valori
+                           searchmessage(storemessage,function(){                            
+                                registry.byId('listmessage').refresh();                            
+                                stopLoading();
+                           });            
+                        });
                     });
                 }catch(e){
                      errorlog("INVIA MESSAGGIO - 102",e);   
@@ -1725,38 +1922,51 @@ require([
         */
         salvaevento = function(callback){
             try {
-               
-                evento.title = registry.byId("title_evento").get("value");
-                if(evento.title.length>0){
-                    startLoading();
-                    evento.description = registry.byId("description_evento").get("label");
-                    if(evento.id) {
-                        /* Recupero il servizio di update */                    
-                        try{
-                            updateevento(evento,storeeventi, function(){
-                                if(callback){
-                                    callback();
-                                }
-                                stopLoading();
-                            });
-                        }catch(e){
-                                errorlog("SALVA EVENTO - 101",e);   
-                        }                                      
-                    } else {
-                        var uuid = getUUID();
-                        evento.event_id = uuid;
-                        evento.utente_id = user.utente_id;
-                        evento.date_created = new Date();
-                        evento.merchant_id = user.merchant_id;
-                        try {
-                            addevento(evento,storeeventi, function(){
-                                if(callback){
-                                    callback();
-                                }
-                                stopLoading();
-                            });
-                        }catch(e){
-                             errorlog("SALVA EVENTO - 102",e);   
+               if(evento){
+                    evento.title = registry.byId("title_evento").get("value");
+                    if(evento.title.length>0){
+                        
+                        evento.description = registry.byId("description_evento").get("label");
+                        if(evento.id) {
+                            /* Recupero il servizio di update */                    
+                            try{
+                                updateevento(evento,storeeventi, function(){
+                                    if(evento.state=='P'){
+                                        startLoading();
+                                        //Effettuo una sincronizzazione delle offerte
+                                        synctable(['event','event_image','image'], function() {
+                                                syncimages(function(){
+                                                    //Ricarico i valori
+                                                    searcheventi(storeeventi,function(){                            
+                                                        registry.byId('listeventi').refresh();                            
+                                                        stopLoading();
+                                                    });             
+                                                });               
+                                        });
+                                    }else{
+                                       if(callback){
+                                           callback();
+                                       }                                       
+                                    }
+                                });
+                            }catch(e){
+                                    errorlog("SALVA EVENTO - 101",e);   
+                            }                                      
+                        } else {
+                            var uuid = getUUID();
+                            evento.event_id = uuid;
+                            evento.utente_id = user.utente_id;
+                            evento.date_created = new Date();
+                            evento.merchant_id = user.merchant_id;
+                            try {
+                                addevento(evento,storeeventi, function(){
+                                    if(callback){
+                                        callback();
+                                    }                                    
+                                });
+                            }catch(e){
+                                 errorlog("SALVA EVENTO - 102",e);   
+                            }
                         }
                     }
                 }
@@ -1765,21 +1975,42 @@ require([
             }
         };
         
-         pubblicaevento = function(){
+        /**
+        * Pubblica l'evento
+        */
+        pubblicaevento = function(){
             try {
                 if(evento.title.length>0){
                     startLoading();
                     evento.state = 'P';
                     salvaevento(function(){
                         registry.byId("dettaglioEvento").performTransition("tabEventi", -1, "slide");
+                        
                     });                    
                 }
             }catch(e){
                errorlog("PUBBLICA EVENTO - 100",e);   
             }
         };
-    
-    
+        
+        /**
+        * Togli l'evento dalla pubblicazione
+        */
+        unpubblicaevento = function(){
+            try {
+                if(evento.title.length>0){
+                    startLoading();
+                    evento.state = 'M';
+                    salvaevento(function(){
+                        registry.byId("dettaglioEvento").performTransition("tabEventi", -1, "slide");
+                        
+                    });                    
+                }
+            }catch(e){
+               errorlog("PUBBLICA EVENTO - 100",e);   
+            }
+        };
+        
         /**
         *   Metodo che effettua un reset del form di evento
         */
@@ -1820,7 +2051,14 @@ require([
 		 * */
 		setDetailEvento = function(bean) {
             try{
-                evento = bean;  
+                evento = bean;                 
+                back.moveTo = "tabEventi";
+                back.transitionDir = -1;                 
+                if(evento && evento.state != 'P'){                
+                    showheadingbuttons([publicevent,imageevent,deleteeventbutton,back]);
+                }else{
+                    showheadingbuttons([unpublicevent,imageevent,back]);
+                }                
                 resetFormEvento();
                 registry.byId("title_evento").set("value",bean.title);
                 if(bean.description){registry.byId("description_evento").set("label",bean.description);}                
@@ -2066,6 +2304,7 @@ showhelp = function(group) {
             startLoading();
             try{
             synctable(['merchant','message','offer','offer_image','showcase','showcase_image','category','image','event','event_image','credit'], function(){
+                controllsync();
                 syncimages(function(){
                     stopLoading();
                 });
@@ -2092,18 +2331,24 @@ showhelp = function(group) {
         * Sincronizzazione delle tabelle
         */
         synctable = function(tables,callback) {
-            //Recupero i dati da sincronizzare            
-            var copytable = new Array();
-            var synctable = new Array();
-            copytable = copytable.concat(tables);
-            getTableDirty(tables,synctable,function(result){
-                getTableLastUpdate(copytable,result, function(){   
-                    var syncbean = new Object();
-                    syncbean.tables = synctable;                    
-                    var datajson = json.stringify(syncbean);
-                    requestpost(datajson,callback);
-                });                
-            });                 
+            try{
+                //Recupero i dati da sincronizzare            
+                var copytable = new Array();
+                var synctable = new Array();
+                copytable = copytable.concat(tables);
+                getTableDirty(tables,synctable,function(result){
+                    getTableLastUpdate(copytable,result, function(){   
+                        var syncbean = new Object();
+                        syncbean.tables = synctable;                    
+                        var datajson = json.stringify(syncbean);
+                        requestpost(datajson,callback);
+                    });                
+                }); 
+            }catch(e){
+                if(callback){
+                    callaback();                
+                }
+            }
         };
     
         /**
@@ -2130,6 +2375,7 @@ showhelp = function(group) {
                         //Controllo se ci sono errori
                         if(response.data.messageList.length>0){
                             errorlog("ERRORE SINCORNIZZAZIONE TABELLE", response.data.messageList);
+                            callback();
                         }else{
                             //Aggiorno le tabelle
                             var tables = response.data.objectList;
@@ -2421,6 +2667,7 @@ showhelp = function(group) {
                 promise.response.then(
                     function(response) {
                         try{
+                            
                             //Controllo se ci sono errori
                             if(response.text){
                                 
@@ -2433,6 +2680,7 @@ showhelp = function(group) {
                                 user = objute;                               
                                 
                                 synctable(['utente'],function(){
+                                    
                                     debuglog("RETRIEVE TOKEN:"+tokentext);
                                     //Recupero l'utente
                                     retrieveToken(tokentext,function(utente){
@@ -2440,15 +2688,16 @@ showhelp = function(group) {
                                              user = utente
                                             //Vado alla pagina principale dell'applicazione
                                             /* Carico le ultime offerte */
-                                            registry.byId("ViewApplication").show(false,false);  
+                                            registry.byId("ViewApplication").show(false,false); 
+                                            movetohomepage();
                                             
                                             /* Visualizzo la ricerca */
                                             domStyle.set(registry.byId('filterBoxOffer').domNode, 'display', 'inline');
-                                            
-                                            
+                                                                                
                                             debuglog("SYNC APPLICATION");                                          
                                             //Sincronizzo tabelle di offerte/messaggi/vetrina
                                             synctable(['merchant','message','offer','offer_image','showcase','showcase_image','category','event','event_image','credit','image','help','help_utente'], function(){
+                                                
                                                 searchoffer(storepubblicazoni,function(){                            
                                                     registry.byId('list').refresh();                            
                                                     stopLoading();
@@ -2496,6 +2745,7 @@ showhelp = function(group) {
                     }                     
                 );             
             } else {
+                
                 //Recupero l'unico utente inserito nella tabella utente
                 retrieveToken(null,function(utente){
                     if(utente){
@@ -2533,6 +2783,8 @@ showhelp = function(group) {
                             stopLoading();
                         });
                         registry.byId("ViewApplication").show(false,false);
+                        movetohomepage();
+                        
                     }else{
                         stopLoading();
                     }
@@ -2608,7 +2860,8 @@ showhelp = function(group) {
                     uploadimage(images,callback);
                 }, options);
             }catch(e){
-                errorlog("UPLOAD IMAGE - 100",e);
+                //errorlog("UPLOAD IMAGE - 100",e);
+                stopLoading();
             }
         }; 
     
@@ -2649,8 +2902,12 @@ showhelp = function(group) {
                     //Errore nel download non cancello l'immagine ma passo alla successiva
                     downloadimage(images,callback);                                         
                 });
-            }catch(e){
-                errorlog("DOWNLOAD IMAGE - 100",e);
+            }catch(e) { 
+                //if(callback){
+                //    callback();
+                //}
+                stopLoading();
+                //errorlog("DOWNLOAD IMAGE - 100",e);
             }
         };        
 	});

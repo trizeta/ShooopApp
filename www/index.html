@@ -13,11 +13,18 @@
         <link rel="stylesheet" href="css/ionicons.css" />
         <link rel="stylesheet" href="http://code.ionicframework.com/ionicons/1.4.1/css/ionicons.min.css">
         <link rel="stylesheet" href="script/dojox/mobile/themes/common/domButtons/DomButtonRedBadge.css" rel="stylesheet"/>
+ 
         
         <style>
             #pull {
               position: absolute;              
-            }  
+            } 
+            
+            .syncbadge{
+                top: -35px;
+                right: 5px;
+            }
+            
               
             body{
                 font-family: "opensans";
@@ -83,7 +90,7 @@
                 height:25px;
                 margin-top:5px;
                 outline:5px solid #1c85c2;
-                margin-right:5px
+                margin-right:5px;                
             }
             
             /* CSS IMMAGINi OFFERTA */
@@ -237,6 +244,10 @@
                 width:80%;
             }
             
+            .mblSimpleDialogText{
+                width: 100%
+            }
+            
             
             .SearchBoxdiv{
                 width:100%;
@@ -325,6 +336,12 @@
               width:100%;
               height:100%;
               z-index:10;             
+            }
+            
+            
+            .mblSimpleDialogButton{
+                width:100px;
+                margin:5px;
             }
                         
             
@@ -419,19 +436,19 @@
                     <!-- HomePage -->
                     <div id="homepage"  data-dojo-type="dojox.mobile.ScrollableView" >                      
                         <ul data-dojo-type="dojox.mobile.IconMenu" style="width:90%;height:300px;margin:5%;background-color:#70c2e3;border:1px solid white" data-dojo-props='cols:2'>
-                            <li data-dojo-type="dojox.mobile.IconMenuItem" class="icon ion-bag size-48"  style="color:white;border-bottom:1px solid white;border-right:1px solid white" data-dojo-props='label:"Offerte", moveTo:"tabPubblicazioni"'></li>
-                            <li data-dojo-type="dojox.mobile.IconMenuItem" class="icon ion-ios7-email-outline size-48" style="color:white;border-bottom:1px solid white;padding-top:5px" data-dojo-props='label:"Messaggi", moveTo:"tabMessaggi"'></li>
-                            <li data-dojo-type="dojox.mobile.IconMenuItem" class="icon ion-android-image size-48" style="color:white;border-bottom:1px solid white;border-right:1px solid white;padding-top:5px" data-dojo-props='label:"Vetrina", moveTo:"tabShowcase" '></li>
-                            <li data-dojo-type="dojox.mobile.IconMenuItem" class="icon ion-calendar size-48"  style="color:white;border-bottom:1px solid white;padding-top:5px" data-dojo-props='label:"Eventi", moveTo:"tabEventi"'></li> 
+                            <li id="iconmenupubblicazioni" data-dojo-type="dojox.mobile.IconMenuItem" class="icon ion-bag size-48"  style="color:white;border-bottom:1px solid white;border-right:1px solid white" data-dojo-props='label:"Offerte", moveTo:"tabPubblicazioni"'>
+                                                            
+                            </li>
+                            <li id="iconmenumessaggi" data-dojo-type="dojox.mobile.IconMenuItem" class="icon ion-ios7-email-outline size-48" style="color:white;border-bottom:1px solid white;padding-top:5px" data-dojo-props='label:"Messaggi", moveTo:"tabMessaggi"'></li>
+                            <li id="iconmenushowcase" data-dojo-type="dojox.mobile.IconMenuItem" class="icon ion-android-image size-48" style="color:white;border-bottom:1px solid white;border-right:1px solid white;padding-top:5px" data-dojo-props='label:"Vetrina", moveTo:"tabShowcase" '></li>
+                            <li id="iconmenueventi" data-dojo-type="dojox.mobile.IconMenuItem" class="icon ion-calendar size-48"  style="color:white;border-bottom:1px solid white;padding-top:5px" data-dojo-props='label:"Eventi", moveTo:"tabEventi"'></li> 
                             
                             <li data-dojo-type="dojox.mobile.IconMenuItem" class="icon ion-log-out size-48" style="color:white;border-right:1px solid white;padding-top:5px" data-dojo-props='label:"Logout",  moveTo:"ViewLogin", onTouchStart:logoutuser'></li>
                             
                             
-                            <li data-dojo-type="dojox.mobile.IconMenuItem" class="icon ion-settings size-48"  style="color:white;padding-top:5px" data-dojo-props='label:"MyApp", moveTo:"tabMyApp"'></li> 
-                            
-                            
-                            
+                            <li data-dojo-type="dojox.mobile.IconMenuItem" class="icon ion-settings size-48"  style="color:white;padding-top:5px" data-dojo-props='label:"MyApp", moveTo:"tabMyApp"'></li>                       
                         </ul>
+                
                     </div>
                                  
         	        <!-- Vista Pubblicazioni -->	
@@ -529,7 +546,7 @@
             					
                 <!-- Form con le configurazioni principali -->
 				<div id="tabMyApp" data-dojo-type="dojox.mobile.ScrollableView" > 
-					<div data-dojo-type="dojox.mobile.EdgeToEdgeList">
+					<!-- <div data-dojo-type="dojox.mobile.EdgeToEdgeList">
                           <div class="fieldset" data-dojo-type="dojox.mvc.Group">
                                 <li data-dojo-type="dojox.mobile.ListItem">  
                                     <label>Ordina Offerte per Stato</label>
@@ -548,7 +565,7 @@
                                     <div class="mblItemSwitch" data-dojo-type="dojox.mobile.Switch" data-dojo-props="value:'off'"></div>
                                 </li>                                
                           </div>
-                    </div>                                    
+                    </div> -->                                    
 				</div>											
 				
                 <div id="detailofferdescription" data-dojo-type="dojox.mobile.FixedView" >
@@ -659,7 +676,6 @@
                 <div id="swapvieweventimage" data-dojo-type="dojox.mobile.ScrollableView" ></div>
             
                 <div id="heading" data-dojo-type="dojox.mobile.Heading" fixed="bottom" style="border-top:2px solid white"></div>
-        		
         </div> 
               
         
