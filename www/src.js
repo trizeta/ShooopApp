@@ -864,7 +864,7 @@ require([
 			});
            
             //TODO DA COMMENTARE PER NATIVA
-            onDeviceReady(); 
+            //onDeviceReady(); 
 	    });
 		
         function onDeviceReady() {
@@ -995,9 +995,23 @@ require([
                 });           
             }catch(e){
                 errorlog("ERROR INIT DB",e);
-            }       
+            } 
+            
+            document.addEventListener("backbutton", onBackKeyDown, false); 
         };
         
+
+
+        onBackKeyDown = function(e){
+           createConfirmation("Sei sicuro di uscire da Shooopapp?", 
+            function(){
+               navigator.app.exitApp(); 
+            }, 
+            function(dlg){
+               dlg.hide();
+               dlg.destroyRecursive(false);         
+            }); 
+        };
 
         //Verifico i dati di syncronizzazione
         controllsync = function() {                                
