@@ -40,13 +40,15 @@ searchoffer = function(store, callback) {
 /* Metodo di Update dell'offerta */
 updateoffer = function(bean,store, callback){
     try{
+        var service = new OfferService(); 
+        bean.id = bean.id.replace("offer", ""); 
         bean.dirty = true;
         bean.deleted = false;
         bean.id = bean.id.replace("offer", ""); 
         if(!bean.state) {
            bean.state = 'D';
-        }    
-        var service = new OfferService();        
+        }   
+                
         service.update(bean, function(){
             var tmp = store.get("offer"+bean.id);
             tmp.label = offerToString(bean);
@@ -60,8 +62,8 @@ updateoffer = function(bean,store, callback){
             //tmp.rightText = offerstateToString(bean);
             tmp.state =  bean.state;
             tmp.price = bean.price;
-	        tmp.buyable = bean.buyable;
-	        tmp.prenotable = bean.prenotable;      
+            tmp.buyable = bean.buyable;
+            tmp.prenotable = bean.prenotable;      
             tmp.merchant_id = bean.merchant_id;
             tmp.last_modified = bean.last_modified;
             tmp.id = "offer"+bean.id;
@@ -70,7 +72,8 @@ updateoffer = function(bean,store, callback){
             if(callback){
                callback();
             }
-        }); 
+        });        
+         
     }catch(e){
         errorlog("UPDATE OFFER - 100",e);
     }
@@ -110,8 +113,8 @@ addoffer = function(bean,store, callback) {
 deleteoffer = function(offer,callback){
     try{
         //Cancello riferimento all'immagine   
-        var service = new Offer_imageService();
-        debuglog("DELETE IMAGE OFFER"+offer);
+        var service = new OfferService();
+        debuglog("DELETE OFFER"+offer);
         service.query("update offer set deleted = 1, dirty = 1 where offer_id = '"+offer.offer_id+"'", callback); 
     }catch(e){
         errorlog("DELETE IMAGE OFFER - 100",e);
@@ -180,6 +183,7 @@ searchcategory = function(store, callback) {
                     bean.header = true;
                 } else {
                     bean.moveTo = "dettaglioPubblicazione";
+                    bean.transitionDir = -1;
                     bean.callback = function() {setCategoryPubblicazione(this)};        
                 }
             }      
@@ -321,6 +325,57 @@ moveImageOffer = function(imageoffer,store,offer,from,to,callback) {
     }
 };
 
+
+getCountSyncOffer = function(callback){
+    try{
+        var service = new OfferService();
+        service.query("select count(*) as countoffer from offer where dirty = 1 and deleted = 0 and merchant_id = '"+user.merchant_id+"'", function(result) {
+            callback(result[0].countoffer);                 
+        },[{name:'countoffer', type:'integer'}]);
+            
+    }catch(e){
+        errorlog("ERRORE COUNT SYNC OFFER - 100",e);
+    }
+};
+
+
+getCountSyncMessage = function(callback){
+    try{
+        var service = new MessageService();
+        service.query("select count(*) as countmessage from message where dirty = 1 and deleted = 0 and merchant_id = '"+user.merchant_id+"'", function(result) {
+            callback(result[0].countmessage);                 
+        },[{name:'countmessage', type:'integer'}]);
+            
+    }catch(e){
+        errorlog("ERRORE COUNT SYNC MESSAGE - 100",e);
+    }
+};
+
+getCountSyncEvent = function(callback){
+    try{
+        var service = new EventService();
+        service.query("select count(*) as countevent from event where dirty = 1 and deleted = 0 and merchant_id = '"+user.merchant_id+"'", function(result) {
+            callback(result[0].countevent);                 
+        },[{name:'countevent', type:'integer'}]);
+            
+    }catch(e){
+        errorlog("ERRORE COUNT SYNC EVENT - 100",e);
+    }
+};
+
+getCountSyncShowcase = function(callback){
+    try{
+        var service = new OfferService();
+        service.query("select count(*) as countshowcase from showcase where dirty = 1 and deleted = 0 and merchant_id = '"+user.merchant_id+"'", function(result) {
+            callback(result[0].countshowcase);                 
+        },[{name:'countshowcase', type:'integer'}]);
+            
+    }catch(e){
+        errorlog("ERRORE COUNT SYNC SHOWCASE - 100",e);
+    }
+};
+
+
 /* Metodo di login */
 retrieveToken = function(token,callback) {
    try{   
@@ -414,8 +469,8 @@ searchmessage = function(store, callback) {
 messageToString = function(bean) {
     try{
         var str = '';
-        if(bean.description.length>100){
-            str = bean.description.substring(0,100)+"....";         
+        if(bean.description.length>30){
+            str = bean.description.substring(0,25)+"....";         
         }else{
             str = bean.description;
         }
@@ -503,7 +558,7 @@ deletemessage = function(message,callback){
     try{
         //Cancello riferimento all'immagine   
         var service = new MessageService();        
-        service.query("update message set deleted = 1 where message_id = '"+message.message_id+"'", callback); 
+        service.query("update message set deleted = 1, dirty= 1 where message_id = '"+message.message_id+"'", callback); 
     }catch(e){
         errorlog("DELETE MESSAGE - 100",e);
     }
@@ -707,7 +762,7 @@ addevento = function(bean,store, callback) {
     try{
         bean.dirty = true;
         bean.deleted = false;
-        bean.state = 'D';
+        bean.state = 'W';
         bean.last_modified = null;
         var service = new EventService();
         service.add(bean, function() {            
@@ -765,7 +820,7 @@ deleteevento = function(evento,callback){
     try{
         //Cancello riferimento all'immagine   
         var service = new EventService();        
-        service.query("update event set deleted = 1 where event_id = '"+evento.event_id+"'", callback); 
+        service.query("update event set deleted = 1, dirty = 1 where event_id = '"+evento.event_id+"'", callback); 
     }catch(e){
         errorlog("DELETE EVENT - 100",e);
     }
@@ -989,6 +1044,45 @@ function getRandomInt(min, max) {
 /*                          METODI DI SINCRONIZZAZIONE                                                *
 /******************************************************************************************************/
 
+
+/**
+* Recupero tutte le offerte,eventi,messaggi, vetrina da sincornizzare (immagini fanno parte dell'offerta)
+*/
+/*
+getCountSyncObject = function(callback){
+    try{
+        alert("QUIIII");
+        var service = new UtenteService();
+        var tot = 5;            
+        service.query("select count(1) as countoffer from offer where dirty = 1", function(result) {
+              service.query("select count(1) as countmessage from message where dirty = 1", function(result) {              
+                    service.query("select count(1) as countevent from event where dirty = 1", function(result) { 
+                        if(result.countevent){
+                            tot += result.countevent; 
+                        }
+                        if(callback){
+                            alert(tot);
+                            callback(tot);
+                        }
+                 },[{name:'countevent', type:'integer'}]);
+                  if(result.countmessage){
+                    tot += result.countmessage;                                               
+                  }
+              },[{name:'countmessage', type:'integer'}]);
+                if(result.countoffer){
+                    tot += result.countoffer;                                               
+                  }
+                
+        },[{name:'countoffer', type:'integer'}]);
+            
+    }catch(e){
+        errorlog("ERRORE COUNT SYNC OBJECT - 100",e);
+    }
+}*/
+
+
+
+
 /**
 * Recupero le immagini di cui fare upload
 */
@@ -1122,7 +1216,7 @@ getTableLastUpdate = function(tables, synctable, callback){
             }else if(table=="showcase_image"){
                 sql += " where showcase_id in (select showcase_id from showcase where merchant_id = '"+user.merchant_id+"')";                
             }else if(table=="event_image"){
-                sql += " and event_id in (select event_id from event where merchant_id = '"+user.merchant_id+"')";                
+                sql += " where event_id in (select event_id from event where merchant_id = '"+user.merchant_id+"')";                
             }
         
             service.query("select max(last_modified) as last_modified from "+table+""+sql, function(result){    

@@ -4,7 +4,6 @@
 user = null;
 debug = false;
 url = "http://app.sh1.it/messaging/rest/";
-//url = "http://192.168.30.121:8080/messaging/rest/";
 urlregister = "http://www.shooopapp.com/attivazione";
 
 //Variabile per la nuova pubblicazone
@@ -865,7 +864,7 @@ require([
 			});
            
             //TODO DA COMMENTARE PER NATIVA
-            //onDeviceReady(); 
+            onDeviceReady(); 
 	    });
 		
         function onDeviceReady() {
@@ -2303,7 +2302,7 @@ showhelp = function(group) {
         syncall = function(){
             startLoading();
             try{
-            synctable(['merchant','message','offer','offer_image','showcase','showcase_image','category','image','event','event_image','credit'], function(){
+            synctable(['merchant','message','offer','offer_image','showcase','showcase_image','category','image','event','event_image','credit','help','help_utente'], function(){
                 controllsync();
                 syncimages(function(){
                     stopLoading();
@@ -2318,9 +2317,9 @@ showhelp = function(group) {
         resettable = function(){
             startLoading();
             try{                
-                resettablefacade(['merchant','message','offer','offer_image','showcase','showcase_image','category','image','image_sync','event','event_image','credit'], function(){
+                resettablefacade(['merchant','message','offer','offer_image','showcase','showcase_image','category','image','image_sync','event','event_image','credit','help','help_utente'], function(){
                     logoutuser();
-                        
+                    stopLoading();                        
                 });               
             }catch(e){
                 errorlog("Errore Sincronizzazione Dati!");
