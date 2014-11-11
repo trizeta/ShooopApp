@@ -573,7 +573,16 @@ deletemessage = function(message,callback){
 getShowcase = function(user,callback){
     try{
         var showcaseservice = new ShowcaseService();
-        showcaseservice.query("select * from showcase where merchant_id = '"+user.merchant_id+"'",callback);       
+        showcaseservice.query("select * from showcase where merchant_id = '"+user.merchant_id+"'",function(results){
+            
+            if(results){
+                for(i=0;i<results.length;i++){
+                    results[i].id = 'message'+results[i].id;
+                }
+            }
+            callback(results);
+        
+        });       
     }catch(e){
         errorlog("GET SHOWCASE - 100",e);
     }
@@ -582,16 +591,28 @@ getShowcase = function(user,callback){
 //Update della vetrina
 updateShowcase = function(bean, callback){
     try{
-        bean.dirty = true;
-        bean.deleted = false;
+        
         var service = new ShowcaseService();
-        service.update(bean, function(){
-            if(callback){
-               callback();
+        bean.id = bean.id.replace("message", ""); 
+        service.get(bean.id, function(beanold){
+            
+            if(beanold.description != bean.description){
+                bean.dirty = true;
+                bean.deleted = false;
+                service.update(bean, function(){
+                    bean.id = 'message'+bean.id;
+                    if(callback){
+                       callback();
+                    }
+                });  
+            }else{
+                if(callback){
+                    callback();
+                }
             }
-        }); 
+        });
     }catch(e){
-        errorlog("UPDATE MESSAGE - 100",e);
+        errorlog("UPDATE SHOWCASE - 100",e);
     }
 };
 
@@ -667,10 +688,10 @@ deleteImageShowcase = function(image_id,showcase,callback){
     try{
         //Cancello riferimento all'immagine   
         var service = new Showcase_imageService();
-        debuglog("DELETE IMAGE SHOWCASE"+offer);
+        debuglog("DELETE IMAGE SHOWCASE"+showcase);
         service.query("update showcase_image set deleted = 1 where image_id = '"+image_id+"' and showcase_id = '"+showcase.showcase_id+"'", callback); 
     }catch(e){
-        errorlog("DELETE IMAGE OFFER - 100",e);
+        errorlog("DELETE IMAGE SHOWCASE - 100",e);
     }
 };
 
@@ -688,13 +709,10 @@ moveImageShowcase = function(image,showcase,from,to,callback){
         }else{
             callback();
         }
-        
-        
     }catch(e){
         errorlog("FACADE - 101",e);
     }
 };
-
 
 /* Recupero le immagini della vetrina */
 getImageShowcase = function(bean,callback) {
@@ -705,9 +723,6 @@ getImageShowcase = function(bean,callback) {
        errorlog("GETIMAGESHOWCASE - 100",e);
    }   
 };
-
-
-
 
 /******************************************************************************************************
 /*                          EVENTI                                                                    *
@@ -762,12 +777,12 @@ addevento = function(bean,store, callback) {
     try{
         bean.dirty = true;
         bean.deleted = false;
-        bean.state = 'W';
+        bean.state = 'D';
         bean.last_modified = null;
         var service = new EventService();
         service.add(bean, function() {            
             bean.id = 'evento'+bean.id;
-            bean.label = eventToString(bean);            
+            bean.label = eventToString(bean);
             bean.moveTo = "dettaglioEvento";
             bean.variableHeight = true;
             bean.class = 'evento_'+bean.state;
@@ -792,6 +807,7 @@ updateevento = function(bean,store, callback){
         service.update(bean, function(){
             try{
                 var tmp = store.get("evento"+bean.id);            
+                tmp.title = bean.title;                
                 tmp.label = eventToString(bean);
                 tmp.description = bean.description;
                 tmp.utente_id = bean.utente_id;
@@ -887,7 +903,7 @@ deleteImageEvento = function(image_id,evento,callback){
     try{
         //Cancello riferimento all'immagine   
         var service = new Event_imageService();
-        debuglog("DELETE IMAGE EVENT"+offer);
+        debuglog("DELETE IMAGE EVENT"+evento);
         service.query("update event_image set deleted = 1 where image_id = '"+image_id+"' and event_id = '"+evento.event_id+"'", callback); 
     }catch(e){
         errorlog("DELETE IMAGE EVENT - 100",e);

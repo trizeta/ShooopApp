@@ -30,7 +30,7 @@
 
 
 ShooopitDBContext = function () {
-    nova.data.DbContext.call(this, "ShoopIt", 2, "ShoopIt", 1000000);
+    nova.data.DbContext.call(this, "ShooopIt", 2, "ShooopIt", 1000000);
     this.logSqls = true;
     this.alertErrors = true;
 	this.app_msg = new nova.data.Repository(this, App_msg, "app_msg");
@@ -899,7 +899,7 @@ EventService.prototype = {
 */
 var Event_image = function () {
     nova.data.Entity.call(this);
-	this.event_image = '';
+	this.event_image_id = '';
 	this.image_id = '';
 	this.event_id = '';
 	this.predefined = false;
@@ -913,7 +913,7 @@ Event_image.prototype = new nova.data.Entity();
 Event_image.constructor = Event_image;
 
 Event_image.prototype.updateFrom = function(bean) {
-	this.event_image = bean.event_image;
+	this.event_image_id = bean.event_image_id;
 	this.image_id = bean.image_id;
 	this.event_id = bean.event_id;
 	this.predefined = bean.predefined;

@@ -574,10 +574,12 @@
                         </textarea>
                 </div>
                     
-                 <div id="dettaglioMessage" data-dojo-type="dojox.mobile.FixedView" >
+                 <div id="dettaglioMessage" data-dojo-type="dojox.mobile.FixedView">
          
                         <textarea data-dojo-type="dojox.mobile.TextArea" id="messagehtmleditor" class="tinyedit" style="width:100%">                
                         </textarea>
+                     
+                        <div id="divmessagedetail" style="display:none;width:100%"></div>
                      
                 </div>
                 
@@ -675,7 +677,7 @@
                 <!-- Image Swap Eventi -->
                 <div id="swapvieweventimage" data-dojo-type="dojox.mobile.ScrollableView" ></div>
             
-                <div id="heading" data-dojo-type="dojox.mobile.Heading" fixed="bottom" style="border-top:2px solid white"></div>
+                <div id="heading" data-dojo-type="dojox.mobile.Heading" style="border-top:2px solid white;position:fixed;bottom:0px;width:100%"></div>
         </div> 
               
         
@@ -705,14 +707,14 @@
         <!-- Date Picker Dialog -->
         <div id="datePicker" data-dojo-type="dojox.mobile.SimpleDialog" data-dojo-props="modal:true" style="width:auto;height:auto">
             <h1 data-dojo-type="dojox.mobile.Heading" label="Seleziona Data"></h1>
-            <div style="text-align:center; vertical-align: middle; width: 100%;">                    
-                <div id="dateSpinner" data-dojo-type="dojox.mobile.SpinWheelDatePicker"  style="margin:0 auto; width:312px"></div>    
+            <div style="text-align:center; vertical-align: middle; width: 100%;" id="dateSpinnerContainer">                    
+                
                 <button  data-dojo-type="dojox.mobile.Button" class="baseBtn mblBlueButton" style="width: 200px;margin-top:20px" onClick="setDateSpinner()">Conferma</button>
             </div>           
         </div>
         
         <!-- Numeric Picker Dialog -->
-        <div id="numericPicker" data-dojo-type="dojox.mobile.SimpleDialog" style="width:225px">
+        <div id="numericPicker" data-dojo-type="dojox.mobile.SimpleDialog" style="width:225px;background-color:white">
             <h1 data-dojo-type="dojox.mobile.Heading"  id="numericPickerLabel"></h1>
                 <div data-dojo-type="dojox.mobile.GridLayout" data-dojo-props="cols:3" style="height:300px">
                     <div data-dojo-type="dojox.mobile.Pane">
