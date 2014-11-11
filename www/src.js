@@ -1283,7 +1283,7 @@ require([
                                 updateoffer(pubblicazione,storepubblicazoni, function(){
                                     
                                     
-                                    if(pubblicazione.state=='P'){
+                                    if(pubblicazione.state=='P' || pubblicazione.state=='M'){
                                         startLoading();
                                         //Effettuo una sincronizzazione delle offerte
                                         synctable(['offer','offer_image','image'], function() {
@@ -1338,7 +1338,7 @@ require([
          pubblicacoffer = function(){
             try {
                 if(pubblicazione.title.length>0){
-                    startLoading();
+                    
                     pubblicazione.state = 'P';
                     registry.byId("dettaglioPubblicazione").performTransition("tabPubblicazioni", -1, "slide");
                     
@@ -1354,7 +1354,7 @@ require([
         unpubblicacoffer = function(){
             try {
                 if(pubblicazione.title.length>0){
-                    startLoading();
+                    
                     pubblicazione.state = 'M';
                     registry.byId("dettaglioPubblicazione").performTransition("tabPubblicazioni", -1, "slide");
                     
@@ -1580,34 +1580,21 @@ require([
                         urlimage = window.rootimages.toURL();
                     }
                     for(i=0;i<images.length;i++) {
+                          
+                        var iconitem = new IconItem({icon:urlimage+images[i].full_path_name, offer_image_id:images[i].offer_image_id, image_id:images[i].image_id, moveTo:'swapviewofferimage', clickable:true, callback:loadswapofferimage});     
                         
-                        //Controllo se esite l'immagine
-                        if(images[i].predefined){
-                            if(window.rootimages){
-                                window.rootimages.getFile(images[i].full_path_name, {create: false, exclusive: false}, function(fileEntry) {
-                                    alert("IMMAGINE");
-                                    registry.byId("imageofferContainer").addChild(new IconItem({icon:urlimage+images[i].full_path_name, offer_image_id:images[i].offer_image_id, image_id:images[i].image_id, moveTo:'swapviewofferimage', clickable:true, callback:loadswapofferimage}),0);
-                                }, function(){
-                                    registry.byId("imageofferContainer").addChild(new IconItem({icon:'img/defaultimg.jpg', offer_image_id:images[i].offer_image_id, image_id:images[i].image_id, moveTo:'swapviewofferimage', clickable:true, callback:loadswapofferimage}),0);                           
-                                });
-                            }else{
-                                    registry.byId("imageofferContainer").addChild(new IconItem({icon:'img/defaultimg.jpg', offer_image_id:images[i].offer_image_id, image_id:images[i].image_id, moveTo:'swapviewofferimage', clickable:true, callback:loadswapofferimage}),0); 
-                            }
-                            
-                        } else {
-                        
-                            
-                            if(window.rootimages){
-                                window.rootimages.getFile(images[i].full_path_name, {create: false, exclusive: false}, function(fileEntry) {
-                                    registry.byId("imageofferContainer").addChild(new IconItem({icon:urlimage+images[i].full_path_name, offer_image_id:images[i].offer_image_id, image_id:images[i].image_id, moveTo:'swapviewofferimage', clickable:true, callback:loadswapofferimage}));
-                                }, function(){
-                                    registry.byId("imageofferContainer").addChild(new IconItem({icon:'img/defaultimg.jpg', offer_image_id:images[i].offer_image_id, image_id:images[i].image_id, moveTo:'swapviewofferimage', clickable:true, callback:loadswapofferimage}));                           
-                                });
-                            }else{
-                                    registry.byId("imageofferContainer").addChild(new IconItem({icon:'img/defaultimg.jpg', offer_image_id:images[i].offer_image_id, image_id:images[i].image_id, moveTo:'swapviewofferimage', clickable:true, callback:loadswapofferimage})); 
-                            }
-                        }
+                         if(images[i].predefined){                   
+                            container.addChild(iconitem,0);
+                         }else{
+                            container.addChild(iconitem);
+                         }
                     } 
+                    
+                    var imgs = query('.mblImageIcon');                    
+                    for(y=0;y<imgs.length;y++){
+                        dojo.connect(imgs[y],'error', function(){this.src = 'img/defaultimg.jpg'});
+                    }
+                    
                 }catch(e){
                     errorlog("LOADOFFERIMAGE - 100",e);
                 }
@@ -1946,16 +1933,15 @@ require([
             getImageShowcase(showcase,function(images){
                 try{
                     for(i=0;i<images.length;i++) { 
-                        
-                        if(window.rootimages){
-                                window.rootimages.getFile(images[i].full_path_name, {create: false, exclusive: false}, function(fileEntry) {
-                                   container.addChild(new IconItem({icon:window.rootimages.toURL()+images[i].full_path_name, image_id:images[i].image_id, moveTo:'swapviewshowcaseimage', clickable:true, callback:loadswapshowcaseimage}));
-                                }, function(){
-                                    container.addChild(new IconItem({icon:'img/defaultimg.jpg', image_id:images[i].image_id, moveTo:'swapviewshowcaseimage', clickable:true, callback:loadswapshowcaseimage}));                                                       });
-                            }else{
-                                container.addChild(new IconItem({icon:'img/defaultimg.jpg', image_id:images[i].image_id, moveTo:'swapviewshowcaseimage', clickable:true, callback:loadswapshowcaseimage})); 
-                            }
+                        var iconitem = new IconItem({icon:window.rootimages.toURL()+images[i].full_path_name, image_id:images[i].image_id, moveTo:'swapviewshowcaseimage', clickable:true, callback:loadswapshowcaseimage});
+                        container.addChild(iconitem);
                     }
+                    
+                    var imgs = query('.mblImageIcon');                    
+                    for(y=0;y<imgs.length;y++){
+                        dojo.connect(imgs[y],'error', function(){this.src = 'img/defaultimg.jpg'});
+                    }
+
                 }catch(e){
                     errorlog("LOADSHOWCASEIMAGE - 100",e);
                 }
@@ -2035,7 +2021,7 @@ require([
                             /* Recupero il servizio di update */                    
                             try{
                                 updateevento(evento,storeeventi, function(){
-                                    if(evento.state=='P'){
+                                    if(evento.state=='P' || evento.state=='M'){
                                         startLoading();
                                         //Effettuo una sincronizzazione delle offerte
                                         synctable(['event','event_image','image'], function() {
@@ -2088,7 +2074,6 @@ require([
         pubblicaevento = function(){
             try {
                 if(evento.title.length>0){
-                    startLoading();
                     evento.state = 'P';
                     salvaevento(function(){
                         registry.byId("dettaglioEvento").performTransition("tabEventi", -1, "slide");
@@ -2106,7 +2091,6 @@ require([
         unpubblicaevento = function(){
             try {
                 if(evento.title.length>0){
-                    startLoading();
                     evento.state = 'M';
                     salvaevento(function(){
                         registry.byId("dettaglioEvento").performTransition("tabEventi", -1, "slide");
@@ -2203,30 +2187,21 @@ require([
                         urlimage = window.rootimages.toURL();
                     }
                     for(i=0;i<images.length;i++) {
-                        if(images[i].predefined){
-                       
-                            if(window.rootimages){
-                                window.rootimages.getFile(images[i].full_path_name, {create: false, exclusive: false}, function(fileEntry) {
-                                    container.addChild(new IconItem({icon:urlimage+images[i].full_path_name, event_image_id:images[i].event_image_id, image_id:images[i].image_id, moveTo:'swapvieweventimage', clickable:true, callback:loadswapeventimage}),0);
-                                }, function(){
-                                    container.addChild(new IconItem({icon:'img/defaultimg.jpg', event_image_id:images[i].event_image_id, image_id:images[i].image_id, moveTo:'swapvieweventimage', clickable:true, callback:loadswapeventimage}),0);                          
-                                });
-                            }else{
-                                    container.addChild(new IconItem({icon:'img/defaultimg.jpg', event_image_id:images[i].event_image_id, image_id:images[i].image_id, moveTo:'swapvieweventimage', clickable:true, callback:loadswapeventimage}),0);
-                            }
-                            
-                        }else{
-                        if(window.rootimages){
-                                window.rootimages.getFile(images[i].full_path_name, {create: false, exclusive: false}, function(fileEntry) {
-                                    container.addChild(new IconItem({icon:urlimage+images[i].full_path_name, event_image_id:images[i].event_image_id, image_id:images[i].image_id, moveTo:'swapvieweventimage', clickable:true, callback:loadswapeventimage}));
-                                }, function(){
-                                    container.addChild(new IconItem({icon:'img/defaultimg.jpg', event_image_id:images[i].event_image_id, image_id:images[i].image_id, moveTo:'swapvieweventimage', clickable:true, callback:loadswapeventimage}));                          
-                                });
-                            }else{
-                                    container.addChild(new IconItem({icon:'img/defaultimg.jpg', event_image_id:images[i].event_image_id, image_id:images[i].image_id, moveTo:'swapvieweventimage', clickable:true, callback:loadswapeventimage}));
-                            }
-                        }
+                                                
+                         var iconitem = new IconItem({icon:urlimage+images[i].full_path_name, event_image_id:images[i].event_image_id, image_id:images[i].image_id, moveTo:'swapvieweventimage', clickable:true, callback:loadswapeventimage});
+                         if(images[i].predefined){
+                             container.addChild(iconitem,0);
+                         }else{
+                            container.addChild(iconitem);
+                         }
                     } 
+                    
+                    var imgs = query('.mblImageIcon');                    
+                    for(y=0;y<imgs.length;y++){
+                        dojo.connect(imgs[y],'error', function(){this.src = 'img/defaultimg.jpg'});
+                    }
+                    
+                    
                 }catch(e){
                     errorlog("LOAD EVENT IMAGE - 100",e);
                 }
@@ -2461,8 +2436,9 @@ showhelp = function(group) {
                 var copytable = new Array();
                 var synctable = new Array();
                 copytable = copytable.concat(tables);
+                setloadingvalue("Sincronizzazione dati in corso");
                 getTableDirty(tables,synctable,function(result){
-                    getTableLastUpdate(copytable,result, function(){   
+                   getTableLastUpdate(copytable,result, function(){   
                         var syncbean = new Object();
                         syncbean.tables = synctable;                    
                         var datajson = json.stringify(syncbean);
@@ -2544,25 +2520,19 @@ showhelp = function(group) {
 		 * Visibile Durante gli accessi al DB
 		 */
 		startLoading = function startLoading(){
-            
+            dom.byId('loadingmessage').innerHTML = "Loading...";
             registry.byId('loading').show();
-            
-            //var prog = ProgressIndicator.getInstance();
-			//dom.byId("ViewApplication").appendChild(prog.domNode);
-		   //prog.start();
-            
-            
-            
-		};
+        };
 		
 		stopLoading = function stopLoading(){
-            
-			//var prog = ProgressIndicator.getInstance();
-			//prog.stop();
-            registry.byId('loading').hide();
-            
-		};	
+             registry.byId('loading').hide();
+        };	
 		
+        setloadingvalue = function(value){
+            dom.byId('loadingmessage').innerHTML = value;
+        }
+
+
 		/**
 		 *  Gestione delle date 
 		 *  Metodi per la gestione delle date tramite DateSpinner
@@ -2966,9 +2936,11 @@ showhelp = function(group) {
             //Recupero le immagini di cui fare upload
             try{
                 getUploadImage(function(uploadimages) {
+                    totimg = uploadimages.length;
                     uploadimage(uploadimages, function(){
                         //Recupero le immagini di cui fare download 
                         getDownloadImage(function(downloadimages){
+                            totimg = downloadimages.length;
                             downloadimage(downloadimages,function(){
                                 if(callback){
                                     callback();        
@@ -2987,6 +2959,8 @@ showhelp = function(group) {
         */
         uploadimage = function(images,callback) {
             try{
+                setloadingvalue("Upload immmagine "+((totimg-images.length)+1)+" di "+totimg);
+                
                 if(images.length==0){
                     callback();
                     return;
@@ -3023,7 +2997,7 @@ showhelp = function(group) {
         */
         downloadimage = function(images,callback){
             try{
-                //alert(images);
+                setloadingvalue("Download immmagine "+((totimg-images.length)+1)+" di "+totimg);
                 if(images.length==0){
                     callback();
                     return;
