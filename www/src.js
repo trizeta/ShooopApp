@@ -1575,9 +1575,9 @@ require([
             container.destroyDescendants();
             getImageOffer(pubblicazione,function(images) {
                 try{
-                    url = "";
+                    urlimage = "";
                     if(window.rootimages){
-                        url = window.rootimages.toURL();
+                        urlimage = window.rootimages.toURL();
                     }
                     for(i=0;i<images.length;i++) {
                         
@@ -1585,12 +1585,13 @@ require([
                         if(images[i].predefined){
                             if(window.rootimages){
                                 window.rootimages.getFile(images[i].full_path_name, {create: false, exclusive: false}, function(fileEntry) {
-                                    container.addChild(new IconItem({icon:url+images[i].full_path_name, offer_image_id:images[i].offer_image_id, image_id:images[i].image_id, moveTo:'swapviewofferimage', clickable:true, callback:loadswapofferimage}),0);
+                                    alert("IMMAGINE");
+                                    registry.byId("imageofferContainer").addChild(new IconItem({icon:urlimage+images[i].full_path_name, offer_image_id:images[i].offer_image_id, image_id:images[i].image_id, moveTo:'swapviewofferimage', clickable:true, callback:loadswapofferimage}),0);
                                 }, function(){
-                                    container.addChild(new IconItem({icon:'img/defaultimg.jpg', offer_image_id:images[i].offer_image_id, image_id:images[i].image_id, moveTo:'swapviewofferimage', clickable:true, callback:loadswapofferimage}),0);                           
+                                    registry.byId("imageofferContainer").addChild(new IconItem({icon:'img/defaultimg.jpg', offer_image_id:images[i].offer_image_id, image_id:images[i].image_id, moveTo:'swapviewofferimage', clickable:true, callback:loadswapofferimage}),0);                           
                                 });
                             }else{
-                                    container.addChild(new IconItem({icon:'img/defaultimg.jpg', offer_image_id:images[i].offer_image_id, image_id:images[i].image_id, moveTo:'swapviewofferimage', clickable:true, callback:loadswapofferimage}),0); 
+                                    registry.byId("imageofferContainer").addChild(new IconItem({icon:'img/defaultimg.jpg', offer_image_id:images[i].offer_image_id, image_id:images[i].image_id, moveTo:'swapviewofferimage', clickable:true, callback:loadswapofferimage}),0); 
                             }
                             
                         } else {
@@ -1598,12 +1599,12 @@ require([
                             
                             if(window.rootimages){
                                 window.rootimages.getFile(images[i].full_path_name, {create: false, exclusive: false}, function(fileEntry) {
-                                    container.addChild(new IconItem({icon:url+images[i].full_path_name, offer_image_id:images[i].offer_image_id, image_id:images[i].image_id, moveTo:'swapviewofferimage', clickable:true, callback:loadswapofferimage}));
+                                    registry.byId("imageofferContainer").addChild(new IconItem({icon:urlimage+images[i].full_path_name, offer_image_id:images[i].offer_image_id, image_id:images[i].image_id, moveTo:'swapviewofferimage', clickable:true, callback:loadswapofferimage}));
                                 }, function(){
-                                    container.addChild(new IconItem({icon:'img/defaultimg.jpg', offer_image_id:images[i].offer_image_id, image_id:images[i].image_id, moveTo:'swapviewofferimage', clickable:true, callback:loadswapofferimage}));                           
+                                    registry.byId("imageofferContainer").addChild(new IconItem({icon:'img/defaultimg.jpg', offer_image_id:images[i].offer_image_id, image_id:images[i].image_id, moveTo:'swapviewofferimage', clickable:true, callback:loadswapofferimage}));                           
                                 });
                             }else{
-                                    container.addChild(new IconItem({icon:'img/defaultimg.jpg', offer_image_id:images[i].offer_image_id, image_id:images[i].image_id, moveTo:'swapviewofferimage', clickable:true, callback:loadswapofferimage})); 
+                                    registry.byId("imageofferContainer").addChild(new IconItem({icon:'img/defaultimg.jpg', offer_image_id:images[i].offer_image_id, image_id:images[i].image_id, moveTo:'swapviewofferimage', clickable:true, callback:loadswapofferimage})); 
                             }
                         }
                     } 
@@ -1623,11 +1624,11 @@ require([
                             try{
                                 var order = registry.byId("imageofferContainer").getChildren().length;
                                 order = order+1;
-                                addImageOffer(pubblicazione,urlimg,order,storepubblicazoni, function(url,beanentry) {
+                                addImageOffer(pubblicazione,urlimg,order,storepubblicazoni, function(urlimage,beanentry) {
                                     try{
                                         /* Aggiungo l'immagine in visualizzazone */
                                         var container = registry.byId("imageofferContainer");
-                                        container.addChild(new IconItem({icon:url, bean:beanentry, moveTo:'swapviewofferimage', clickable:true, callback:loadswapofferimage}));                                
+                                        container.addChild(new IconItem({icon:urlimage, bean:beanentry, moveTo:'swapviewofferimage', clickable:true, callback:loadswapofferimage}));                                
                                     }catch(error){
                                         errorlog("RECUPERO CAMERA - 102",error);
                                     }
@@ -1911,11 +1912,11 @@ require([
                         function(urlimg){
                             try{
                                 var order = registry.byId("imageshowcaseContainer").getChildren().length;
-                                addImageShowcase(showcase,urlimg,order, function(url,beanentry) {
+                                addImageShowcase(showcase,urlimg,order, function(urlimage,beanentry) {
                                     try{
                                         /* Aggiungo l'immagine in visualizzazone */
                                         var container = registry.byId("imageshowcaseContainer");
-                                        container.addChild(new IconItem({icon:url, bean:beanentry, moveTo:'swapviewshowcaseimage', clickable:true, callback:loadswapshowcaseimage}));                                
+                                        container.addChild(new IconItem({icon:urlimage, bean:beanentry, moveTo:'swapviewshowcaseimage', clickable:true, callback:loadswapshowcaseimage}));                                
                                     }catch(error){
                                         errorlog("RECUPERO CAMERA - 102",error);
                                     }
@@ -2197,16 +2198,16 @@ require([
             container.destroyDescendants();
             getImageEvent(evento,function(images) {
                 try{
-                    url = "";
+                    urlimage = "";
                     if(window.rootimages){
-                        url = window.rootimages.toURL();
+                        urlimage = window.rootimages.toURL();
                     }
                     for(i=0;i<images.length;i++) {
                         if(images[i].predefined){
                        
                             if(window.rootimages){
                                 window.rootimages.getFile(images[i].full_path_name, {create: false, exclusive: false}, function(fileEntry) {
-                                    container.addChild(new IconItem({icon:url+images[i].full_path_name, event_image_id:images[i].event_image_id, image_id:images[i].image_id, moveTo:'swapvieweventimage', clickable:true, callback:loadswapeventimage}),0);
+                                    container.addChild(new IconItem({icon:urlimage+images[i].full_path_name, event_image_id:images[i].event_image_id, image_id:images[i].image_id, moveTo:'swapvieweventimage', clickable:true, callback:loadswapeventimage}),0);
                                 }, function(){
                                     container.addChild(new IconItem({icon:'img/defaultimg.jpg', event_image_id:images[i].event_image_id, image_id:images[i].image_id, moveTo:'swapvieweventimage', clickable:true, callback:loadswapeventimage}),0);                          
                                 });
@@ -2217,7 +2218,7 @@ require([
                         }else{
                         if(window.rootimages){
                                 window.rootimages.getFile(images[i].full_path_name, {create: false, exclusive: false}, function(fileEntry) {
-                                    container.addChild(new IconItem({icon:url+images[i].full_path_name, event_image_id:images[i].event_image_id, image_id:images[i].image_id, moveTo:'swapvieweventimage', clickable:true, callback:loadswapeventimage}));
+                                    container.addChild(new IconItem({icon:urlimage+images[i].full_path_name, event_image_id:images[i].event_image_id, image_id:images[i].image_id, moveTo:'swapvieweventimage', clickable:true, callback:loadswapeventimage}));
                                 }, function(){
                                     container.addChild(new IconItem({icon:'img/defaultimg.jpg', event_image_id:images[i].event_image_id, image_id:images[i].image_id, moveTo:'swapvieweventimage', clickable:true, callback:loadswapeventimage}));                          
                                 });
@@ -2242,11 +2243,11 @@ require([
                             try{
                                 var order = registry.byId("imageeventContainer").getChildren().length;
                                 order = order+1;
-                                addImageEvento(evento,urlimg,order, function(url,beanentry) {
+                                addImageEvento(evento,urlimg,order, function(urlimage,beanentry) {
                                     try{
                                         /* Aggiungo l'immagine in visualizzazone */
                                         var container = registry.byId("imageeventContainer");
-                                        container.addChild(new IconItem({icon:url, bean:beanentry, moveTo:'swapvieweventimage', clickable:true, callback:loadswapeventimage}));                                
+                                        container.addChild(new IconItem({icon:urlimage, bean:beanentry, moveTo:'swapvieweventimage', clickable:true, callback:loadswapeventimage}));                                
                                     }catch(error){
                                         errorlog("RECUPERO CAMERA - 102",error);
                                     }
@@ -3028,11 +3029,11 @@ showhelp = function(group) {
                     return;
                 }            
                 var image = images.pop(); 
-                var url = "";
+                var urldownload = "";
                 if(window.rootimages){
-                    url =  window.rootimages.toURL()
+                    urldownload =  window.rootimages.toURL()
                 
-                    fileURI = url+image.full_path_name;
+                    fileURI = urldownload+image.full_path_name;
 
                     //Upload dell'immagine
                     var filetransfer = new FileTransfer();                            
