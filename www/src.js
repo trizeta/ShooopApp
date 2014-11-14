@@ -883,6 +883,11 @@ require([
 	    });
 		
         function onDeviceReady() {
+            try{
+                domStyle.set('sfondo','z-index',-100);
+            }catch(e){
+                errorlog("ERRORE VIEW APP - 101",e);
+            }
             
             try{   
                //Nascondo lo splah screen
@@ -891,11 +896,7 @@ require([
                 errorlog("ERRORE VIEW APP - 100",e);
             }
             
-            try{
-                domStyle.set('sfondo','z-index',-100);
-            }catch(e){
-                errorlog("ERRORE VIEW APP - 101",e);
-            }
+            
                 
             //FIX STATUS BAR IOS
             try{
@@ -2404,7 +2405,7 @@ showhelp = function(group) {
 /*****************************************************************************************************************/
         
         //sincronizzo tutte le tabelle
-        syncall = function(){
+        syncall = function() {
             startLoading();
             try{
             synctable(['merchant','message','offer','offer_image','showcase','showcase_image','category','image','event','event_image','credit','help','help_utente'], function(){
@@ -2415,7 +2416,7 @@ showhelp = function(group) {
             });
             }catch(e){
                 errorlog("Errore Sincronizzazione Dati!");
-            }        
+            }            
         };
 
         //Metodo di reset per debug
@@ -2436,22 +2437,32 @@ showhelp = function(group) {
         */
         synctable = function(tables,callback) {
             try{
-                //Recupero i dati da sincronizzare            
-                var copytable = new Array();
-                var synctable = new Array();
-                copytable = copytable.concat(tables);
-                setloadingvalue("Sincronizzazione dati in corso");
-                getTableDirty(tables,synctable,function(result){
-                   getTableLastUpdate(copytable,result, function(){   
-                        var syncbean = new Object();
-                        syncbean.tables = synctable;                    
-                        var datajson = json.stringify(syncbean);
-                        requestpost(datajson,callback);
-                    });                
-                }); 
+                if(user && user.utente_id=='demo'){
+                    stopLoading();
+                    createMessage("In modalità demo non è possibile sincronizzare i dati!", function(dlgshow){
+                        dlgshow.hide();
+                        dlgshow.destroyDescendants(true);
+                        
+                    });
+                }else{
+                    //Recupero i dati da sincronizzare            
+                    var copytable = new Array();
+                    var synctable = new Array();
+                    copytable = copytable.concat(tables);
+                    setloadingvalue("Sincronizzazione dati in corso");
+                    getTableDirty(tables,synctable,function(result){
+                       getTableLastUpdate(copytable,result, function(){   
+                            var syncbean = new Object();
+                            syncbean.tables = synctable;                    
+                            var datajson = json.stringify(syncbean);
+                            requestpost(datajson,callback);
+                        });                
+                    }); 
+                    
+                }
             }catch(e){
                 if(callback){
-                    callaback();                
+                    callback();                
                 }
             }
         };
