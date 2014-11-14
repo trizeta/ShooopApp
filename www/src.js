@@ -884,21 +884,25 @@ require([
 		
         function onDeviceReady() {
             
+            try{   
+               //Nascondo lo splah screen
+               navigator.splashscreen.hide();                      
+            } catch(e) {
+                errorlog("ERRORE VIEW APP - 100",e);
+            }
+            
+            try{
+                domStyle.set('sfondo','z-index',-100);
+            }catch(e){
+                errorlog("ERRORE VIEW APP - 101",e);
+            }
+                
             //FIX STATUS BAR IOS
             try{
                 StatusBar.overlaysWebView(false);
             }catch(e){
                //Non fa nulla 
             }  
-            
-            try{   
-               domStyle.set('sfondo','z-index',-100);
-               //Nascondo lo splah screen
-               navigator.splashscreen.hide();                      
-            } catch(e) {
-                errorlog("ERRORE VIEW APP - 100",e);
-            }
-                
             
             var devicePlatform = "chrome";
             try{
@@ -2678,9 +2682,9 @@ showhelp = function(group) {
         */
         errorlog = function errorlog(message, e){
             if(e && e.code){
-                alert("ERROR:"+message+" - "+e.code);
+                //alert("ERROR:"+message+" - "+e.code);
             }else{
-                alert("ERROR:"+message+" - "+e);
+                //alert("ERROR:"+message+" - "+e);
             }
             stopLoading();
         }
@@ -2959,7 +2963,7 @@ showhelp = function(group) {
         */
         uploadimage = function(images,callback) {
             try{
-                setloadingvalue("Upload immmagine "+((totimg-images.length)+1)+" di "+totimg);
+                setloadingvalue("Upload immagine "+((totimg-images.length)+1)+" di "+totimg);
                 
                 if(images.length==0){
                     callback();
@@ -2997,7 +3001,7 @@ showhelp = function(group) {
         */
         downloadimage = function(images,callback){
             try{
-                setloadingvalue("Download immmagine "+((totimg-images.length)+1)+" di "+totimg);
+                setloadingvalue("Download immagine "+((totimg-images.length)+1)+" di "+totimg);
                 if(images.length==0){
                     callback();
                     return;
