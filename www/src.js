@@ -906,6 +906,9 @@ require([
                errorlog("ERRORE VIEW APP - 100",e);
             }
             
+            
+          
+            
             var devicePlatform = "chrome";
             try{
                 devicePlatform = device.platform;
