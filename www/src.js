@@ -899,7 +899,6 @@ require([
                 
             try{   
                //Nascondo lo splah screen
-              alert("hide!!");
               navigator.splashscreen.hide();                      
                
             } catch(e) {
