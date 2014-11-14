@@ -883,27 +883,28 @@ require([
 	    });
 		
         function onDeviceReady() {
-            try{
-                domStyle.set('sfondo','z-index',-100);
-            }catch(e){
-                errorlog("ERRORE VIEW APP - 101",e);
-            }
             
-            try{   
-               //Nascondo lo splah screen
-               navigator.splashscreen.hide();                      
-            } catch(e) {
-                errorlog("ERRORE VIEW APP - 100",e);
-            }
-            
-            
-                
             //FIX STATUS BAR IOS
             try{
                 StatusBar.overlaysWebView(false);
             }catch(e){
                //Non fa nulla 
-            }  
+            } 
+                        
+            try{
+                domStyle.set('sfondo','z-index',-100);
+            }catch(e){
+                errorlog("ERRORE VIEW APP - 101",e);
+            }
+                
+            try{   
+               //Nascondo lo splah screen
+              alert("hide!!");
+              navigator.splashscreen.hide();                      
+               
+            } catch(e) {
+               errorlog("ERRORE VIEW APP - 100",e);
+            }
             
             var devicePlatform = "chrome";
             try{
