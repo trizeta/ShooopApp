@@ -54,12 +54,12 @@ updateoffer = function(bean,store, callback){
                 !datecompare(oldbean.date_to,bean.date_to) ||
                 oldbean.price != bean.price ||
                 oldbean.buyable != bean.buyable ||
-                oldbean.prenotable != bean.prenotable
+                oldbean.prenotable != bean.prenotable ||
+                oldbean.state != bean.state
             ){
                 bean.id = id;
                 bean.dirty = true;
                 bean.deleted = false;
-                bean.id = bean.id.replace("offer", ""); 
                 if(!bean.state) {
                    bean.state = 'D';
                 }  

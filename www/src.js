@@ -274,8 +274,7 @@ require([
                back.moveTo = "dettaglioPubblicazione";
                back.transitionDir = -1;
                showheadingbuttons([back]); 
-                domStyle.set('headingoffer', 'display', 'inline');
-               
+               domStyle.set('headingoffer', 'display', 'inline');
 			});
             
             dojo.connect(registry.byId("detailofferdescription"), "onAfterTransitionIn", null, function() {
@@ -300,11 +299,13 @@ require([
                back.moveTo = "dettaglioPubblicazione";
                back.transitionDir = -1;
                showheadingbuttons([back,editingofferimage,newofferimagegallery,newofferimagecamera]);   
-                domStyle.set('headingimage', 'display', 'inline');
+               domStyle.set('headingimage', 'display', 'inline');
+                registry.byId("imageofferContainer").destroyDescendants(false);
 			});
 
             dojo.connect(registry.byId("tabImagePubblicazioni"), "onBeforeTransitionOut", null, function() {
                 domStyle.set('headingimage', 'display', 'none');
+                registry.byId("imageofferContainer").endEdit();
 			});
 
 
@@ -389,10 +390,12 @@ require([
                back.transitionDir = -1;
                showheadingbuttons([back,editingshowcaseimage,newshowcaseimagegallery,newshowcaseimagecamera]);    
                domStyle.set('headingimage', 'display', 'inline');
+                registry.byId("imageshowcaseContainer").destroyDescendants(false);
 			});
             
             dojo.connect(registry.byId("tabImageShowcase"), "onBeforeTransitionOut", null, function() {
                 domStyle.set('headingimage', 'display', 'none');
+                 registry.byId("imageshowcaseContainer").endEdit();
             });
 
             dojo.connect(registry.byId("swapviewshowcaseimage"), "onBeforeTransitionIn", null, function() {
@@ -485,10 +488,12 @@ require([
                back.transitionDir = -1;
                showheadingbuttons([back,editingeventimage,neweventimagegallery,neweventimagecamera]);   
                 domStyle.set('headingimage', 'display', 'inline');
+                registry.byId("imageeventContainer").destroyDescendants(false);
 			});
 
             dojo.connect(registry.byId("tabImageEventi"), "onBeforeTransitionOut", null, function() {
                 domStyle.set('headingimage', 'display', 'none');
+                registry.byId("imageeventContainer").endEdit();
 			});
 
             dojo.connect(registry.byId("swapvieweventimage"), "onBeforeTransitionIn", null, function() {
@@ -601,10 +606,10 @@ require([
             connect.connect(listoffer, "onDeleteItem", null, function(widget){
                 try {                    
                     createConfirmation("Vuoi cancellare "+widget.label+"?",
-                                        function(){
+                                        function(dlgoffer){
                                             startLoading();
-                                            dlg.hide();
-                                            dlg.destroyRecursive(false);
+                                            dlgoffer.hide();
+                                            dlgoffer.destroyRecursive(false);
                                             deleteoffer(widget, function(){
                                                storepubblicazoni.remove(widget.id);
                                                stopLoading();
@@ -777,10 +782,10 @@ require([
             connect.connect(listeventi, "onDeleteItem", null, function(widget){
                 try {                    
                     createConfirmation("Vuoi cancellare "+widget.label+"?",
-                                        function(){
+                                        function(dlghome){
                                             startLoading();
-                                            dlg.hide();
-                                            dlg.destroyRecursive(false);
+                                            dlghome.hide();
+                                            dlghome.destroyRecursive(false);
                                             deleteevento(widget, function(){
                                                storeeventi.remove(widget.id);
                                                stopLoading();
@@ -1585,24 +1590,27 @@ require([
          * 
          */
         loadofferimage = function loadofferimage() {            
-            var container = registry.byId("imageofferContainer");
-            container.destroyDescendants();
+            var imageofferContainer = registry.byId("imageofferContainer");
+            
             getImageOffer(pubblicazione,function(images) {
                 try{
                     urlimage = "";
                     if(window.rootimages){
                         urlimage = window.rootimages.toURL();
                     }
+                                        
                     for(i=0;i<images.length;i++) {
-                          
-                        var iconitem = new IconItem({icon:urlimage+images[i].full_path_name, offer_image_id:images[i].offer_image_id, image_id:images[i].image_id, moveTo:'swapviewofferimage', clickable:true, callback:loadswapofferimage});     
-                        
-                         if(images[i].predefined){                   
-                            container.addChild(iconitem,0);
-                         }else{
-                            container.addChild(iconitem);
-                         }
-                    } 
+                        if(images[i].predefined) {
+                            images.move(i,0);
+                            break;
+                        }
+                    }
+                                    
+                    for(i=0;i<images.length;i++) {
+                        var urlfinalimage = urlimage+images[i].full_path_name;
+                        var iconitem = new IconItem({icon:urlfinalimage, offer_image_id:images[i].offer_image_id, image_id:images[i].image_id, moveTo:'swapviewofferimage', clickable:true, callback:loadswapofferimage});     
+                        imageofferContainer.addChild(iconitem);
+                     } 
                     
                     var imgs = query('.mblImageIcon');                    
                     for(y=0;y<imgs.length;y++){
@@ -1943,9 +1951,16 @@ require([
          */
         loadshowcaseimage = function loadofferimage() {            
             var container = registry.byId("imageshowcaseContainer");
-            container.destroyDescendants();
             getImageShowcase(showcase,function(images){
                 try{
+                    
+                    for(i=0;i<images.length;i++) {
+                        if(images[i].predefined) {
+                            images.move(i,0);
+                            break;
+                        }
+                    }
+                    
                     for(i=0;i<images.length;i++) { 
                         var iconitem = new IconItem({icon:window.rootimages.toURL()+images[i].full_path_name, image_id:images[i].image_id, moveTo:'swapviewshowcaseimage', clickable:true, callback:loadswapshowcaseimage});
                         container.addChild(iconitem);
@@ -2193,28 +2208,30 @@ require([
          */
         loadeventimage = function() {            
             var container = registry.byId("imageeventContainer");
-            container.destroyDescendants();
+            
             getImageEvent(evento,function(images) {
                 try{
                     urlimage = "";
                     if(window.rootimages){
                         urlimage = window.rootimages.toURL();
                     }
+                    
                     for(i=0;i<images.length;i++) {
-                                                
+                        if(images[i].predefined) {
+                            images.move(i,0);
+                            break;
+                        }
+                    }
+                                
+                    for(i=0;i<images.length;i++) {
                          var iconitem = new IconItem({icon:urlimage+images[i].full_path_name, event_image_id:images[i].event_image_id, image_id:images[i].image_id, moveTo:'swapvieweventimage', clickable:true, callback:loadswapeventimage});
-                         if(images[i].predefined){
-                             container.addChild(iconitem,0);
-                         }else{
-                            container.addChild(iconitem);
-                         }
+                         container.addChild(iconitem);
                     } 
                     
                     var imgs = query('.mblImageIcon');                    
                     for(y=0;y<imgs.length;y++){
                         dojo.connect(imgs[y],'error', function(){this.src = 'img/defaultimg.jpg'});
                     }
-                    
                     
                 }catch(e){
                     errorlog("LOAD EVENT IMAGE - 100",e);
@@ -3071,5 +3088,18 @@ showhelp = function(group) {
                 stopLoading();
                 //errorlog("DOWNLOAD IMAGE - 100",e);
             }
-        };        
+        }; 
+
+        Array.prototype.move = function (old_index, new_index) {
+            if (new_index >= this.length) {
+                var k = new_index - this.length;
+                while ((k--) + 1) {
+                    this.push(undefined);
+                }
+            }
+            this.splice(new_index, 0, this.splice(old_index, 1)[0]);
+            return this; // for testing purposes
+        };
+
+
 	});
