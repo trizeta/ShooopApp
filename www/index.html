@@ -486,42 +486,41 @@
                  
                     <!-- Dettaglio dell'annuncio -->
 					<div id="dettaglioPubblicazione"  data-dojo-type="dojox.mobile.ScrollableView" > 					 										 	
-					 	<div data-dojo-type="dojox.mobile.EdgeToEdgeList">
-                                <div class="fieldset" id="item_detailsGroup" data-dojo-type="dojox.mvc.Group">
-                                    <div>
-                                       <textarea id="title" data-dojo-type="dojox/mobile/ExpandingTextArea" class="itemcell" placeholder="Titolo dell'annuncio"></textarea>  
-                                    </div>
+					 	<ul data-dojo-type="dojox.mobile.RoundRectList">
+                            <li data-dojo-type="dojox.mobile.ListItem">
+                                <label>Titolo</label>
+                                <input type="text" style="float:right;height:100%;width:80%;border:none;text-align:right;font-size:17px;font-family:'opensans';font-weight:bold" id="title"></input>
+                            </li>                                       
 
-                                    <ul data-dojo-type="dojox.mobile.EdgeToEdgeList">
-                                        <li id="description" data-dojo-type="dojox.mobile.ListItem" style="height:auto" data-dojo-props="moveTo:'detailofferdescription', callback:sethtmldescriptionoffer"></li>
-                                        <li id="date_from" data-dojo-type="dojox.mobile.ListItem" data-dojo-props="clickable: true">  
-                                            <label>Data Dal</label>
-                                        </li>
-                                        <li id="date_to" data-dojo-type="dojox.mobile.ListItem" data-dojo-props="clickable: true">  
-                                            <label>Data Al</label>
-                                        </li>
-                                        
-                                        <li id="quantity" data-dojo-type="dojox.mobile.ListItem" data-dojo-props="clickable: true">  
-                                            <label>Quantità</label>
-                                        </li>
-                                        <li id="price" data-dojo-type="dojox.mobile.ListItem" data-dojo-props="clickable: true">  
-                                            <label>Prend/Vend</label>
-                                        </li>
-                                        <li id="cat1" data-dojo-type="dojox.mobile.ListItem" data-dojo-props="moveTo:'selectedPicker'">
-                                            <label>Categoria</label>
-                                        </li>
-                                        <li data-dojo-type="dojox.mobile.ListItem">  
-                                            <label>Acquistabile per Corrispondenza</label>
-                                            <div class="mblItemSwitch" id="buyable" data-dojo-type="dojox.mobile.Switch" data-dojo-props="value:'off'"></div>
-                                        </li>
-                                        <li data-dojo-type="dojox.mobile.ListItem">  
-                                            <label>Prenotabile per Ritiro</label>
-                                            <div class="mblItemSwitch" id="prenotable" data-dojo-type="dojox.mobile.Switch" data-dojo-props="value:'off'"></div>
-                                        </li>
-                                    </ul>                                       
-                                </div>				
-						</div>					 	
-				</div> 				
+                            <li id="date_from" data-dojo-type="dojox.mobile.ListItem" data-dojo-props="clickable: true">  
+                                <label>Data Dal</label>
+                            </li>
+                            <li id="date_to" data-dojo-type="dojox.mobile.ListItem" data-dojo-props="clickable: true">  
+                                <label>Data Al</label>
+                            </li>
+
+                            <li id="quantity" data-dojo-type="dojox.mobile.ListItem" data-dojo-props="clickable: true">  
+                                <label>Quantità</label>
+                            </li>
+                            <li id="price" data-dojo-type="dojox.mobile.ListItem" data-dojo-props="clickable: true">  
+                                <label>Prend/Vend</label>
+                            </li>
+                            <li id="cat1" data-dojo-type="dojox.mobile.ListItem" data-dojo-props="moveTo:'selectedPicker'">
+                                <label>Categoria</label>
+                            </li>
+                            <li data-dojo-type="dojox.mobile.ListItem">  
+                                <label>Acquistabile per Corrispondenza</label>
+                                <div class="mblItemSwitch" id="buyable" data-dojo-type="dojox.mobile.Switch" data-dojo-props="value:'off'"></div>
+                            </li>
+                            <li data-dojo-type="dojox.mobile.ListItem">  
+                                <label>Prenotabile per Ritiro</label>
+                                <div class="mblItemSwitch" id="prenotable" data-dojo-type="dojox.mobile.Switch" data-dojo-props="value:'off'"></div>
+                            </li>
+                            <li id="description" data-dojo-type="dojox.mobile.ListItem" style="height:auto;min-height:50px" data-dojo-props="moveTo:'detailofferdescription', callback:sethtmldescriptionoffer">
+                                <label>Descrizione</label>
+                            </li>
+                        </ul>                                       
+                    </div> 				
 				
                 <div id="tabImagePubblicazioni"  data-dojo-type="dojox.mobile.ScrollableView" >
                     <div style="position:absolute; left:5px ;width:120px;text-align:center; height:135px ;background-color:#1c85c2;color:white">
@@ -629,28 +628,26 @@
                          data-dojo-props="store:storeeventi,  editable:true, stateful:true, placeHolder:'Search', filterBoxRef: 'filterBoxEvento'"
                          data-dojo-mixins="dojox.mobile.FilteredListMixin" class="offerlist"></div>			
                 </div>
-            
-            
+                        
                 <!-- Dettaglio Evento -->
                 <div id="dettaglioEvento"  data-dojo-type="dojox.mobile.ScrollableView" > 					 										 	
-					 	<div data-dojo-type="dojox.mobile.EdgeToEdgeList">
-                                <div class="fieldset" data-dojo-type="dojox.mvc.Group">
-                                    <div>
-                                       <textarea id="title_evento" data-dojo-type="dojox/mobile/ExpandingTextArea" class="itemcell" placeholder="Titolo Evento"></textarea>  
-                                    </div>
+					 	<ul data-dojo-type="dojox.mobile.RoundRectList">
+                                
+                            <li data-dojo-type="dojox.mobile.ListItem">
+                                <label>Titolo</label>
+                                <input type="text" style="float:right;height:100%;width:80%;border:none;text-align:right;font-size:17px;font-family:'opensans';font-weight:bold" id="title_evento"></input>
+                            </li> 
+                            <li id="date_from_evento" data-dojo-type="dojox.mobile.ListItem" data-dojo-props="clickable: true">  
+                                <label>Data Dal</label>
+                            </li>
+                            <li id="date_to_evento" data-dojo-type="dojox.mobile.ListItem" data-dojo-props="clickable: true">  
+                                <label>Data Al</label>
+                            </li>                                                                   
+                            <li id="description_evento" data-dojo-type="dojox.mobile.ListItem" style="height:auto" data-dojo-props="moveTo:'detaileventdescription', callback:sethtmldescriptionevento">
+                                <label>Descrizione</label>
+                            </li>
 
-                                    <ul data-dojo-type="dojox.mobile.EdgeToEdgeList">
-                                        <li id="description_evento" data-dojo-type="dojox.mobile.ListItem" style="height:auto" data-dojo-props="moveTo:'detaileventdescription', callback:sethtmldescriptionevento"></li>
-                                        <li id="date_from_evento" data-dojo-type="dojox.mobile.ListItem" data-dojo-props="clickable: true">  
-                                            <label>Data Dal</label>
-                                        </li>
-                                        <li id="date_to_evento" data-dojo-type="dojox.mobile.ListItem" data-dojo-props="clickable: true">  
-                                            <label>Data Al</label>
-                                        </li>                                                                   
-                                                                                
-                                    </ul>                                       
-                                </div>				
-						</div>					 	
+						</ul>					 	
 				</div>
             
                 <div id="detaileventdescription" data-dojo-type="dojox.mobile.FixedView" >
@@ -699,7 +696,7 @@
               
         
         <!-- Simple Dialog Menu -->
-        <div id="menu" data-dojo-type="dojox.mobile.SimpleDialog" data-dojo-props="modal:true,left:0" style="width:250px;height:95%">
+        <div id="menu" data-dojo-type="dojox.mobile.SimpleDialog" data-dojo-props="modal:true,left:0,closeButton:true" style="width:250px;height:95%">
             <div data-dojo-type="dojox.mobile.EdgeToEdgeList">
                  
                         <li data-dojo-type="dojox.mobile.ListItem" data-dojo-props="icon:'mblDomButton ion-ios7-home size-24', label:'Home' , moveTo:'homepage', onTouchStart:closemenu"></li>
@@ -707,15 +704,7 @@
                         <li data-dojo-type="dojox.mobile.ListItem" data-dojo-props="icon:'mblDomButton ion-ios7-email-outline size-24', label:'Messaggi', moveTo:'tabMessaggi', onTouchStart:closemenu"></li>
                         <li data-dojo-type="dojox.mobile.ListItem" data-dojo-props="icon:'mblDomButton ion-android-image size-24', label:'Vetrina',  moveTo:'tabShowcase', onTouchStart:closemenu"></li> 
                         <li data-dojo-type="dojox.mobile.ListItem" data-dojo-props="icon:'mblDomButton ion-calendar size-24', label:'Eventi',  moveTo:'tabEventi', onTouchStart:closemenu"></li>
-                        <!-- li data-dojo-type="dojox.mobile.ListItem" data-dojo-props="icon:'mblDomButton ion-card size-24', label:'Punti',  moveTo:'tabPunti', onTouchStart:closemenu, callback:resetpunti"></li --> 
                         <li data-dojo-type="dojox.mobile.ListItem" data-dojo-props="icon:'mblDomButton ion-settings size-24', label:'MyApp',  moveTo:'tabMyApp', onTouchStart:closemenu"></li>
-                
-                        
-                        
-                
-                
-                
-                
             </div>         
         </div>
     

@@ -71,6 +71,7 @@ require([
     "dojo/dom-geometry",
     "dojo/query",
     "dojox/mobile/SpinWheelDatePicker",
+        "dojox/mobile/Switch",
     "dojo/_base/Deferred",
 	"dojox/mobile/parser",
 	"dojox/mobile",
@@ -87,7 +88,7 @@ require([
 	"dojox/mobile/ToolBarButton",
 	"dojox/mobile/TextBox",
 	"dojox/mobile/TextArea",
-	"dojox/mobile/Switch",
+	
 	"dojox/mobile/Button",
 	"dojox/mobile/EdgeToEdgeStoreList",
     "dojox/mobile/ExpandingTextArea",
@@ -111,7 +112,7 @@ require([
     "dojox/mobile/Badge",
     "dojox/mobile/IconMenuItem"  
 	
-], function(ready, win, domConstruct, Memory, Observable, registry, on, dom,ProgressIndicator,stamp,locale,domStyle,ListItem,array,connect,domClass,ToolBarButton,IconItem,SimpleDialog,Button,SwapView,CarouselItem,Icon,PageIndicator,request,json,CheckBox,domGeometry,query,SpinWheelDatePicker) {
+], function(ready, win, domConstruct, Memory, Observable, registry, on, dom,ProgressIndicator,stamp,locale,domStyle,ListItem,array,connect,domClass,ToolBarButton,IconItem,SimpleDialog,Button,SwapView,CarouselItem,Icon,PageIndicator,request,json,CheckBox,domGeometry,query,SpinWheelDatePicker,Switch) {
 	
 		var dateformat = "dd/MM/yyyy";
         var progoffer, progmessage, progshowcase,progeventi; 
@@ -204,6 +205,12 @@ require([
             domStyle.set('filterBoxCategoryDiv', 'display', 'none');
             domStyle.set('filterBoxEventoDiv', 'display', 'none');
             
+            /** MENU ***/
+            
+            dojo.connect(registry.byId("menu"), "onBlur", null, function(){
+               alert('CLOSEEE');
+            });
+
             /****************************************************************************
             *   Aggiungo il controllo dei bottoni prima della transazione di apertura   *
             *****************************************************************************/                
@@ -1266,7 +1273,7 @@ require([
         salvapubblicazione = function salvapubblicazione(callback){
             try {
                 if(pubblicazione){
-                    pubblicazione.title = registry.byId("title").get("value");
+                    pubblicazione.title = dom.byId("title").value;
                     if(pubblicazione.title.length>0){
                         //startLoading();
 
@@ -1288,27 +1295,27 @@ require([
                         if(pubblicazione.id) {
                             /* Recupero il servizio di update */                    
                             try{                                
-                                updateoffer(pubblicazione,storepubblicazoni, function(){
+                                updateoffer(pubblicazione,storepubblicazoni, function(ismodified){
                                     
-                                    
-                                    if(pubblicazione.state=='P' || pubblicazione.state=='M'){
-                                        startLoading();
-                                        //Effettuo una sincronizzazione delle offerte
-                                        synctable(['offer','offer_image','image'], function() {
-                                                syncimages(function(){
-                                                    //Ricarico i valori
-                                                    searchoffer(storepubblicazoni,function(){                            
-                                                        registry.byId('list').refresh();                            
-                                                        stopLoading();
-                                                    });             
-                                                });               
-                                        });
-                                    }else{
-                                       if(callback){
-                                           callback();
-                                       }    
-                                    }
-                                    
+                                    if(ismodified){
+                                        if(pubblicazione.state=='P' || pubblicazione.state=='M'){
+                                            startLoading();
+                                            //Effettuo una sincronizzazione delle offerte
+                                            synctable(['offer','offer_image','image'], function() {
+                                                    syncimages(function(){
+                                                        //Ricarico i valori
+                                                        searchoffer(storepubblicazoni,function(){                            
+                                                            registry.byId('list').refresh();                            
+                                                            stopLoading();
+                                                        });             
+                                                    });               
+                                            });
+                                        }else{
+                                           if(callback){
+                                               callback();
+                                           }    
+                                        }
+                                    }                          
                                     
                                     
                                     //stopLoading();
@@ -1378,7 +1385,7 @@ require([
         */
         resetFormPubblicazione = function resetFormPubblicazone(){
             try{
-                 registry.byId("title").set("value",'');
+                 dom.byId("title").value = '';
                  registry.byId("description").set('label','');
                  registry.byId("date_from").set("rightText",'');
                  registry.byId("date_to").set("rightText",'');
@@ -1429,7 +1436,7 @@ require([
                 }
                 
                 resetFormPubblicazione();
-                registry.byId("title").set("value",bean.title);
+                dom.byId("title").value = bean.title;
                 if(bean.description){registry.byId("description").set("label",bean.description);}                
                 if(bean.date_from){registry.byId("date_from").set("rightText",locale.format(bean.date_from,{selector: "date", formatLength: "short", datePattern:dateformat}));}
                 if(bean.date_to){registry.byId("date_to").set("rightText",locale.format(bean.date_to,{selector: "date", formatLength: "short", datePattern:dateformat}));}
@@ -1487,21 +1494,20 @@ require([
         deleteofferfunction = function(){
              try {                    
                     createConfirmation("Vuoi cancellare "+pubblicazione.label+"?",
-                                        function(){
+                                        function(dlgdel){
                                             startLoading();
-                                            dlg.hide();
-                                            dlg.destroyRecursive(false);
+                                            dlgdel.hide();
+                                            dlgdel.destroyRecursive(false);
                                             deleteoffer(pubblicazione, function(){
                                                storepubblicazoni.remove(pubblicazione.id);
                                                stopLoading();
                                                pubblicazione = null;
-                                               registry.byId("dettaglioPubblicazione").performTransition("tabPubblicazioni", -1, "slide");  
-                                               
+                                               registry.byId("dettaglioPubblicazione").performTransition("tabPubblicazioni", -1, "slide");                                               
                                             });   
                                         }, 
-                                        function(dlg){
-                                            dlg.hide();
-                                            dlg.destroyRecursive(false);
+                                        function(dlgdel){
+                                            dlgdel.hide();
+                                            dlgdel.destroyRecursive(false);
                                         });                  
                 }catch(e){
                     errorlog("DELETEITEM - 100",e);
@@ -2021,7 +2027,7 @@ require([
         salvaevento = function(callback){
             try {
                if(evento){
-                    evento.title = registry.byId("title_evento").get("value");
+                    evento.title = dom.byId("title_evento").value;
                     if(evento.title.length>0){
                         
                         evento.description = registry.byId("description_evento").get("label");
@@ -2115,7 +2121,7 @@ require([
         */
         resetFormEvento = function(){
             try{
-                 registry.byId("title_evento").set("value",'');
+                 dom.byId("title_evento").value='';
                  registry.byId("description_evento").set('label','');
                  registry.byId("date_from_evento").set("rightText",'');
                  registry.byId("date_to_evento").set("rightText",'');                 
@@ -2159,7 +2165,7 @@ require([
                     showheadingbuttons([unpublicevent,imageevent,back]);
                 }                
                 resetFormEvento();
-                registry.byId("title_evento").set("value",bean.title);
+                dom.byId("title_evento").value=bean.title;
                 if(bean.description){registry.byId("description_evento").set("label",bean.description);}                
                 if(bean.date_from){registry.byId("date_from_evento").set("rightText",locale.format(bean.date_from,{selector: "date", formatLength: "short", datePattern:dateformat}));}
                 if(bean.date_to){registry.byId("date_to_evento").set("rightText",locale.format(bean.date_to,{selector: "date", formatLength: "short", datePattern:dateformat}));}               
@@ -2372,15 +2378,15 @@ showhelp = function(group) {
                                           helpdialog.domNode);
 
                 //Creo il check di non vsualizzazione
-                var check = new CheckBox({style:"float:left"});
-
-
+                //var check = new CheckBox({style:"float:left"});
+                var check = new Switch({style:"float:left", value:"off"});
+                
 
 
                 var yesBtn = new Button({class: "mblSimpleDialogButton mblBlueButton", style:"float:right;width:100px", innerHTML: "OK"});
                 yesBtn.connect(yesBtn.domNode, "click", function(e){
-
-                    if(check.get("value")){
+                    
+                    if(check.get("value") && check.get("value")=='on'){
                         flaghelp(group,function(){
                             helpdialog.hide();
                             helpdialog.destroyRecursive(false);                    
@@ -2392,12 +2398,12 @@ showhelp = function(group) {
                 });
 
                 check.placeAt(helpdialog.domNode);    
-                var mes = domConstruct.create("span",{innerHTML:"Non visualizzare più", class:"notviewlabel"},helpdialog.domNode);
+                var mes = domConstruct.create("span",{innerHTML:" Non visualizzare più", class:"notviewlabel"},helpdialog.domNode);
 
                 yesBtn.placeAt(helpdialog.domNode);    
-
-
+                
                 helpdialog.show(); 
+                check.startup();
             }
         }catch(e){
             errorlog("CREATE MESSAGE - 100",e);
@@ -2696,9 +2702,9 @@ showhelp = function(group) {
         */
         errorlog = function errorlog(message, e){
             if(e && e.code){
-                //alert("ERROR:"+message+" - "+e.code);
+                alert("ERROR:"+message+" - "+e.code);
             }else{
-                //alert("ERROR:"+message+" - "+e);
+                alert("ERROR:"+message+" - "+e);
             }
             stopLoading();
         }

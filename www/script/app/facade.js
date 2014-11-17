@@ -41,44 +41,80 @@ searchoffer = function(store, callback) {
 updateoffer = function(bean,store, callback){
     try{
         var service = new OfferService(); 
-        bean.id = bean.id.replace("offer", ""); 
-        bean.dirty = true;
-        bean.deleted = false;
-        bean.id = bean.id.replace("offer", ""); 
-        if(!bean.state) {
-           bean.state = 'D';
-        }   
+        var id = bean.id.replace("offer", ""); 
+        //Controllo se ci sono stati cambiamenti
+        service.get(id, function(oldbean){
                 
-        service.update(bean, function(){
-            var tmp = store.get("offer"+bean.id);
-            tmp.label = offerToString(bean);
-            tmp.cat_1 = bean.cat_1;
-            tmp.title = bean.title;
-            tmp.description = bean.description;
-            tmp.date_from = bean.date_from;
-            tmp.date_to = bean.date_to;
-            tmp.quantity = bean.quantity;
-            tmp.required = bean.required;
-            //tmp.rightText = offerstateToString(bean);
-            tmp.state =  bean.state;
-            tmp.price = bean.price;
-            tmp.buyable = bean.buyable;
-            tmp.prenotable = bean.prenotable;      
-            tmp.merchant_id = bean.merchant_id;
-            tmp.last_modified = bean.last_modified;
-            tmp.id = "offer"+bean.id;
-            tmp.class = 'offer_'+bean.state;
-            store.put(tmp);            
-            if(callback){
-               callback();
+            if( !oldbean  ||
+                oldbean.title != bean.title ||
+                oldbean.description != bean.description ||
+                oldbean.cat1 != oldbean.cat1 ||
+                oldbean.quantity != oldbean.quantity ||
+                !datecompare(oldbean.date_from,bean.date_from) ||
+                !datecompare(oldbean.date_to,bean.date_to) ||
+                oldbean.price != bean.price ||
+                oldbean.buyable != bean.buyable ||
+                oldbean.prenotable != bean.prenotable
+            ){
+                bean.id = id;
+                bean.dirty = true;
+                bean.deleted = false;
+                bean.id = bean.id.replace("offer", ""); 
+                if(!bean.state) {
+                   bean.state = 'D';
+                }  
+
+                service.update(bean, function(){
+                    var tmp = store.get("offer"+bean.id);
+                    tmp.label = offerToString(bean);
+                    tmp.cat_1 = bean.cat_1;
+                    tmp.title = bean.title;
+                    tmp.description = bean.description;
+                    tmp.date_from = bean.date_from;
+                    tmp.date_to = bean.date_to;
+                    tmp.quantity = bean.quantity;
+                    tmp.required = bean.required;
+                    //tmp.rightText = offerstateToString(bean);
+                    tmp.state =  bean.state;
+                    tmp.price = bean.price;
+                    tmp.buyable = bean.buyable;
+                    tmp.prenotable = bean.prenotable;      
+                    tmp.merchant_id = bean.merchant_id;
+                    tmp.last_modified = bean.last_modified;
+                    tmp.id = "offer"+bean.id;
+                    tmp.class = 'offer_'+bean.state;
+                    store.put(tmp);            
+                    if(callback){
+                       callback(true);
+                    }
+                }); 
+            } else {
+                
+                if(callback){
+                       callback(false);
+                }
             }
-        });        
-         
+        }
+        );
+      
     }catch(e){
         errorlog("UPDATE OFFER - 100",e);
     }
 };
 
+
+datecompare = function(date1, date2){
+
+    if(!date1 && !date2){
+        return true;
+    }
+        
+    if(date1 && date2){
+        return date1.getTime() == date2.getTime();
+    } else {
+        return false
+    }   
+}
 
 
 /* Metodo che aggiunge l'offerta */
