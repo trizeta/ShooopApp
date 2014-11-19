@@ -290,7 +290,7 @@ require([
                 try{                 
                     var htmldesc = getContentEditor("offerhtmleditor");
                     registry.byId("description").set("label",htmldesc); 
-                    pubblicazione.description = html;
+                    pubblicazione.description = htmldesc;
                     salvapubblicazione();
                     
                 }catch(e){
@@ -940,7 +940,7 @@ require([
                        tinymce.init({
                            selector:'textarea#showcasehtmleditor', 
                             statusbar: false,
-                            resize: false,
+                            resize: true,
                             width: "100%",
                             height: '100%',
                             autoresize: true                       
@@ -1109,7 +1109,7 @@ require([
         };
 
         setContentEditorResize = function(id,tabid) {
-            var devicePlatform = "chrome";
+            /*var devicePlatform = "chrome";
             try{
                 devicePlatform = device.platform;
             }catch(e){}
@@ -1145,7 +1145,7 @@ require([
             } else {
                 //WIN 8 FIX  
                 domStyle.set(id, 'height', window.innerHeight-92-109); 
-            }
+            }*/
         };
 
         getContentEditor = function(id) {
@@ -1304,6 +1304,7 @@ require([
                 createMessageValidate("Data 'Al' è obbligatoria");
                 return false;
             }*/
+            return true;
         }
 
 

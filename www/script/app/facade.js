@@ -57,6 +57,7 @@ updateoffer = function(bean,store, callback){
                 oldbean.prenotable != bean.prenotable ||
                 oldbean.state != bean.state
             ){
+              
                 bean.id = id;
                 bean.dirty = true;
                 bean.deleted = false;
