@@ -738,7 +738,7 @@ moveImageShowcase = function(image,showcase,from,to,callback){
         var service = new Showcase_imageService();
         if(to==0){
             service.query("update showcase_image set dirty=1, predefined = 0 where showcase_id = '"+showcase.showcase_id+"'", function(){
-                service.query("update showcase_image set dirty=1, predefined = 1 where showcase_image_id = '"+image.showcase.showcase_id+"'",function(){
+                service.query("update showcase_image set dirty=1, predefined = 1 where showcase_image_id = '"+image.showcase_image_id+"'",function(){
                     callback();                                
                 });              
             });      

@@ -263,10 +263,14 @@ require([
                domStyle.set('headingoffer', 'display', 'inline');
 			});
                             
-            dojo.connect(registry.byId("dettaglioPubblicazione"), "onBeforeTransitionOut", null, function() {
+            dojo.connect(registry.byId("dettaglioPubblicazione"), "onBeforeTransitionOut", null, function(e) {
                 
                 salvapubblicazione(function(){});
-                domStyle.set('headingoffer', 'display', 'none');                
+                    domStyle.set('headingoffer', 'display', 'none');                
+                //}
+                //else{
+                   // e.preventDefault();
+                //}              
             });           
             
             dojo.connect(registry.byId("detailofferdescription"), "onBeforeTransitionIn", null, function() {
@@ -286,6 +290,7 @@ require([
                 try{                 
                     var htmldesc = getContentEditor("offerhtmleditor");
                     registry.byId("description").set("label",htmldesc); 
+                    pubblicazione.description = html;
                     salvapubblicazione();
                     
                 }catch(e){
@@ -349,6 +354,7 @@ require([
                     
             dojo.connect(registry.byId("dettaglioMessage"), "onBeforeTransitionOut", null, function() {
                 //Esco dal dettaglio e salvo il messaggio
+                message.description = getContentEditor("messagehtmleditor"); 
                 savemessage();
                 domStyle.set('headingmessage', 'display', 'none');
           	});
@@ -1272,12 +1278,41 @@ require([
             registry.byId('menu').hide();
         };
       
+        
+        /**
+        * Effettuo una validazione della pubblicazione
+        */
+        validatepubblicazione = function(){
+            
+            /*if(dom.byId("title").value==''){
+                createMessageValidate("Titolo dell'offerta è obbligatorio");
+                return false;
+            }
+            
+            if(pubblicazione.date_from && pubblicazione.date_to){
+                
+                if(pubblicazione.date_from.getTime() > pubblicazione.date_to.getTime()){
+                    createMessageValidate("Data 'Dal' deve essere minore di Data 'Dal'");
+                    return false;
+                }    
+                
+                
+            } else if(!pubblicazione.date_from){
+                createMessageValidate("Data 'Dal' è obbligatoria");
+                return false;
+            }else if(!pubblicazione.date_to){
+                createMessageValidate("Data 'Al' è obbligatoria");
+                return false;
+            }*/
+        }
+
+
         /**
         * Metodo per update della pubblicazione
         */
         salvapubblicazione = function salvapubblicazione(callback){
             try {
-                if(pubblicazione){
+                if(pubblicazione && validatepubblicazione()){
                     pubblicazione.title = dom.byId("title").value;
                     if(pubblicazione.title.length>0){
                         //startLoading();
@@ -1293,17 +1328,13 @@ require([
                         }else{
                             pubblicazione.buyable = 1;
                         }                 
-
-                        //pubblicazione.description = registry.byId("description").get("label");
-
-                        pubblicazione.description = getContentEditor("offerhtmleditor");
+                        
                         if(pubblicazione.id) {
                             /* Recupero il servizio di update */                    
                             try{                                
                                 updateoffer(pubblicazione,storepubblicazoni, function(ismodified){
-                                    
                                     if(ismodified){
-                                        if(pubblicazione.state=='P' || pubblicazione.state=='M'){
+                                        if(pubblicazione.state=='P'){   
                                             startLoading();
                                             //Effettuo una sincronizzazione delle offerte
                                             synctable(['offer','offer_image','image'], function() {
@@ -1315,15 +1346,21 @@ require([
                                                         });             
                                                     });               
                                             });
-                                        }else{
-                                           if(callback){
+                                        }else if(pubblicazione.state=='M'){
+                                            startLoading();
+                                            //Effettuo una sincronizzazione delle offerte
+                                            synctable(['offer','offer_image'], function() {
+                                                searchoffer(storepubblicazoni,function(){                            
+                                                    registry.byId('list').refresh();                            
+                                                    stopLoading();
+                                                });                                              
+                                            });
+                                        } else {
+                                            if(callback){
                                                callback();
-                                           }    
+                                            }    
                                         }
-                                    }                          
-                                    
-                                    
-                                    //stopLoading();
+                                }                          
                                 });
                             }catch(e){
                                     errorlog("SALVAPUBBLICAZIONE - 101",e);   
@@ -1338,14 +1375,16 @@ require([
                                 addoffer(pubblicazione,storepubblicazoni, function(){
                                     if(callback){
                                         callback();
-                                    }
-                                    //stopLoading();
+                                    }                                    
                                 });
                             }catch(e){
                                  errorlog("SALVAPUBBLICAZIONE - 102",e);   
                             }
                         }
                     }
+                    return true;
+                }else{
+                    return false;
                 }
             }catch(e){
                errorlog("SALVAPUBBLICAZIONE - 100",e);   
@@ -1562,10 +1601,10 @@ require([
                         labelconf = labelconf.substring(0,22)+"...";
                     }                 
                     createConfirmation("Vuoi cancellare "+labelconf+"?",
-                                        function(){
+                                        function(dlgevent){
                                             startLoading();
-                                            dlg.hide();
-                                            dlg.destroyRecursive(false);
+                                            dlgevent.hide();
+                                            dlgevent.destroyRecursive(false);
                                             deleteevento(evento, function(){
                                                storeeventi.remove(evento.id);
                                                stopLoading();
@@ -1574,9 +1613,9 @@ require([
                                                
                                             });   
                                         }, 
-                                        function(dlg){
-                                            dlg.hide();
-                                            dlg.destroyRecursive(false);
+                                        function(dlgevent){
+                                            dlgevent.hide();
+                                            dlgevent.destroyRecursive(false);
                                         });                  
                 }catch(e){
                     errorlog("DELETEITEM - 100",e);
@@ -1731,7 +1770,6 @@ require([
             try{
                 if(message){
                     startLoading();
-                    message.description = getContentEditor("messagehtmleditor"); 
                     if(message.id){
                         //update messaggio
                         try{
@@ -1962,7 +2000,7 @@ require([
                     }
                     
                     for(i=0;i<images.length;i++) { 
-                        var iconitem = new IconItem({icon:window.rootimages.toURL()+images[i].full_path_name, image_id:images[i].image_id, moveTo:'swapviewshowcaseimage', clickable:true, callback:loadswapshowcaseimage});
+                        var iconitem = new IconItem({icon:window.rootimages.toURL()+images[i].full_path_name,   showcase_image_id:images[i].showcase_image_id, image_id:images[i].image_id, moveTo:'swapviewshowcaseimage', clickable:true, callback:loadswapshowcaseimage});
                         container.addChild(iconitem);
                     }
                     
@@ -2786,6 +2824,32 @@ showhelp = function(group) {
                 errorlog("CREATE MESSAGE - 100",e);
             }                
         };
+
+        
+        /* Creazione messaggio di validazione */
+        createMessageValidate = function(message) {
+            try{
+        
+                var simpledlg = new SimpleDialog();
+                win.body().appendChild(simpledlg.domNode);
+                var msgBox = domConstruct.create("div",
+                                         {class: "mblSimpleDialogText",
+                                          innerHTML: message},
+                                          simpledlg.domNode);
+
+                var yesBtn = new Button({class: "mblSimpleDialogButton mblBlueButton", innerHTML: "OK"});
+                yesBtn.connect(yesBtn.domNode, "click",function(e){simpledlg.hide();simpledlg.destroyDescendants(false)});
+                yesBtn.placeAt(simpledlg.domNode);         
+
+                simpledlg.show();
+
+                
+            }catch(e){
+                errorlog("CREATE MESSAGE - 100",e);
+            }                
+        };
+
+
         
         /*
         * Login internal
