@@ -259,7 +259,17 @@ require([
                //Distruggo i bottoni e ne creo di nuovi
                back.moveTo = "tabPubblicazioni";
                back.transitionDir = -1;
-               showheadingbuttons([publicoffer,imageoffer,back]);                                          
+                                                        
+               
+               if(pubblicazione){
+                   if(pubblicazione && pubblicazione.state != 'P'){                
+                       showheadingbuttons([publicoffer,imageoffer,deleteofferbutton,back]);   
+                   }else{
+                       showheadingbuttons([unpublicoffer,imageoffer,back]);   
+                   }
+               }else{
+                  showheadingbuttons([publicoffer,imageoffer,back]);
+               }
                domStyle.set('headingoffer', 'display', 'inline');
 			});
                             
@@ -354,8 +364,10 @@ require([
                     
             dojo.connect(registry.byId("dettaglioMessage"), "onBeforeTransitionOut", null, function() {
                 //Esco dal dettaglio e salvo il messaggio
-                message.description = getContentEditor("messagehtmleditor"); 
-                savemessage();
+                if(message){
+                    message.description = getContentEditor("messagehtmleditor"); 
+                    savemessage();
+                }    
                 domStyle.set('headingmessage', 'display', 'none');
           	});
               
@@ -454,7 +466,16 @@ require([
                //Distruggo i bottoni e ne creo di nuovi
                back.moveTo = "tabEventi";
                back.transitionDir = -1;
-               showheadingbuttons([publicevent,imageevent,back]);               
+               if(evento){               
+                   if(evento && evento.state != 'P'){                
+                       showheadingbuttons([publicevent,imageevent,deleteeventbutton,back]);
+                   }else{
+                       showheadingbuttons([unpublicevent,imageevent,back]);
+                   }    
+               }else{
+                   showheadingbuttons([publicevent,imageevent,back]);
+               }
+                
                domStyle.set('headingevent', 'display', 'inline');
 			});
                         
@@ -1769,6 +1790,7 @@ require([
         /* Salva il messaggio */
         savemessage = function(callback){
             try{
+                
                 if(message){
                     startLoading();
                     if(message.id){
@@ -1785,6 +1807,7 @@ require([
                         }                  
                     } else {
                         if(message.description){
+                            
                             //nuovo messaggio
                             var uuid = getUUID();
                             message.message_id = uuid;
@@ -1859,13 +1882,15 @@ require([
         */
         copiamessaggio = function(){
             try{
+
                 startLoading();
+                var olddesc = message.description;
                 //Setto i dati di messaggio
-                var uuid = getUUID();
+
                 message = new Object()
                 message.state = 'W';                
+                message.description = olddesc;
                 savemessage(function(){
-                    
                     //Seleziono il messaggio copiato e risetto il dettaglio
                     setDetailMessage(message);
                                                     
