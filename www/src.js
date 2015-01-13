@@ -3,8 +3,8 @@
 */
 user = null;
 debug = false;
-//url = "http://app.sh1.it/messaging/rest/";
-url = "http://192.168.30.102:8080/messaging/rest/";
+url = "http://app.sh1.it/messaging/rest/";
+//url = "http://192.168.30.102:8080/messaging/rest/";
 urlregister = "http://www.shooopapp.com/attivazione";
 
 //Variabile per la nuova pubblicazone
