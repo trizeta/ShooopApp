@@ -369,20 +369,26 @@
             .inputform{
                 float:right;
                 height:100%;
-                width:auto;
+                width:80%;
                 max-width: 100%;
-                min-width: 50%;
+                min-width: 70%;
                 border:none;
                 text-align:right;
                 font-size:17px;
                 font-family:'opensans';
-                font-weight:bold;            
+                font-weight:bold;  
             }
             
             #homemenu .mblIconMenuItemLabel{
                 font-size:18px;
             }
-              
+            
+            .mblListItem label{
+                width:10%
+            }
+            
+            
+            
             .homeButton{
                 width:90%;
                 height:60px;
@@ -494,28 +500,26 @@
 					 	<ul data-dojo-type="dojox.mobile.RoundRectList">
                                    
 
-                            <li data-dojo-type="dojox.mobile.ListItem" data-dojo-props="clickable: false">  
-                                <label>Regione Sociale:</label>
+                            <li data-dojo-type="dojox.mobile.ListItem" data-dojo-props="clickable: false, label:'Ragione Sociale:'">  
+                                
                                 <input id="reg_ragsoc" type="text" placeholder="Inserisci Ragione Sociale" class="inputform"></input>
                             </li>
                             
-                            <li data-dojo-type="dojox.mobile.ListItem" data-dojo-props="clickable: false">  
-                                <label>P.Iva o C.F.:</label>
+                            <li data-dojo-type="dojox.mobile.ListItem" data-dojo-props="clickable: false, label:'P.Iva o C.F.:'">  
                                 <input id="reg_piva" type="text" placeholder="Inserisci P.Iva o C.F." class="inputform"></input>
                             </li>
 
-                            <li data-dojo-type="dojox.mobile.ListItem" data-dojo-props="clickable: false">  
-                                <label>Nome del negozio:</label>
+                            <li data-dojo-type="dojox.mobile.ListItem" data-dojo-props="clickable: false, label:'Nome del negozio:'">  
+                                
                                 <input id="reg_name" type="text" placeholder="Inserisci nome del negozio" class="inputform"></input>
                             </li>
 
-                            <li data-dojo-type="dojox.mobile.ListItem" data-dojo-props="clickable: false">  
-                                <label>E-mail:</label>
+                            <li data-dojo-type="dojox.mobile.ListItem" data-dojo-props="clickable: false, label:'E-mail:'">  
+                                
                                 <input id="reg_mail" type="text" placeholder="Inserisci e-mail" class="inputform"></input>
                             </li>
 
-                            <li data-dojo-type="dojox.mobile.ListItem" data-dojo-props="clickable: false">  
-                                <label>Indirizzo:</label>
+                            <li data-dojo-type="dojox.mobile.ListItem" data-dojo-props="clickable: false, label:'Indirizzo:'">  
                                 <input id="reg_address" type="text" placeholder="Inserisci indirizzo" class="inputform"></input>
                             </li>
 
@@ -523,8 +527,7 @@
                                 <label>Comune:</label>                               
                             </li>
 
-                            <li data-dojo-type="dojox.mobile.ListItem" data-dojo-props="clickable: false">  
-                                <label>Telefono:</label>
+                            <li data-dojo-type="dojox.mobile.ListItem" data-dojo-props="clickable: false, label:'Telefono:'">  
                                 <input id="reg_phone" type="number" placeholder="Inserisci telefono" class="inputform"></input>
                             </li>
                         </ul>                                       
