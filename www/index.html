@@ -364,6 +364,24 @@
                 width:100px;
                 margin:5px;
             }
+            
+            
+            .inputform{
+                float:right;
+                height:100%;
+                width:auto;
+                max-width: 100%;
+                min-width: 60%;
+                border:none;
+                text-align:right;
+                font-size:17px;
+                font-family:'opensans';
+                font-weight:bold;            
+            }
+            
+            #homemenu .mblIconMenuItemLabel{
+                font-size:18px;
+            }
                         
             
 	   </style>
@@ -392,15 +410,49 @@
     <body>
         <div id="sfondo" src="img/SfondoHome.png"> </div>   
         
+        <!-- Home APP -->
+        <div id="ViewHome"  data-dojo-type="dojox.mobile.View"> 
+        	      
+            <div data-dojo-type="dojox.mobile.Heading" fixed="top" style="border-bottom:2px solid white">
+               
+                <div style="display:inline;align:center;height:90%; padding-top:5px">
+                             <img src="img/logo36.png"></img>
+                             <label style="color:white">Shooopit</label>                           
+                        </div>
+            </div>
+            
+        <div  data-dojo-type="dojox.mobile.ScrollableView"> 
+        
+            <ul id="homemenu" data-dojo-type="dojox.mobile.IconMenu" style="width:90%;height:600px;margin:5%;margin-top:5px;background-color:#70c2e3;border:1px solid white" data-dojo-props='cols:1'>
+                <li data-dojo-type="dojox.mobile.IconMenuItem" style="color:white;border-bottom:1px solid white;border-right:1px solid white" data-dojo-props="label:'<h1>Registrati a Shooopapp</h1>', moveTo:'ViewRegistrazione'">
+                                        
+                </li>
+                
+                
+                 <li data-dojo-type="dojox.mobile.IconMenuItem" style="color:white;border-bottom:1px solid white;border-right:1px solid white" data-dojo-props="label:'<h1>Accedi a Shooopapp</h1>', moveTo:'ViewLogin'">
+                                        
+                </li>
+                
+                 <li data-dojo-type="dojox.mobile.IconMenuItem" style="color:white;border-bottom:1px solid white;border-right:1px solid white" data-dojo-props="label:'<h1>Accedi alla modalità Demo</h1>', moveTo:'ViewApplication', callback: acessdemo">
+                                        
+                </li>
+            </ul>
+            </div>
+        	
+        </div>
+        
+        
+        
     <!-- View di Login -->
         <div id="ViewLogin"  data-dojo-type="dojox.mobile.View"> 
-        	
-           
-            
-            <h1 data-dojo-type="dojox.mobile.Heading" class="mblTabBarTabBar{">
-        		<div id="buttonattiva" data-dojo-type="dojox.mobile.ToolBarButton" onClick="window.open(urlregister, '_system');" style="float:left; color:white;width:100px;text-align:left" >Registrati</div>
-        		<div id="buttondemo" data-dojo-type="dojox.mobile.ToolBarButton" data-dojo-props="moveTo:'ViewApplication', callback: acessdemo" style="float:right; color:white">Demo</div>
-        	</h1>
+        	         
+             <div data-dojo-type="dojox.mobile.Heading" fixed="top" style="border-bottom:2px solid white">
+                <div data-dojo-type="dojox.mobile.ToolBarButton" style="color:white" label="Indietro" data-dojo-props="moveTo:'ViewHome', transitionDir:-1"></div>
+                <div style="display:inline;align:center;height:90%; padding-top:5px">
+                             <img src="img/logo36.png"></img>
+                             <label style="color:white">Shooopit</label>                           
+                        </div>
+            </div>
         	
         	<!-- Immagine Shooopapp -->
         	<div style="clear:left; text-align:center; vertical-align: middle; width: 100%">
@@ -422,8 +474,73 @@
             <div id="output"></div>
         </div>
         
+        <!-- Registrazione -->
+        <div id="ViewRegistrazione"  data-dojo-type="dojox.mobile.View" style="background-color:#FFFEEF;"> 
+            
+            <div data-dojo-type="dojox.mobile.Heading" fixed="top" style="border-bottom:2px solid white">
+                <div id="backregistrazionebutton" data-dojo-type="dojox.mobile.ToolBarButton" style="color:white" label="Indietro" data-dojo-props="moveTo:'ViewHome', transitionDir:-1"></div>
+ 
+                <div style="display:inline;align:center;height:90%; padding-top:5px">
+                             <img src="img/logo36.png"></img>
+                             <label style="color:white">Shooopit</label>                           
+                        </div>
+            </div>
 
-        
+            <div id="viewregistrazioneform" data-dojo-type="dojox.mobile.ScrollableView" > 					 										 	
+					 	<ul data-dojo-type="dojox.mobile.RoundRectList">
+                                   
+
+                            <li data-dojo-type="dojox.mobile.ListItem" data-dojo-props="clickable: false">  
+                                <label>Regione Sociale:</label>
+                                <input id="reg_ragsoc" type="text" placeholder="Inserisci Ragione Sociale" class="inputform"></input>
+                            </li>
+                            
+                            <li data-dojo-type="dojox.mobile.ListItem" data-dojo-props="clickable: false">  
+                                <label>P.Iva o C.F.:</label>
+                                <input id="reg_piva" type="text" placeholder="Inserisci P.Iva o C.F." class="inputform"></input>
+                            </li>
+
+                            <li data-dojo-type="dojox.mobile.ListItem" data-dojo-props="clickable: false">  
+                                <label>Nome del negozio:</label>
+                                <input id="reg_name" type="text" placeholder="Inserisci nome del negozio" class="inputform"></input>
+                            </li>
+
+                            <li data-dojo-type="dojox.mobile.ListItem" data-dojo-props="clickable: false">  
+                                <label>E-mail:</label>
+                                <input id="reg_mail" type="text" placeholder="Inserisci e-mail" class="inputform"></input>
+                            </li>
+
+                            <li data-dojo-type="dojox.mobile.ListItem" data-dojo-props="clickable: false">  
+                                <label>Indirizzo:</label>
+                                <input id="reg_address" type="text" placeholder="Inserisci indirizzo" class="inputform"></input>
+                            </li>
+
+                            <li id="reg_comune" data-dojo-type="dojox.mobile.ListItem" data-dojo-props="clickable: true, moveTo:'viewcomuni'">  
+                                <label>Comune:</label>                               
+                            </li>
+
+                            <li data-dojo-type="dojox.mobile.ListItem" data-dojo-props="clickable: false">  
+                                <label>Telefono:</label>
+                                <input id="reg_phone" type="number" placeholder="Inserisci telefono" class="inputform"></input>
+                            </li>
+                        </ul>                                       
+                    </div>
+
+                <div id="viewcomuni" data-dojo-type="dojox.mobile.ScrollableView" > 
+                        <div class="SearchBoxdiv" id="filterBoxComuniDiv">
+                            <input data-dojo-type="dojox.mobile.SearchBox" data-dojo-props="queryExpr:'*${0}*'"  type="search" id="filterBoxComuni" class="mblFilteredEdgeToEdgeListSearchBox">    
+                        </div>
+                    
+                        <div id="listcomuni" data-dojo-type="dojox.mobile.EdgeToEdgeStoreList" 
+                             data-dojo-props="store:storecomuni, placeHolder:'Search', filterBoxRef: 'filterBoxComuni'"
+                             data-dojo-mixins="dojox.mobile.FilteredListMixin"></div>
+                </div>
+
+
+                <div id="footer" data-dojo-type="dojox.mobile.Heading" style="fixed:bottom;border-top:2px solid white;position:absolute !important;margin:0px;bottom:0px;width:100%;z-index:1">
+                     <div id="registrabutton" data-dojo-type="dojox.mobile.ToolBarButton" style="color:white" onclick="registeruser()" label="Registrati"></div>
+                </div>
+        </div>
         
         <!-- View di Dettaglio a Tab -->
         <div id="ViewApplication"  data-dojo-type="dojox.mobile.View" style="background-color:#FFFEEF;">
@@ -436,7 +553,8 @@
                     </ul>-->
       		    
                     <div id="headingtop" data-dojo-type="dojox.mobile.Heading" fixed="top" style="border-bottom:2px solid white">
-                         <div data-dojo-type="dojox.mobile.ToolBarButton" style="margin-left:-20px" class="icon ion-drag size-36" onClick="openmenu();"></div>
+                         <!-- div data-dojo-type="dojox.mobile.ToolBarButton" style="margin-left:-20px" class="icon ion-drag size-36" onClick="openmenu();"></div -->
+                         <div id="backbutton" data-dojo-type="dojox.mobile.ToolBarButton" style="color:white" label="Indietro" data-dojo-props="moveTo:'ViewHome', transitionDir:-1"></div>
                         
                          <label id="headingshowcase" style="display:none;color:white">Gestione Vetrina</label>
                          <label id="headingmessage" style="display:none;color:white">Gestione Messaggi</label>
@@ -464,7 +582,7 @@
                             <li id="iconmenushowcase" data-dojo-type="dojox.mobile.IconMenuItem" class="icon ion-android-image size-48" style="color:white;border-bottom:1px solid white;border-right:1px solid white;padding-top:5px" data-dojo-props='label:"Vetrina", moveTo:"tabShowcase" '></li>
                             <li id="iconmenueventi" data-dojo-type="dojox.mobile.IconMenuItem" class="icon ion-calendar size-48"  style="color:white;border-bottom:1px solid white;padding-top:5px" data-dojo-props='label:"Eventi", moveTo:"tabEventi"'></li> 
                             
-                            <li data-dojo-type="dojox.mobile.IconMenuItem" class="icon ion-log-out size-48" style="color:white;border-right:1px solid white;padding-top:5px" data-dojo-props='label:"Logout",  moveTo:"ViewLogin", onTouchStart:logoutuser'></li>
+                            <li data-dojo-type="dojox.mobile.IconMenuItem" class="icon ion-log-out size-48" style="color:white;border-right:1px solid white;padding-top:5px" data-dojo-props='label:"Logout",  moveTo:"ViewHome", onTouchStart:logoutuser'></li>
                             
                             
                             <li data-dojo-type="dojox.mobile.IconMenuItem" class="icon ion-settings size-48"  style="color:white;padding-top:5px" data-dojo-props='label:"MyApp", moveTo:"tabMyApp"'></li>                       

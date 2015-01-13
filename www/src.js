@@ -3,8 +3,8 @@
 */
 user = null;
 debug = false;
-url = "http://app.sh1.it/messaging/rest/";
-//url = "http://192.168.30.121:8080/messaging/rest/";
+//url = "http://app.sh1.it/messaging/rest/";
+url = "http://192.168.30.102:8080/messaging/rest/";
 urlregister = "http://www.shooopapp.com/attivazione";
 
 //Variabile per la nuova pubblicazone
@@ -147,56 +147,64 @@ require([
             logout =  {class:"icon ion-log-out size-32", onTouchStart:logoutuser,  style:"float:left"};
             
             //Button Offer
-            imageoffer =  {class:"icon ion-images size-32", moveTo:'tabImagePubblicazioni', callback:loadofferimage, style:"float:right"};
-            editoffer =  {class:"icon ion-edit size-32", onTouchStart:function(){registry.byId("list").startEdit();},style:"float:right"};
-            deleteofferbutton =  {class:"icon ion-trash-a size-32", onTouchStart:function(){deleteofferfunction()},style:"float:right"};
-            uneditoffer =  {class:"icon ion-edit size-32", onTouchStart:function(){registry.byId("list").endEdit();},style:"float:right"};                    
-            newoffer =  {class:"icon ion-ios7-plus-outline size-32", moveTo:'dettaglioPubblicazione', callback:nuovapubblicazione, style:"float:right"};
-            publicoffer =  {class:"icon ion-ios7-cloud-upload-outline size-32", onClick:function(){pubblicacoffer()} , style:"float:right"};
-            unpublicoffer =  {class:"icon ion-ios7-cloud-download-outline size-32", onClick:function(){unpubblicacoffer()} , style:"float:right"};
+            imageoffer =  {/*class:"icon ion-images size-32"*/ label:"Immagini", moveTo:'tabImagePubblicazioni', callback:loadofferimage, style:"float:right"};
+            editoffer =  {/*class:"icon ion-edit size-32"*/ label:"Modifica", onTouchStart:function(){registry.byId("list").startEdit();},style:"float:right"};
+            deleteofferbutton =  {/*class:"icon ion-trash-a size-32"*/ label:"Elimina", onTouchStart:function(){deleteofferfunction()},style:"float:right"};
+            uneditoffer =  {/*class:"icon ion-edit size-32"*/ label:"Fine", onTouchStart:function(){registry.byId("list").endEdit();},style:"float:right"};                    
+            newoffer =  {/*class:"icon ion-ios7-plus-outline size-32"*/ label:'Nuova', moveTo:'dettaglioPubblicazione', callback:nuovapubblicazione, style:"float:right"};
+            publicoffer =  {/*class:"icon ion-ios7-cloud-upload-outline size-32"*/ label:'Pubblica', onClick:function(){pubblicacoffer()} , style:"float:right"};
+            unpublicoffer =  {/*class:"icon ion-ios7-cloud-download-outline size-32"*/ label:'Modifica', onClick:function(){unpubblicacoffer()} , style:"float:right"};
+            saveoffer =  {label:'Salva', onClick:function(){salvapubblicazione(function(){});} , style:"float:left"};
             
-            editingofferimage =  {class:"icon  ion-ios7-compose-outline size-32", onClick:function(){registry.byId("imageofferContainer").startEdit()},style:"float:right"};
-            uneditingofferimage =  {class:"icon  ion-ios7-compose-outline size-32", onClick:function(){registry.byId("imageofferContainer").endEdit()},style:"float:right" };
-            newofferimagegallery =  {class:"icon ion-image size-32", onClick:function(){takepictureoffer(Camera.PictureSourceType.PHOTOLIBRARY)},style:"float:right"};
-            newofferimagecamera =  {class:"icon ion-ios7-camera size-32", onClick:function(){takepictureoffer(Camera.PictureSourceType.CAMERA)},style:"float:right"};
+            editingofferimage =  {/*class:"icon  ion-ios7-compose-outline size-32"*/ label:"Modifica", onClick:function(){registry.byId("imageofferContainer").startEdit()},style:"float:right"};
+            uneditingofferimage =  {/*class:"icon  ion-ios7-compose-outline size-32"*/ label:"Fine", onClick:function(){registry.byId("imageofferContainer").endEdit()},style:"float:right" };
+            newofferimagegallery =  {/*class:"icon ion-image size-32"*/ label:"Gallery", onClick:function(){takepictureoffer(Camera.PictureSourceType.PHOTOLIBRARY)},style:"float:right"};
+            newofferimagecamera =  {/*class:"icon ion-ios7-camera size-32"*/ label:"Camera", onClick:function(){takepictureoffer(Camera.PictureSourceType.CAMERA)},style:"float:right"};
               
             //Message Button
-            newmessage =  {class:"icon ion-ios7-plus-outline size-32", moveTo:'dettaglioMessage', callback:nuovomessaggio, style:"float:right"};
-            copymessage =  {class:"icon ion-ios7-copy-outline size-32", onClick:copiamessaggio, style:"float:right"};
-            sendmessage =  {id:"sendmessageid", class:"icon ion-android-send size-32", onClick:inviamessaggio, style:"float:right"};
-            editmessage =  {class:"icon ion-edit size-32", onTouchStart:function(){registry.byId("listmessage").startEdit();},style:"float:right"};
-            uneditmessage =  {class:"icon ion-edit size-32", onTouchStart:function(){registry.byId("listmessage").endEdit();},style:"float:right"};
-            deletemessagebutton =  {class:"icon ion-trash-a size-32", onTouchStart:function(){deletemessagefunction()},style:"float:right"};
-            
+            newmessage =  {/*class:"icon ion-ios7-plus-outline size-32"*/ label:"Nuovo", moveTo:'dettaglioMessage', callback:nuovomessaggio, style:"float:right"};
+            copymessage =  {/*class:"icon ion-ios7-copy-outline size-32"*/ label:"Copia", onClick:copiamessaggio, style:"float:right"};
+            sendmessage =  {id:"sendmessageid", /*class:"icon ion-android-send size-32"*/ label:"Invia", onClick:inviamessaggio, style:"float:right"};
+            editmessage =  {/*class:"icon ion-edit size-32"*/ label:"Modifica", onTouchStart:function(){registry.byId("listmessage").startEdit();},style:"float:right"};
+            uneditmessage =  {/*class:"icon ion-edit size-32"*/ label:"Fine", onTouchStart:function(){registry.byId("listmessage").endEdit();},style:"float:right"};
+            deletemessagebutton =  {/*class:"icon ion-trash-a size-32"*/ label:"Elimina", onTouchStart:function(){deletemessagefunction()},style:"float:right"};
+            savemessagebutton =  {label:'Salva', onClick:function(){savemessage()} , style:"float:left"};            
+
             //Showcase Button
-            imageshowcase =  {class:"icon ion-images size-32", moveTo:'tabImageShowcase', callback:loadshowcaseimage, style:"float:right"};
-            editingshowcaseimage =  {class:"icon  ion-ios7-compose-outline size-32", onClick:function(){registry.byId("imageshowcaseContainer").startEdit()},style:"float:right"};
-            uneditingshowcaseimage =  {class:"icon  ion-ios7-compose-outline size-32", onClick:function(){registry.byId("imageshowcaseContainer").endEdit()},style:"float:right"};
-            newshowcaseimagegallery =  {class:"icon ion-image size-32", onClick:function(){takepictureshowcase(Camera.PictureSourceType.PHOTOLIBRARY)},style:"float:right"};
-            newshowcaseimagecamera =  {class:"icon ion-ios7-camera size-32", onClick:function(){takepictureshowcase(Camera.PictureSourceType.CAMERA)},style:"float:right"};
+            imageshowcase =  {/*class:"icon ion-images size-32"*/  label:"Immagini", moveTo:'tabImageShowcase', callback:loadshowcaseimage, style:"float:right"};
+            editingshowcaseimage =  {/*class:"icon  ion-ios7-compose-outline size-32"*/ label:"Modifica" , onClick:function(){registry.byId("imageshowcaseContainer").startEdit()},style:"float:right"};
+            uneditingshowcaseimage =  {/*class:"icon  ion-ios7-compose-outline size-32"*/ label:"Fine" , onClick:function(){registry.byId("imageshowcaseContainer").endEdit()},style:"float:right"};
+            newshowcaseimagegallery =  {/*class:"icon ion-image size-32"*/ label:"Gallery", onClick:function(){takepictureshowcase(Camera.PictureSourceType.PHOTOLIBRARY)},style:"float:right"};
+            newshowcaseimagecamera =  {/*class:"icon ion-ios7-camera size-32"*/ label:"Camera", onClick:function(){takepictureshowcase(Camera.PictureSourceType.CAMERA)},style:"float:right"};
+            
+            saveshowcasebutton =  {label:'Salva', onClick:function(){saveshowcase()} , style:"float:left"}; 
+
             
             //Event Button 
-            imageevent =  {class:"icon ion-images size-32", moveTo:'tabImageEventi', callback:loadeventimage, style:"float:right"};
-            editevent =  {class:"icon ion-edit size-32", onTouchStart:function(){registry.byId("listeventi").startEdit();},style:"float:right"};
-            uneditevent =  {class:"icon ion-edit size-32", onTouchStart:function(){registry.byId("listeventi").endEdit();},style:"float:right"};                    
-            newevent =  {class:"icon ion-ios7-plus-outline size-32", moveTo:'dettaglioEvento', callback:nuovoevento, style:"float:right"};
-            publicevent =  {class:"icon ion-ios7-cloud-upload-outline size-32", onClick:function(){pubblicaevento()} , style:"float:right"};
-            unpublicevent =  {class:"icon ion-ios7-cloud-download-outline size-32", onClick:function(){unpubblicaevento()} , style:"float:right"};
-            editingeventimage =  {class:"icon  ion-ios7-compose-outline size-32", onClick:function(){registry.byId("imageeventContainer").startEdit()},style:"float:right"};
-            uneditingeventimage =  {class:"icon  ion-ios7-compose-outline size-32", onClick:function(){registry.byId("imageeventContainer").endEdit()},style:"float:right" };
-            neweventimagegallery =  {class:"icon ion-image size-32", onClick:function(){takepictureevento(Camera.PictureSourceType.PHOTOLIBRARY)},style:"float:right"};
-            neweventimagecamera =  {class:"icon ion-ios7-camera size-32", onClick:function(){takepictureevento(Camera.PictureSourceType.CAMERA)},style:"float:right"};   
-            deleteeventbutton =  {class:"icon ion-trash-a size-32", onTouchStart:function(){deleteeventfunction()},style:"float:right"};
+            imageevent =  {/*lass:"icon ion-images size-32"*/ label:"Immagini", moveTo:'tabImageEventi', callback:loadeventimage, style:"float:right"};
+            editevent =  {/*class:"icon ion-edit size-32"*/label:"Modifica", onTouchStart:function(){registry.byId("listeventi").startEdit();},style:"float:right"};
+            uneditevent =  {/*class:"icon ion-edit size-32"*/ label:"Fine", onTouchStart:function(){registry.byId("listeventi").endEdit();},style:"float:right"};                    
+            newevent =  {/*class:"icon ion-ios7-plus-outline size-32"*/ label:"Nuovo", moveTo:'dettaglioEvento', callback:nuovoevento, style:"float:right"};
+            publicevent =  {/*class:"icon ion-ios7-cloud-upload-outline size-32"*/ label:"Pubblica", onClick:function(){pubblicaevento()} , style:"float:right"};
+            unpublicevent =  {/*class:"icon ion-ios7-cloud-download-outline size-32"*/ label:"Modifica", onClick:function(){unpubblicaevento()} , style:"float:right"};
+            editingeventimage =  {/*class:"icon  ion-ios7-compose-outline size-32"*/ label:"Modifica", onClick:function(){registry.byId("imageeventContainer").startEdit()},style:"float:right"};
+            uneditingeventimage =  {/*class:"icon  ion-ios7-compose-outline size-32"*/ label:"Fine", onClick:function(){registry.byId("imageeventContainer").endEdit()},style:"float:right" };
+            neweventimagegallery =  {/*class:"icon ion-image size-32"*/ label:"Gallery", onClick:function(){takepictureevento(Camera.PictureSourceType.PHOTOLIBRARY)},style:"float:right"};
+            neweventimagecamera =  {/*class:"icon ion-ios7-camera size-32"*/ label:"Camera", onClick:function(){takepictureevento(Camera.PictureSourceType.CAMERA)},style:"float:right"};   
+            deleteeventbutton =  {/*class:"icon ion-trash-a size-32"*/ label:"Elimina", onTouchStart:function(){deleteeventfunction()},style:"float:right"};
             
+            saveeventbutton = {label:'Salva', onClick:function(){salvaevento()} , style:"float:left"}; 
+
+
             //HomePAge Sync
-            syncallbutton =  {id:"syncallbutton", class:"icon ion-loop size-32", onTouchStart:function(){syncall();} , style:"float:right"};
+            syncallbutton =  {id:"syncallbutton", label:"Aggiorna", onTouchStart:function(){syncall();} , style:"float:right;width:100px"};
 
             //Punti Button
             salvapunti =  {class:"icon ion-images size-32",  onTouchStart:savepunti, style:"float:right"};
     
             //Immagine di test
             sync =  {class:"icon ion-ios7-refresh-empty size-32", onTouchStart:function(){syncall();},style:"float:right"};
-            reset =  {class:"icon ion-alert-circled size-32", onTouchStart:function(){resettable();},style:"float:right"};   
+            reset =  {/*class:"icon ion-alert-circled size-32"*/ label:"Reset", onTouchStart:function(){resettable();},style:"float:right"};   
                   
             
             //Nascondo i search
@@ -208,29 +216,31 @@ require([
             /** MENU ***/
             
             dojo.connect(registry.byId("menu"), "onBlur", null, function(){
-               alert('CLOSEEE');
+               //alert('CLOSEEE');
             });
 
             /****************************************************************************
             *   Aggiungo il controllo dei bottoni prima della transazione di apertura   *
             *****************************************************************************/                
             dojo.connect(registry.byId("ViewApplication"), "onBeforeTransitionIn", null, function(){
-               domStyle.set('headinghome', 'display', 'inline');     
+               domStyle.set('headinghome', 'display', 'inline');
+               domStyle.set('backbutton', 'display', 'none'); 
                showheadingbuttons([syncallbutton]);
             });
 
             dojo.connect(registry.byId("homepage"), "onBeforeTransitionIn", null, function(){
                 domStyle.set('headinghome', 'display', 'inline');               
-                showheadingbuttons([syncallbutton]);
-                
+                showheadingbuttons([syncallbutton]);                
                 //Setto i badge
                 controllsync();
+                domStyle.set('backbutton', 'display', 'none'); 
                 
             });    
 
             dojo.connect(registry.byId("homepage"), "onBeforeTransitionOut", null, function(){
                 showheadingbuttons([]);
-                domStyle.set('headinghome', 'display', 'none');               
+                domStyle.set('headinghome', 'display', 'none');     
+                 domStyle.set('backbutton', 'display', 'inline'); 
             });
 
             dojo.connect(registry.byId("ViewLogin"), "onAfterTransitionOut", null, function(){
@@ -240,54 +250,53 @@ require([
             /***************************************** OFFERTE **************************************************/
 
 			dojo.connect(registry.byId("tabPubblicazioni"), "onBeforeTransitionIn", null, function() {
-				  actualfilterid = 'filterBoxOfferDiv';
-                back.moveTo = "homepage";
-                back.transitionDir = -1;
-                showheadingbuttons([newoffer,back]);
+				actualfilterid = 'filterBoxOfferDiv';
+                showheadingbuttons([newoffer]);
                 //Controllo HELP
                 showhelp("OFFER");
                 domStyle.set('headingoffer', 'display', 'inline');
+                registry.byId("backbutton").moveTo = "homepage";
+                                
             });
             
             dojo.connect(registry.byId("tabPubblicazioni"), "onBeforeTransitionOut", null, function() {
                 domStyle.set('filterBoxOfferDiv', 'display', 'none');
                 actualfilterid = null;
                 domStyle.set('headingoffer', 'display', 'none');
+                
 			});
 		
 			dojo.connect(registry.byId("dettaglioPubblicazione"), "onBeforeTransitionIn", null, function() {
                //Distruggo i bottoni e ne creo di nuovi
-               back.moveTo = "tabPubblicazioni";
-               back.transitionDir = -1;
-                                                        
-               
+               //back.moveTo = "tabPubblicazioni";
+               //back.transitionDir = -1;
+               registry.byId("backbutton").moveTo = "tabPubblicazioni";                                
                if(pubblicazione){
                    if(pubblicazione && pubblicazione.state != 'P'){                
-                       showheadingbuttons([publicoffer,imageoffer,deleteofferbutton,back]);   
+                       showheadingbuttons([publicoffer,imageoffer,deleteofferbutton,saveoffer]);   
                    }else{
-                       showheadingbuttons([unpublicoffer,imageoffer,back]);   
+                       showheadingbuttons([unpublicoffer,imageoffer]);   
                    }
                }else{
-                  showheadingbuttons([publicoffer,imageoffer,back]);
+                  showheadingbuttons([publicoffer,imageoffer,saveoffer]);
                }
                domStyle.set('headingoffer', 'display', 'inline');
 			});
                             
             dojo.connect(registry.byId("dettaglioPubblicazione"), "onBeforeTransitionOut", null, function(e) {
-                
-                salvapubblicazione(function(){});
-                    domStyle.set('headingoffer', 'display', 'none');                
-                //}
-                //else{
-                   // e.preventDefault();
-                //}              
+                //salvapubblicazione(function(){});
+                domStyle.set('headingoffer', 'display', 'none');    
+                if(pubblicazione.offer_id){
+                    loadofferbyId(storepubblicazoni,pubblicazione.offer_id,function(){});
+                }            
             });           
             
             dojo.connect(registry.byId("detailofferdescription"), "onBeforeTransitionIn", null, function() {
                //Distruggo i bottoni e ne creo di nuovi
-               back.moveTo = "dettaglioPubblicazione";
-               back.transitionDir = -1;
-               showheadingbuttons([back]); 
+               //back.moveTo = "dettaglioPubblicazione";
+               //back.transitionDir = -1;
+               registry.byId("backbutton").moveTo = "dettaglioPubblicazione";
+               showheadingbuttons([]); 
                domStyle.set('headingoffer', 'display', 'inline');
 			});
             
@@ -301,8 +310,7 @@ require([
                     var htmldesc = getContentEditor("offerhtmleditor");
                     registry.byId("description").set("label",htmldesc); 
                     pubblicazione.description = htmldesc;
-                    salvapubblicazione();
-                    
+                    //salvapubblicazione();                    
                 }catch(e){
                     errorlog("SETTING HTML VALUE",e);
                 }
@@ -311,11 +319,12 @@ require([
             
             dojo.connect(registry.byId("tabImagePubblicazioni"), "onBeforeTransitionIn", null, function() {
                //Distruggo i bottoni e ne creo di nuovi
-               back.moveTo = "dettaglioPubblicazione";
-               back.transitionDir = -1;
-               showheadingbuttons([back,editingofferimage,newofferimagegallery,newofferimagecamera]);   
+               //back.moveTo = "dettaglioPubblicazione";
+               //back.transitionDir = -1;
+               registry.byId("backbutton").moveTo = "dettaglioPubblicazione";
+               showheadingbuttons([editingofferimage,newofferimagegallery,newofferimagecamera]);   
                domStyle.set('headingimage', 'display', 'inline');
-                registry.byId("imageofferContainer").destroyDescendants(false);
+               registry.byId("imageofferContainer").destroyDescendants(false);
 			});
 
             dojo.connect(registry.byId("tabImagePubblicazioni"), "onBeforeTransitionOut", null, function() {
@@ -326,9 +335,10 @@ require([
 
             dojo.connect(registry.byId("swapviewofferimage"), "onBeforeTransitionIn", null, function() {
                //Distruggo i bottoni e ne creo di nuovi
-               back.moveTo = "tabImagePubblicazioni";
-               back.transitionDir = -1;
-               showheadingbuttons([back]);               
+               //back.moveTo = "tabImagePubblicazioni";
+               //back.transitionDir = -1;
+                registry.byId("backbutton").moveTo = "tabImagePubblicazioni";
+                showheadingbuttons([]);               
 			});
 
 
@@ -336,9 +346,10 @@ require([
             		
 			dojo.connect(registry.byId("tabMessaggi"), "onBeforeTransitionIn", null, function() {
                 actualfilterid = 'filterBoxMessageDiv'; 
-                back.moveTo = "homepage";
-                back.transitionDir = -1;
-                showheadingbuttons([newmessage,back]); 
+                //back.moveTo = "homepage";
+                //back.transitionDir = -1;
+                registry.byId("backbutton").moveTo = "homepage";
+                showheadingbuttons([newmessage]); 
                 showhelp("MESSAGE");
                 domStyle.set('headingmessage', 'display', 'inline');
                                
@@ -350,9 +361,10 @@ require([
             });
                 
             dojo.connect(registry.byId("dettaglioMessage"), "onBeforeTransitionIn", null, function(bean) {
-                back.moveTo = "tabMessaggi";
-                back.transitionDir = -1;
-                showheadingbuttons([back,sendmessage,copymessage]);    
+                //back.moveTo = "tabMessaggi";
+                //back.transitionDir = -1;
+                registry.byId("backbutton").moveTo = "tabMessaggi";
+                //showheadingbuttons([savemessagebutton,sendmessage,copymessage]);    
                 domStyle.set('headingmessage', 'display', 'inline');
                
           	});
@@ -364,10 +376,10 @@ require([
                     
             dojo.connect(registry.byId("dettaglioMessage"), "onBeforeTransitionOut", null, function() {
                 //Esco dal dettaglio e salvo il messaggio
-                if(message){
-                    message.description = getContentEditor("messagehtmleditor"); 
-                    savemessage();
-                }    
+                //if(message){
+                   
+                    //savemessage();
+                //}    
                 domStyle.set('headingmessage', 'display', 'none');
           	});
               
@@ -376,10 +388,10 @@ require([
 			dojo.connect(registry.byId("tabShowcase"), "onBeforeTransitionIn", null, function() {
                 try{
                     domStyle.set('headingshowcase', 'display', 'inline');   
-                    back.moveTo = "homepage";
-                    back.transitionDir = -1;
-                    
-                    showheadingbuttons([imageshowcase,back]);
+                    //back.moveTo = "homepage";
+                    //back.transitionDir = -1;
+                    registry.byId("backbutton").moveTo = "homepage";
+                    showheadingbuttons([imageshowcase,saveshowcasebutton]);
                     setContentEditorResize("showcasehtmleditor",'tabShowcase');
                     showhelp("SHOWCASE");
                 }catch(e){
@@ -390,8 +402,7 @@ require([
             dojo.connect(registry.byId("tabShowcase"), "onBeforeTransitionIn", null, function() {
                 try{
                     if(showcase && showcase.description) {
-                        setContentEditor("showcasehtmleditor",showcase.description);
-                                               
+                        setContentEditor("showcasehtmleditor",showcase.description);                                               
                     }
                 }catch(e){
                     errorlog("SHOWCASE ERROR TRANSITION IN",e);
@@ -404,11 +415,12 @@ require([
             
             dojo.connect(registry.byId("tabImageShowcase"), "onBeforeTransitionIn", null, function() {
                //Distruggo i bottoni e ne creo di nuovi
-               back.moveTo = "tabShowcase";
-               back.transitionDir = -1;
-               showheadingbuttons([back,editingshowcaseimage,newshowcaseimagegallery,newshowcaseimagecamera]);    
+               //back.moveTo = "tabShowcase";
+               //back.transitionDir = -1;
+               registry.byId("backbutton").moveTo = "tabShowcase";
+               showheadingbuttons([editingshowcaseimage,newshowcaseimagegallery,newshowcaseimagecamera]);    
                domStyle.set('headingimage', 'display', 'inline');
-                registry.byId("imageshowcaseContainer").destroyDescendants(false);
+               registry.byId("imageshowcaseContainer").destroyDescendants(false);
 			});
             
             dojo.connect(registry.byId("tabImageShowcase"), "onBeforeTransitionOut", null, function() {
@@ -418,12 +430,13 @@ require([
 
             dojo.connect(registry.byId("swapviewshowcaseimage"), "onBeforeTransitionIn", null, function() {
                //Distruggo i bottoni e ne creo di nuovi
-               back.moveTo = "tabImageShowcase";
-               back.transitionDir = -1;
-               showheadingbuttons([back]);               
+               //back.moveTo = "tabImageShowcase";
+               //back.transitionDir = -1;
+               registry.byId("backbutton").moveTo = "tabImageShowcase";
+               showheadingbuttons([]);               
 			});
             
-            dojo.connect(registry.byId("tabShowcase"), "onBeforeTransitionOut", null, function(){
+            /*dojo.connect(registry.byId("tabShowcase"), "onBeforeTransitionOut", null, function(){
 				//Salvo la vetrina
                 if(showcase){
                     startLoading();
@@ -443,16 +456,17 @@ require([
                         });
                     }    
                 }
-			});
+			});*/
 
             /***************************************** EVENTI **************************************************/
 
 			dojo.connect(registry.byId("tabEventi"), "onBeforeTransitionIn", null, function() {
 				//Visualizzo il Search Box                
                 actualfilterid = 'filterBoxEventoDiv';   
-                back.moveTo = "homepage";
-                back.transitionDir = -1;
-                showheadingbuttons([newevent,back]);    
+                //back.moveTo = "homepage";
+                //back.transitionDir = -1;
+                registry.byId("backbutton").moveTo = "homepage";
+                showheadingbuttons([newevent]);    
                 showhelp("EVENT");
                 domStyle.set('headingevent', 'display', 'inline');
 			});
@@ -464,31 +478,35 @@ require([
 		
 			dojo.connect(registry.byId("dettaglioEvento"), "onBeforeTransitionIn", null, function() {
                //Distruggo i bottoni e ne creo di nuovi
-               back.moveTo = "tabEventi";
-               back.transitionDir = -1;
+               //back.moveTo = "tabEventi";
+               //back.transitionDir = -1;
+               registry.byId("backbutton").moveTo = "tabEventi";
                if(evento){               
                    if(evento && evento.state != 'P'){                
-                       showheadingbuttons([publicevent,imageevent,deleteeventbutton,back]);
+                       showheadingbuttons([publicevent,imageevent,deleteeventbutton,saveeventbutton]);
                    }else{
-                       showheadingbuttons([unpublicevent,imageevent,back]);
+                       showheadingbuttons([unpublicevent,imageevent]);
                    }    
                }else{
-                   showheadingbuttons([publicevent,imageevent,back]);
+                   showheadingbuttons([publicevent,imageevent,saveeventbutton]);
                }
                 
                domStyle.set('headingevent', 'display', 'inline');
 			});
                         
             dojo.connect(registry.byId("dettaglioEvento"), "onBeforeTransitionOut", null, function() {
-                salvaevento();
-                domStyle.set('headingevent', 'display', 'none');                
+                domStyle.set('headingevent', 'display', 'none');   
+                if(evento.event_id){
+                    loadeventibyid(storeeventi,evento.event_id,function(){});
+                }
             });           
             
             dojo.connect(registry.byId("detaileventdescription"), "onBeforeTransitionIn", null, function() {
                //Distruggo i bottoni e ne creo di nuovi
-               back.moveTo = "dettaglioEvento";
-               back.transitionDir = -1;
-               showheadingbuttons([back]); 
+               //back.moveTo = "dettaglioEvento";
+               //back.transitionDir = -1;
+               registry.byId("backbutton").moveTo = "dettaglioEvento";
+               showheadingbuttons([]); 
                domStyle.set('headingevent', 'display', 'inline');
 			});
 
@@ -501,8 +519,6 @@ require([
                 try{
                     var htmldesc = getContentEditor("eventhtmleditor");
                     registry.byId("description_evento").set("label",htmldesc); 
-                    salvaevento();
-                    
                 }catch(e){
                     errorlog("SETTING HTML VALUE",e);
                 }
@@ -511,9 +527,10 @@ require([
             
             dojo.connect(registry.byId("tabImageEventi"), "onBeforeTransitionIn", null, function() {
                //Distruggo i bottoni e ne creo di nuovi
-               back.moveTo = "dettaglioEvento";
-               back.transitionDir = -1;
-               showheadingbuttons([back,editingeventimage,neweventimagegallery,neweventimagecamera]);   
+               //back.moveTo = "dettaglioEvento";
+               //back.transitionDir = -1;
+               registry.byId("backbutton").moveTo = "dettaglioEvento";
+               showheadingbuttons([editingeventimage,neweventimagegallery,neweventimagecamera]);   
                 domStyle.set('headingimage', 'display', 'inline');
                 registry.byId("imageeventContainer").destroyDescendants(false);
 			});
@@ -525,9 +542,10 @@ require([
 
             dojo.connect(registry.byId("swapvieweventimage"), "onBeforeTransitionIn", null, function() {
                //Distruggo i bottoni e ne creo di nuovi
-               back.moveTo = "tabImageEventi";
-               back.transitionDir = -1;
-               showheadingbuttons([back]);               
+               //back.moveTo = "tabImageEventi";
+               //back.transitionDir = -1;
+               registry.byId("backbutton").moveTo = "tabImageEventi";
+               showheadingbuttons([]);               
 			});
 
             /***************************************** PUNTI **************************************************/
@@ -544,6 +562,7 @@ require([
             dojo.connect(registry.byId("detailpuntidescription"), "onBeforeTransitionIn", null, function() {
                   back.moveTo = "tabPunti";
                   back.transitionDir = -1;
+                  registry.byId("backbutton").moveTo = "tabPunti";
                   showheadingbuttons([salvapunti]); 
                   if(punti.causale){              
                     registry.byId("eventhtmleditor").set("value",punti.causale);
@@ -561,9 +580,10 @@ require([
             /***************************************** MY APP **************************************************/
 			
 			dojo.connect(registry.byId("tabMyApp"), "onBeforeTransitionIn", null, function(){
-                back.moveTo = "homepage";
-                back.transitionDir = -1;
-				showheadingbuttons([reset,back]);                   
+                //back.moveTo = "homepage";
+                //back.transitionDir = -1;
+                registry.byId("backbutton").moveTo = "homepage";
+				showheadingbuttons([reset]);                   
                 domStyle.set('headingpreference', 'display', 'inline');               
 			});
 
@@ -573,15 +593,34 @@ require([
 
             dojo.connect(registry.byId("selectedPicker"), "onBeforeTransitionIn", null, function() {                
                actualfilterid = 'filterBoxCategoryDiv';
-               back.moveTo = "dettaglioPubblicazione";
-               back.transitionDir = -1;
-               showheadingbuttons([back]); 
+               //back.moveTo = "dettaglioPubblicazione";
+               //back.transitionDir = -1;
+               registry.byId("backbutton").moveTo = "dettaglioPubblicazione";
+               showheadingbuttons([]); 
           	});
 
             dojo.connect(registry.byId("selectedPicker"), "onBeforeTransitionOut", null, function() {
                 actualfilterid = null;
                 
             });
+
+
+            /***************************************** REGISTRAZIONE **************************************************/
+            dojo.connect(registry.byId("viewcomuni"), "onBeforeTransitionIn", null, function(bean) {
+                registry.byId('backregistrazionebutton').moveTo = 'viewregistrazioneform'
+                                
+                if(storecomuni.data.length==0){
+                    
+                    //Effettuo la chiamata
+                    loadcomuni();
+                    
+                }
+            });
+
+            dojo.connect(registry.byId("viewregistrazioneform"), "onBeforeTransitionIn", null, function(bean) {
+                registry.byId('backregistrazionebutton').moveTo = 'ViewHome'
+            });
+            
             
             /***************************************** FINE **************************************************/
 
@@ -655,9 +694,9 @@ require([
             var ic = registry.byId("imageofferContainer");
             connect.connect(ic, "onStartEdit", null, function(){
                 try{
-                   back.moveTo = "dettaglioPubblicazione";
-                   back.transitionDir = -1;
-                   showheadingbuttons([back,uneditingofferimage,newofferimagegallery,newofferimagecamera]);
+                   //back.moveTo = "dettaglioPubblicazione";
+                   //back.transitionDir = -1;
+                   showheadingbuttons([saveoffer,uneditingofferimage,newofferimagegallery,newofferimagecamera]);
                 } catch(e) {
                     errorlog("STARTEDIT - 100",e);
                 }
@@ -665,9 +704,9 @@ require([
             
             connect.connect(ic, "onEndEdit", null, function(){
                 try{
-                    back.moveTo = "dettaglioPubblicazione";
-                    back.transitionDir = -1;
-                    showheadingbuttons([back,editingofferimage,newofferimagegallery,newofferimagecamera]);
+                    //back.moveTo = "dettaglioPubblicazione";
+                    //back.transitionDir = -1;
+                    showheadingbuttons([saveoffer,editingofferimage,newofferimagegallery,newofferimagecamera]);
                 }catch(e){
                     errorlog("ENDEDIT - 100",e);
                 }
@@ -742,9 +781,9 @@ require([
             var icshowcase = registry.byId("imageshowcaseContainer");
             connect.connect(icshowcase, "onStartEdit", null, function(){
                 try{
-                   back.moveTo = "tabShowcase";
-                   back.transitionDir = -1;
-                   showheadingbuttons([back,uneditingshowcaseimage,newshowcaseimagegallery,newshowcaseimagecamera]);
+                   //back.moveTo = "tabShowcase";
+                   //back.transitionDir = -1;
+                   showheadingbuttons([saveshowcasebutton,uneditingshowcaseimage,newshowcaseimagegallery,newshowcaseimagecamera]);
                 }catch(e){
                     errorlog("STARTEDIT - 100",e);
                 }
@@ -752,9 +791,9 @@ require([
             
             connect.connect(icshowcase, "onEndEdit", null, function(){
                 try{
-                    back.moveTo = "tabShowcase";
-                    back.transitionDir = -1;
-                    showheadingbuttons([back,editingshowcaseimage,newshowcaseimagegallery,newshowcaseimagecamera]);
+                    //back.moveTo = "tabShowcase";
+                    //back.transitionDir = -1;
+                    showheadingbuttons([saveshowcasebutton,editingshowcaseimage,newshowcaseimagegallery,newshowcaseimagecamera]);
                 }catch(e){
                     errorlog("ENDEDIT - 100",e);
                 }
@@ -831,9 +870,9 @@ require([
             var icevent = registry.byId("imageeventContainer");
             connect.connect(icevent, "onStartEdit", null, function(){
                 try{
-                   back.moveTo = "dettaglioEvento";
-                   back.transitionDir = -1;
-                   showheadingbuttons([back,uneditingeventimage,neweventimagegallery,neweventimagecamera]);
+                   //back.moveTo = "dettaglioEvento";
+                   //back.transitionDir = -1;
+                   showheadingbuttons([saveeventbutton,uneditingeventimage,neweventimagegallery,neweventimagecamera]);
                 } catch(e) {
                     errorlog("STARTEDIT - 100",e);
                 }
@@ -841,9 +880,9 @@ require([
             
             connect.connect(icevent, "onEndEdit", null, function(){
                 try{
-                    back.moveTo = "dettaglioEvento";
-                    back.transitionDir = -1;
-                    showheadingbuttons([back,editingeventimage,neweventimagegallery,neweventimagecamera]);
+                    //back.moveTo = "dettaglioEvento";
+                    //back.transitionDir = -1;
+                    showheadingbuttons([saveeventbutton,editingeventimage,neweventimagegallery,neweventimagecamera]);
                 }catch(e){
                     errorlog("ENDEDIT - 100",e);
                 }
@@ -918,7 +957,7 @@ require([
             }catch(e){}
 
             //TODO DA COMMENTARE PER NATIVA
-            //onDeviceReady(); 
+            onDeviceReady(); 
 	    });
 		
         function onDeviceReady() {
@@ -938,7 +977,7 @@ require([
                 
             try{   
                //Nascondo lo splah screen
-              navigator.splashscreen.hide();                      
+               navigator.splashscreen.hide();                      
                
             } catch(e) {
                errorlog("ERRORE VIEW APP - 100",e);
@@ -1053,7 +1092,7 @@ require([
                         }
                     }                                        
                     //Sincronizzo tabella di help
-                    synctable(['help'],function(){
+                    synctable(['help','category'],function(){
                         //Tabelle di help sincronizzate  
                         stopLoading();
                     });
@@ -1209,27 +1248,30 @@ require([
             }catch(e){
             
             }
-            if(devicePlatform.toLowerCase().indexOf('win')==-1){
-                //Non WIN8 
-                //tinymce.get(id).getBody().setAttribute('contenteditable', !disabled);
-                            
-                if(disabled){
-                    tinymce.get(id).hide();
-                    domStyle.set(id,'display','none'); 
-                    
-                    dom.byId('divmessagedetail').innerHTML = getContentEditor(id);
-                    domStyle.set('divmessagedetail','display','block'); 
-                                
+            try{
+                if(devicePlatform.toLowerCase().indexOf('win')==-1){
+                    //Non WIN8 
+                    //tinymce.get(id).getBody().setAttribute('contenteditable', !disabled);
+                    if(disabled){
+                        tinymce.get(id).hide();
+                        domStyle.set(id,'display','none'); 
+
+                        dom.byId('divmessagedetail').innerHTML = getContentEditor(id);
+                        domStyle.set('divmessagedetail','display','block'); 
+
+                    }else{
+                        dom.byId('divmessagedetail').innerHTML = '';
+                        domStyle.set('divmessagedetail','display','none'); 
+
+                        domStyle.set(id,'display','none');
+                        tinymce.get(id).show();                 
+                    }
                 }else{
-                    dom.byId('divmessagedetail').innerHTML = '';
-                    domStyle.set('divmessagedetail','display','none'); 
-                    
-                    domStyle.set(id,'display','block');
-                    tinymce.get(id).show();                 
+                    //WIN 8 FIX
+                    registry.byId(id).set('disabled',disabled); 
                 }
-            }else{
-                //WIN 8 FIX
-                registry.byId(id).set('disabled',disabled); 
+            }catch(e){
+                errorlog("ERRORE DISABLE EDITOR",e)
             }
         };
 
@@ -1239,6 +1281,7 @@ require([
         storecategory = dojo.store.Observable(new Memory({}));
         storeeventi = dojo.store.Observable(new Memory({}));
         store = dojo.store.Observable(new Memory({}));
+        storecomuni = dojo.store.Observable(new Memory({}));
 
         /**
         * Accesso all'app
@@ -1333,6 +1376,7 @@ require([
         * Metodo per update della pubblicazione
         */
         salvapubblicazione = function salvapubblicazione(callback){
+            alert("SALVA");
             try {
                 if(pubblicazione && validatepubblicazione()){
                     pubblicazione.title = dom.byId("title").value;
@@ -1377,12 +1421,11 @@ require([
                                                     stopLoading();
                                                 });                                              
                                             });
-                                        } else {
-                                            if(callback){
-                                               callback();
-                                            }    
-                                        }
-                                }                          
+                                        } 
+                                        if(callback){
+                                           callback();
+                                        }    
+                                    }                          
                                 });
                             }catch(e){
                                     errorlog("SALVAPUBBLICAZIONE - 101",e);   
@@ -1395,6 +1438,7 @@ require([
                             pubblicazione.merchant_id = user.merchant_id;
                             try {
                                 addoffer(pubblicazione,storepubblicazoni, function(){
+                                    showheadingbuttons([publicoffer,imageoffer,deleteofferbutton,saveoffer]);
                                     if(callback){
                                         callback();
                                     }                                    
@@ -1421,8 +1465,9 @@ require([
                 if(pubblicazione.title.length>0){
                     
                     pubblicazione.state = 'P';
-                    registry.byId("dettaglioPubblicazione").performTransition("tabPubblicazioni", -1, "slide");
-                    
+                    salvapubblicazione(function(){
+                       registry.byId("dettaglioPubblicazione").performTransition("tabPubblicazioni", -1, "slide");
+                    })
                 }
             }catch(e){
                errorlog("SALVAPUBBLICAZIONE - 100",e);   
@@ -1437,7 +1482,9 @@ require([
                 if(pubblicazione.title.length>0){
                     
                     pubblicazione.state = 'M';
-                    registry.byId("dettaglioPubblicazione").performTransition("tabPubblicazioni", -1, "slide");
+                    salvapubblicazione(function(){
+                      showheadingbuttons([publicoffer,imageoffer,deleteofferbutton,saveoffer]);
+                    })
                     
                   
                 }
@@ -1475,8 +1522,8 @@ require([
                 resetFormPubblicazione();
                 
                 //Inizializzo la Pubblicazione
-                pubblicazione = new Object();            
-
+                pubblicazione = new Object();
+                showheadingbuttons([saveoffer]);
                 //Recupero valori di default
                 //TODO DA FARE
             }catch(e){
@@ -1492,23 +1539,20 @@ require([
 		setDetailPubblicazione = function setDetailPubblicazione(bean) {
             try{
                 pubblicazione = bean;                               
-                back.moveTo = "tabPubblicazioni";
-                back.transitionDir = -1;               
-                
                 if(pubblicazione && pubblicazione.state != 'P'){                
-                    showheadingbuttons([publicoffer,imageoffer,deleteofferbutton,back]);   
+                    showheadingbuttons([publicoffer,imageoffer,deleteofferbutton,saveoffer]);   
                 }else{
-                    showheadingbuttons([unpublicoffer,imageoffer,back]);   
+                    showheadingbuttons([unpublicoffer,imageoffer]);   
                 }
                 
                 resetFormPubblicazione();
                 dom.byId("title").value = bean.title;
-                if(bean.description){registry.byId("description").set("label",bean.description);}                
-                if(bean.date_from){registry.byId("date_from").set("rightText",locale.format(bean.date_from,{selector: "date", formatLength: "short", datePattern:dateformat}));}
-                if(bean.date_to){registry.byId("date_to").set("rightText",locale.format(bean.date_to,{selector: "date", formatLength: "short", datePattern:dateformat}));}
-                if(bean.quantity){registry.byId("quantity").set("rightText",(bean.quantity).toString().replace('.',','));}
-                if(bean.price){registry.byId("price").set("rightText",(bean.price).toString().replace('.',','));}
-                if(bean.cat_1){registry.byId("cat1").set("rightText",bean.cat_1_desc);}
+                if(bean.description){registry.byId("description").set("label",bean.description);}else{registry.byId("description").set("rightText","")}                
+                if(bean.date_from){registry.byId("date_from").set("rightText",locale.format(bean.date_from,{selector: "date", formatLength: "short", datePattern:dateformat}));}else{registry.byId("date_from").set("rightText","")}
+                if(bean.date_to){registry.byId("date_to").set("rightText",locale.format(bean.date_to,{selector: "date", formatLength: "short", datePattern:dateformat}));}else{registry.byId("date_to").set("rightText","")}
+                if(bean.quantity){registry.byId("quantity").set("rightText",(bean.quantity).toString().replace('.',','));}else{registry.byId("quantity").set("rightText","")}
+                if(bean.price){registry.byId("price").set("rightText",(bean.price).toString().replace('.',','));}else{registry.byId("price").set("rightText","")}
+                if(bean.cat_1){registry.byId("cat1").set("rightText",bean.cat_1_desc);}else{registry.byId("cat1").set("rightText","")}
                 
                 if(bean.buyable){
                     if(bean.buyable == 1){
@@ -1516,7 +1560,9 @@ require([
                     }else{
                         registry.byId("buyable").set("value",'off');
                     }               
-                }                
+                } else {
+                   registry.byId("buyable").set("value",'off'); 
+                }
                 
                 if(bean.prenotable){
                     if(bean.prenotable == 1){
@@ -1524,7 +1570,9 @@ require([
                     }else{
                         registry.byId("prenotable").set("value",'off');
                     }                   
-                }                
+                }   else {
+                   registry.byId("prenotable").set("value",'off'); 
+                }              
             }catch(e){
                 errorlog("DETTAGLIO PUBBLICAZIONE - 100",e);                   
             }
@@ -1790,8 +1838,8 @@ require([
         /* Salva il messaggio */
         savemessage = function(callback){
             try{
-                
                 if(message){
+                    message.description = getContentEditor("messagehtmleditor"); 
                     startLoading();
                     if(message.id){
                         //update messaggio
@@ -1817,6 +1865,7 @@ require([
                             try {
                                 addmessage(message,storemessage, function(){
                                     stopLoading();
+                                    showheadingbuttons([savemessagebutton,sendmessage,copymessage,deletemessagebutton]);
                                     if(callback){
                                         callback();
                                     }
@@ -1840,9 +1889,11 @@ require([
                 message = bean;
                 
                 if(message && message.state == 'W'){
-                    back.moveTo = "tabMessaggi";
-                    back.transitionDir = -1;
-                    showheadingbuttons([back,sendmessage,copymessage,deletemessagebutton]);   
+                    //back.moveTo = "tabMessaggi";
+                    //back.transitionDir = -1;
+                    showheadingbuttons([savemessagebutton,sendmessage,copymessage,deletemessagebutton]);   
+                } else {
+                    showheadingbuttons([copymessage]);   
                 }
                 
                 setContentEditor("messagehtmleditor",bean.description);
@@ -1851,7 +1902,7 @@ require([
                     disabledContentEditor("messagehtmleditor",false);
                 } else {
                     disabledContentEditor("messagehtmleditor",true);
-                    registry.byId("sendmessageid").destroyRecursive();
+                    //registry.byId("sendmessageid").destroyRecursive();
                 }               
             }catch(e){
                 errorlog("ERROR",e);
@@ -1868,8 +1919,10 @@ require([
                 message.description = '';               
                 message.state = 'W';
                 //Visualizzo il dettaglio  
+                showheadingbuttons([savemessagebutton]);
                 
-                setContentEditor("messagehtmleditor","");
+                disabledContentEditor("messagehtmleditor",false);
+                setContentEditor("messagehtmleditor","");                
                 //registry.byId("messagehtmleditor").set("value",""); 
                 registry.byId("tabMessaggi").performTransition("dettaglioMessage", 1, "slide");                
             } catch(e) {
@@ -1917,18 +1970,18 @@ require([
                 message.state = 'S';
                 message.description = getContentEditor("messagehtmleditor");
                 try {
-                    updatemessage(message,storemessage, function(){
-                        registry.byId("dettaglioMessage").performTransition("tabMessaggi", -1, "slide");
-                        
-                        //Aggungi sincronizzazione tabelle messaggi
-                        startLoading();
-                        //Effettuo una sincronizzazione delle offerte
-                        synctable(['message'], function() {
-                           //Ricarico i valori
-                           searchmessage(storemessage,function(){                            
-                                registry.byId('listmessage').refresh();                            
-                                stopLoading();
-                           });            
+                   updatemessage(message,storemessage, function(){
+                      registry.byId("dettaglioMessage").performTransition("tabMessaggi", -1, "slide");
+
+                      //Aggungi sincronizzazione tabelle messaggi
+                      startLoading();
+                      //Effettuo una sincronizzazione dei messaggi
+                      synctable(['message'], function() {
+                        //Ricarico i valori
+                        searchmessage(storemessage,function(){                            
+                            registry.byId('listmessage').refresh();                            
+                            stopLoading();
+                            });            
                         });
                     });
                 }catch(e){
@@ -2067,6 +2120,30 @@ require([
                 errorlog("LOAD SWAP VIEW - 100",e);
             }       
         };  
+        
+        /*
+        * Salvataggio dell'immagine
+        */
+        saveshowcase = function(){
+            if(showcase){
+                startLoading();
+                showcase.description = getContentEditor("showcasehtmleditor");
+                if(!showcase.id) {
+                    showcase.showcase_id = getUUID(); 
+                    showcase.utente_id = user.utente_id;
+                    showcase.merchant_id = user.merchant_id;
+                    addShowcase(showcase, function(){
+                        stopLoading();
+                        controllsync();
+                    });
+                }else{
+                    updateShowcase(showcase, function(){
+                        stopLoading();
+                        controllsync();
+                    });
+                }    
+            }
+        }
 
 
 
@@ -2076,7 +2153,7 @@ require([
 ****************************************************************************************************/
 
         /**
-        * Metodo per cancellazione pubblicazione
+        * Metodo per cancellazione Evento
         */
         cancellaevento = function(){
             try{
@@ -2101,7 +2178,7 @@ require([
         };
       
         /**
-        * Metodo per update della publicazione
+        * Metodo salvatagiio ecento
         */
         salvaevento = function(callback){
             try {
@@ -2146,6 +2223,7 @@ require([
                             evento.merchant_id = user.merchant_id;
                             try {
                                 addevento(evento,storeeventi, function(){
+                                    showheadingbuttons([publicevent,imageevent,deleteeventbutton,saveeventbutton]);
                                     if(callback){
                                         callback();
                                     }                                    
@@ -2186,7 +2264,8 @@ require([
                 if(evento.title.length>0){
                     evento.state = 'M';
                     salvaevento(function(){
-                        registry.byId("dettaglioEvento").performTransition("tabEventi", -1, "slide");
+                        //registry.byId("dettaglioEvento").performTransition("tabEventi", -1, "slide");
+                        showheadingbuttons([publicevent,imageevent,deleteeventbutton,saveeventbutton]);
                         stopLoading();
                     });                    
                 }
@@ -2219,7 +2298,10 @@ require([
                 resetFormEvento();
                 
                 //Inizializzo la Pubblicazione
-                evento = new Object();            
+                evento = new Object();    
+                 showheadingbuttons([saveeventbutton]);
+                
+                
 
                 //Recupero valori di default
                 //TODO DA FARE
@@ -2236,18 +2318,18 @@ require([
 		setDetailEvento = function(bean) {
             try{
                 evento = bean;                 
-                back.moveTo = "tabEventi";
-                back.transitionDir = -1;                 
+                //back.moveTo = "tabEventi";
+                //back.transitionDir = -1;                 
                 if(evento && evento.state != 'P'){                
-                    showheadingbuttons([publicevent,imageevent,deleteeventbutton,back]);
+                    showheadingbuttons([publicevent,imageevent,deleteeventbutton,saveeventbutton]);
                 }else{
-                    showheadingbuttons([unpublicevent,imageevent,back]);
+                    showheadingbuttons([unpublicevent,imageevent]);
                 }                
                 resetFormEvento();
                 dom.byId("title_evento").value=bean.title;
-                if(bean.description){registry.byId("description_evento").set("label",bean.description);}                
-                if(bean.date_from){registry.byId("date_from_evento").set("rightText",locale.format(bean.date_from,{selector: "date", formatLength: "short", datePattern:dateformat}));}
-                if(bean.date_to){registry.byId("date_to_evento").set("rightText",locale.format(bean.date_to,{selector: "date", formatLength: "short", datePattern:dateformat}));}               
+                if(bean.description){registry.byId("description_evento").set("label",bean.description);}else{registry.byId("description_evento").set("rightText","")}                
+                if(bean.date_from){registry.byId("date_from_evento").set("rightText",locale.format(bean.date_from,{selector: "date", formatLength: "short", datePattern:dateformat}));}else{registry.byId("date_from_evento").set("rightText","")}
+                if(bean.date_to){registry.byId("date_to_evento").set("rightText",locale.format(bean.date_to,{selector: "date", formatLength: "short", datePattern:dateformat}));}else{registry.byId("date_to_evento").set("rightText","")}               
             }catch(e){
                 errorlog("DETTAGLIO PUBBLICAZIONE - 100",e);                   
             }
@@ -2498,7 +2580,7 @@ showhelp = function(group) {
         syncall = function() {
             startLoading();
             try{
-            synctable(['merchant','message','offer','offer_image','showcase','showcase_image','category','image','event','event_image','credit','help','help_utente'], function(){
+            synctable(['merchant','message','offer','offer_image','showcase','showcase_image','category','image','event','event_image','credit','help','help_utente','category'], function(){
                 controllsync();
                 syncimages(function(){
                     stopLoading();
@@ -2513,8 +2595,9 @@ showhelp = function(group) {
         resettable = function(){
             startLoading();
             try{                
-                resettablefacade(['merchant','message','offer','offer_image','showcase','showcase_image','category','image','image_sync','event','event_image','credit','help','help_utente'], function(){
-                    logoutuser();
+                resettablefacade(['merchant','message','offer','offer_image','showcase','showcase_image','category','image','image_sync','event','event_image','credit','help','help_utente','category'], function(){
+                    registry.byId("tabMyApp").performTransition("homepage", -1, "slide");                   
+                    //logoutuser();
                     stopLoading();                        
                 });               
             }catch(e){
@@ -2532,19 +2615,35 @@ showhelp = function(group) {
                     createMessage("In modalità demo non è possibile sincronizzare i dati!", function(dlgshow){
                         dlgshow.hide();
                         dlgshow.destroyDescendants(true);
-                        
                     });
-                }else{
+                    if(callback){
+                        callback();
+                    }
+                    
+                }else if(user && user.state!='A') {                    
+                    //Verifico lo stato del merchant se non è attivo non posso sincronizzare
+                    stopLoading();
+                    createMessage("Il tuo negozio non è ancora attivo e non è possibile sincronizzare i dati! </br> Se hai già ricevuto l'email di conferma allora prova ad effettuare il logout e a reinserire le credenziali di accesso.", function(dlgshow){
+                        dlgshow.hide();
+                        dlgshow.destroyDescendants(true);
+                    });
+                    if(callback){
+                        callback();
+                    }
+                    
+                    
+                } else {
                     //Recupero i dati da sincronizzare            
                     var copytable = new Array();
                     var synctable = new Array();
                     copytable = copytable.concat(tables);
-                    setloadingvalue("Sincronizzazione dati in corso");
+                    setloadingvalue("Aggiornamento dati in corso");
                     getTableDirty(tables,synctable,function(result){
                        getTableLastUpdate(copytable,result, function(){   
                             var syncbean = new Object();
                             syncbean.tables = synctable;                    
                             var datajson = json.stringify(syncbean);
+                            
                             requestpost(datajson,callback);
                         });                
                     }); 
@@ -2921,7 +3020,7 @@ showhelp = function(group) {
                                 objute.name = username;
                                 user = objute;                               
                                 
-                                synctable(['utente'],function(){
+                                synctable(['utente','merchant'],function(){
                                     
                                     debuglog("RETRIEVE TOKEN:"+tokentext);
                                     //Recupero l'utente
@@ -2938,7 +3037,7 @@ showhelp = function(group) {
                                                                                 
                                             debuglog("SYNC APPLICATION");                                          
                                             //Sincronizzo tabelle di offerte/messaggi/vetrina
-                                            synctable(['merchant','message','offer','offer_image','showcase','showcase_image','category','event','event_image','credit','image','help','help_utente'], function(){
+                                            synctable(['message','offer','offer_image','showcase','showcase_image','category','event','event_image','credit','image','help','help_utente'], function(){
                                                 
                                                 searchoffer(storepubblicazoni,function(){                            
                                                     registry.byId('list').refresh();                            
@@ -2971,6 +3070,7 @@ showhelp = function(group) {
                                                     registry.byId('listeventi').refresh();  
                                                     stopLoading();
                                                 });
+                                                
                                             });
                                         }                           
                                     });                               
@@ -3055,7 +3155,7 @@ showhelp = function(group) {
         logoutuser = function(){
             deleteconfiguration('LAST_USER_LOG',function(){
                 user = null;
-                 registry.byId("ViewLogin").show(false,false);    
+                 registry.byId("ViewHome").show(false,false);    
             });   
         }; 
         
@@ -3190,6 +3290,190 @@ showhelp = function(group) {
             this.splice(new_index, 0, this.splice(old_index, 1)[0]);
             return this; // for testing purposes
         };
+        
+        /**
+        * Registrazione nuovo utente
+        */
+        registeruser = function() {
+            //Conrollo se ho inserito tutti i dati
+            if(dom.byId("reg_ragsoc").value!='' && 
+                dom.byId("reg_piva").value!='' &&
+                dom.byId("reg_name").value!='' &&
+                dom.byId("reg_mail").value!='' &&
+                dom.byId("reg_address").value!='' &&
+                dom.byId("reg_phone").value!='' && 
+                registry.byId("reg_comune").rightText!=''){
+                
+                
+                if(!validateEmail(dom.byId("reg_mail").value)){
+                    createMessageValidate("E-mail non valida!");
+                }else{
+                
+                    var registerbean = new Object();
+                    registerbean.piva = dom.byId("reg_piva").value;
+                    registerbean.ragioneSociale = dom.byId("reg_ragsoc").value;
+                    registerbean.nomeNegozio = dom.byId("reg_name").value;
+                    registerbean.mottoNegozio = "";
+                    registerbean.indirizzo = dom.byId("reg_address").value;
+                    registerbean.numCivico = "";
+                    registerbean.comune = registry.byId("reg_comune").rightText;
+                    registerbean.comuneNonTrovato ="";
+                    registerbean.provincia = "";
+                    registerbean.email = dom.byId("reg_mail").value!='';
+                    registerbean.telefono = dom.byId("reg_phone").value!='';
+                    registerbean.fax = "";
+                    registerbean.sitoWeb = "";
+                    registerbean.facebook = "";
+                    registerbean.googlePlus = "";
+                    registerbean.twitter = "";
+                    registerbean.pinterest = "";
+                    registerbean.instagram = "";
+                    registerbean.googleMap = "";
+                    registerbean.codicePromo = "";
+                    
+                    startLoading();
+                    
+                    
+                    registeruserpost(json.stringify(registerbean));
+                    
+                    
+                    
+                
+                }
+                
+                
+                
+            }else{
+                createMessageValidate("Campi Obbligatori!");
+            }
+        }
+        
+        /**
+        * Recupero e carico i comuni nello storecomuni
+        */
+        loadcomuni = function() {
+            startLoading();
+            var promise = request.post(url+'Facade/readComuneList',{
+                handleAs: "json",
+                headers: {
+                    "X-Requested-With": null,
+                    "Content-Type":"application/json",
+                    "token":""
+                }           
+            });            
+            promise.response.then(
+                function(response) {
+                    try{
+                        //Controllo se ci sono errori
+                        if(response.data.messageList.length>0){
+                            if(response.data.messageList[0]!="IROK"){
+                                createMessage("Errore recupero Comuni, riprovare più tardi!", function(dlgmess){
+                                    dlgmess.hide();
+                                    dlgmess.destroyDescendants(true);
+                                });
+                            } else {
+                                //Aggiorno i comuni
+                                var comuni = response.data.objectList;
+                                for(i=0;i<comuni.length;i++){
+                                    comuni[i].id = comuni[i].comuneId;
+                                    comuni[i].label = comuni[i].description+" - "+comuni[i].provincia;
+                                    comuni[i].moveTo = "viewregistrazioneform";
+                                    comuni[i].transitionDir = -1;
+                                    comuni[i].callback = function() {setComuneRegistrazione(this)};
+                                    storecomuni.add(comuni[i]);
+                                }
+                                stopLoading();
+                            }
+                        }                       
+                    }catch(e) {
+                        createMessage("Errore recupero Comuni, riprovare più tardi!", function(dlgmess){
+                                    dlgmess.hide();
+                                    dlgmess.destroyDescendants(true);
+                                });
+                        stopLoading();
+                    }
+                },
+                function(error){
+                    createMessage("Errore recupero Comuni, riprovare più tardi!", function(dlgmess){
+                                    dlgmess.hide();
+                                    dlgmess.destroyDescendants(true);
+                                });
+                    stopLoading();
+                }                     
+            );   
+        
+        };
+        
+        /**
+        * Recupero e carico i comuni nello storecomuni
+        */
+        registeruserpost = function(json) {
+            startLoading();
+            var promise = request.post(url+'Facade/registernewuser',{
+                handleAs: "json",
+                data:json,
+                headers: {
+                    "X-Requested-With": null,
+                    "Content-Type":"application/json",
+                    "token":""
+                }           
+            });            
+            promise.response.then(
+                function(response) {
+                    try{
+                        stopLoading();
+                        //Controllo se ci sono errori
+                        if(response.data.messageList.length>0){
+                            if(response.data.messageList[0]!="ISOK"){
+                                createMessage("Errore registrazione, riprovare più tardi!", function(dlgmess){
+                                    dlgmess.hide();
+                                    dlgmess.destroyDescendants(true);
+                                });
+                            } else {
+                                var utenteregistrato = response.data.objectList[0];
+                                createMessage("Registrazione avvenuta con successo! Ora puoi utilizzate ShooopApp! </br> Per completare la registrazione e poter vedere pubblicate le tue offerte devi confermare la mail che ti verrà inviata a breve. </br>Username:"+utenteregistrato.name+" </br>Password:"+utenteregistrato.pin, function(dlgmess){
+                                    dlgmess.hide();
+                                    dlgmess.destroyDescendants(true);
+                                    
+                                    //Passo alla pagina di login con utenza e password preimpostata
+                                    registry.byId("ViewRegistrazione").performTransition("ViewLogin", 1, "slide");                        
+                                    dom.byId("username").value = utenteregistrato.name;
+                                    dom.byId("password").value = utenteregistrato.pin;                               
+                                    
+                                });
+                            }
+                        }                       
+                    }catch(e) {
+                        createMessage("Errore registrazione, riprovare più tardi!", function(dlgmess){
+                                    dlgmess.hide();
+                                    dlgmess.destroyDescendants(true);
+                                });
+                        stopLoading();
+                    }
+                },
+                function(error){
+                    createMessage("Errore registrazione, riprovare più tardi!", function(dlgmess){
+                                    dlgmess.hide();
+                                    dlgmess.destroyDescendants(true);
+                                });
+                    stopLoading();
+                }                     
+            );   
+        
+        };
 
 
+        /*
+        * Setto il comune di registrazione
+        */
+        setComuneRegistrazione = function(bean){
+            registry.byId("reg_comune").set("rightText",bean.description+" - "+bean.provincia);
+        }
+        
+        
+        validateEmail = function(email) { 
+            var re = /^\w+([\.-]?\w+)*@\w+([\.-]?\w+)*(\.\w{2,3})+$/;
+            return re.test(email);
+        } 
+        
 	});

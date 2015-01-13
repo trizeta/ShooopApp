@@ -103,6 +103,43 @@ updateoffer = function(bean,store, callback){
     }
 };
 
+loadofferbyId = function(store, offer_id, callback) {
+    try{
+        var service = new OfferService();
+        service.query("select *, (select full_path_name from image join offer_image using (image_id) where offer_id = offerimg.offer_id and predefined = 1 and offer_image.deleted = 0 limit 1) as full_path_name, (select desc2 from category where offerimg.cat_1 = category_id) as cat_1_desc from offer as offerimg where offer_id = '"+offer_id+"'", function(offer) { 
+            debuglog("SEARCH OFFER --"+offer);
+            for(i=0;i<offer.length;i++){
+                bean = offer[i];  
+                bean.id = 'offer'+bean.id;
+                bean.label = offerToString(bean);
+                if(offer[i].full_path_name) {
+                    try {                                            
+                        bean.icon = window.rootimages.toURL() + offer[i].full_path_name;
+                        //Controllo se esite il file altrimenti immagine di default                                           
+                    } catch(e) {
+                        bean.icon = "img/defaultimg.jpg";  
+                    }
+                } else {
+                    bean.icon = "img/defaultimg.jpg";                    
+                }    
+                //bean.rightText = offerstateToString(bean);
+                bean.moveTo = "dettaglioPubblicazione";
+                bean.variableHeight = true;                                
+                bean.class = 'offer_'+bean.state;
+                bean.rightIcon = "mblDomButtonOrange ion-arrow-right-b size-48";
+                bean.callback = function() {setDetailPubblicazione(this)}; 
+                store.put(bean);
+            }            
+            if(callback){
+                callback();
+            }
+       },[{name:'full_path_name', type:'string'},{name:'cat_1_desc', type:'string'}]);  
+    }catch(e){
+        errorlog("FACACE -  102",e);
+    }
+};
+
+
 
 datecompare = function(date1, date2){
 
@@ -419,7 +456,7 @@ retrieveToken = function(token,callback) {
        var serviceconf = new ConfigurationService();
        if(token){
            var service = new UtenteService();
-           service.query("select * from utente where token = '"+token+"'", function(result){    
+           service.query("select utente.*, merchant.state from utente left join merchant using (merchant_id) where token = '"+token+"'", function(result){    
                if(result.length==1) {
                    //Cancello l'ultimo LAST_USER
                    serviceconf.query("delete from configuration where chiave = 'LAST_USER_LOG'", function(){                   
@@ -434,7 +471,7 @@ retrieveToken = function(token,callback) {
                } else {
                   callback(null);
                }
-           });  
+           },[{name:'state', type:'string'}]);  
        }else{
            //Recupero se esiste l'ultimo login
            serviceconf.query("select * from configuration where chiave = 'LAST_USER_LOG'", function(resultconf){
@@ -793,6 +830,29 @@ searcheventi = function(store, callback) {
     }
 };
 
+
+loadeventibyid = function(store, event_id ,callback) {
+    try{
+        var service = new EventService();
+        service.query("select * from event where event_id = '"+event_id+"'", function(events) { 
+        for(i=0;i<events.length;i++){
+                bean = events[i]; 
+                bean.id = 'evento'+bean.id;
+                bean.label = eventToString(bean);
+                bean.moveTo = "dettaglioEvento";
+                bean.variableHeight = true;
+                bean.class = 'evento_'+bean.state;
+                bean.callback = function() {setDetailEvento(this)};     
+                store.put(bean);
+            }            
+            if(callback){
+                callback();
+            }
+       });  
+    }catch(e){
+        errorlog("FACADE SERACH EVENT -  102",e);
+    }
+};
 
 /* Convert bean to string */
 eventToString = function(bean) {
