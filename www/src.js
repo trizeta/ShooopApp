@@ -286,7 +286,7 @@ require([
             dojo.connect(registry.byId("dettaglioPubblicazione"), "onBeforeTransitionOut", null, function(e) {
                 //salvapubblicazione(function(){});
                 domStyle.set('headingoffer', 'display', 'none');    
-                if(pubblicazione.offer_id){
+                if(pubblicazione && pubblicazione.offer_id){
                     loadofferbyId(storepubblicazoni,pubblicazione.offer_id,function(){});
                 }            
             });           
@@ -496,7 +496,7 @@ require([
                         
             dojo.connect(registry.byId("dettaglioEvento"), "onBeforeTransitionOut", null, function() {
                 domStyle.set('headingevent', 'display', 'none');   
-                if(evento.event_id){
+                if(evento && evento.event_id){
                     loadeventibyid(storeeventi,evento.event_id,function(){});
                 }
             });           

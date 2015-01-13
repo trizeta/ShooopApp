@@ -189,6 +189,7 @@ deleteoffer = function(offer,callback){
         //Cancello riferimento all'immagine   
         var service = new OfferService();
         debuglog("DELETE OFFER"+offer);
+        alert(offer.offer_id);
         service.query("update offer set deleted = 1, dirty = 1 where offer_id = '"+offer.offer_id+"'", callback); 
     }catch(e){
         errorlog("DELETE IMAGE OFFER - 100",e);
@@ -632,7 +633,7 @@ deletemessage = function(message,callback){
     try{
         //Cancello riferimento all'immagine   
         var service = new MessageService();        
-        service.query("update message set deleted = 1, dirty= 1 where message_id = '"+message.message_id+"'", callback); 
+        service.query("update message set deleted = 1, dirty = 1 where message_id = '"+message.message_id+"'", callback); 
     }catch(e){
         errorlog("DELETE MESSAGE - 100",e);
     }
