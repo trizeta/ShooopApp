@@ -189,7 +189,6 @@ deleteoffer = function(offer,callback){
         //Cancello riferimento all'immagine   
         var service = new OfferService();
         debuglog("DELETE OFFER"+offer);
-        alert(offer.offer_id);
         service.query("update offer set deleted = 1, dirty = 1 where offer_id = '"+offer.offer_id+"'", callback); 
     }catch(e){
         errorlog("DELETE IMAGE OFFER - 100",e);
@@ -670,7 +669,6 @@ updateShowcase = function(bean, callback){
         var service = new ShowcaseService();
         bean.id = bean.id.replace("message", ""); 
         service.get(bean.id, function(beanold){
-            
             if(beanold.description != bean.description){
                 bean.dirty = true;
                 bean.deleted = false;

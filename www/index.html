@@ -382,7 +382,19 @@
             #homemenu .mblIconMenuItemLabel{
                 font-size:18px;
             }
-                        
+              
+            .homeButton{
+                width:90%;
+                height:60px;
+                align:center;
+                margin:5%;
+                background-color:#70c2e3;
+                background-image: none;
+                border:1px solid white;   
+                font-family:'opensans';
+                font-weight:bold;    
+                color:white;
+            }
             
 	   </style>
         
@@ -423,21 +435,13 @@
             
         <div  data-dojo-type="dojox.mobile.ScrollableView"> 
         
-            <ul id="homemenu" data-dojo-type="dojox.mobile.IconMenu" style="width:90%;height:600px;margin:5%;margin-top:5px;background-color:#70c2e3;border:1px solid white" data-dojo-props='cols:1'>
-                <li data-dojo-type="dojox.mobile.IconMenuItem" style="color:white;border-bottom:1px solid white;border-right:1px solid white" data-dojo-props="label:'<h1>Registrati</h1>', moveTo:'ViewRegistrazione'">
-                                        
-                </li>
-                
-                
-                 <li data-dojo-type="dojox.mobile.IconMenuItem" style="color:white;border-bottom:1px solid white;border-right:1px solid white" data-dojo-props="label:'<h1>Accedi a Shooopapp</h1>', moveTo:'ViewLogin'">
-                                        
-                </li>
-                
-                 <li data-dojo-type="dojox.mobile.IconMenuItem" style="color:white;border-bottom:1px solid white;border-right:1px solid white" data-dojo-props="label:'<h1>Accedi alla modalità Demo</h1>', moveTo:'ViewApplication', callback: acessdemo">
-                                        
-                </li>
-            </ul>
-            </div>
+            <button data-dojo-type="dojox.mobile.Button" data-dojo-props="onClick:function(){movetohome('ViewApplication',acessdemo)}" class="homeButton"><h1>Demo</h1></button>
+            
+            <button data-dojo-type="dojox.mobile.Button" data-dojo-props="onClick:function(){movetohome('ViewLogin')}" class="homeButton"><h1>Accedi</h1></button>
+            
+            <button data-dojo-type="dojox.mobile.Button" data-dojo-props="onClick:function(){movetohome('ViewRegistrazione')}" class="homeButton"><h1>Registrati</h1></button>
+            
+        </div>
         	
         </div>
         

@@ -154,7 +154,7 @@ require([
             newoffer =  {/*class:"icon ion-ios7-plus-outline size-32"*/ label:'Nuova', moveTo:'dettaglioPubblicazione', callback:nuovapubblicazione, style:"float:right"};
             publicoffer =  {/*class:"icon ion-ios7-cloud-upload-outline size-32"*/ label:'Pubblica', onClick:function(){pubblicacoffer()} , style:"float:right"};
             unpublicoffer =  {/*class:"icon ion-ios7-cloud-download-outline size-32"*/ label:'Modifica', onClick:function(){unpubblicacoffer()} , style:"float:right"};
-            saveoffer =  {label:'Salva', onClick:function(){salvapubblicazione(function(){});} , style:"float:left"};
+            saveoffer =  {label:'Salva', onClick:function(){salvapubblicazione(function(){saveok()});} , style:"float:left"};
             
             editingofferimage =  {/*class:"icon  ion-ios7-compose-outline size-32"*/ label:"Modifica", onClick:function(){registry.byId("imageofferContainer").startEdit()},style:"float:right"};
             uneditingofferimage =  {/*class:"icon  ion-ios7-compose-outline size-32"*/ label:"Fine", onClick:function(){registry.byId("imageofferContainer").endEdit()},style:"float:right" };
@@ -168,7 +168,7 @@ require([
             editmessage =  {/*class:"icon ion-edit size-32"*/ label:"Modifica", onTouchStart:function(){registry.byId("listmessage").startEdit();},style:"float:right"};
             uneditmessage =  {/*class:"icon ion-edit size-32"*/ label:"Fine", onTouchStart:function(){registry.byId("listmessage").endEdit();},style:"float:right"};
             deletemessagebutton =  {/*class:"icon ion-trash-a size-32"*/ label:"Elimina", onTouchStart:function(){deletemessagefunction()},style:"float:right"};
-            savemessagebutton =  {label:'Salva', onClick:function(){savemessage()} , style:"float:left"};            
+            savemessagebutton =  {label:'Salva', onClick:function(){savemessage(function(){saveok()})} , style:"float:left"};            
 
             //Showcase Button
             imageshowcase =  {/*class:"icon ion-images size-32"*/  label:"Immagini", moveTo:'tabImageShowcase', callback:loadshowcaseimage, style:"float:right"};
@@ -193,7 +193,7 @@ require([
             neweventimagecamera =  {/*class:"icon ion-ios7-camera size-32"*/ label:"Camera", onClick:function(){takepictureevento(Camera.PictureSourceType.CAMERA)},style:"float:right"};   
             deleteeventbutton =  {/*class:"icon ion-trash-a size-32"*/ label:"Elimina", onTouchStart:function(){deleteeventfunction()},style:"float:right"};
             
-            saveeventbutton = {label:'Salva', onClick:function(){salvaevento()} , style:"float:left"}; 
+            saveeventbutton = {label:'Salva', onClick:function(){salvaevento(function(){saveok()})} , style:"float:left"}; 
 
 
             //HomePAge Sync
@@ -696,7 +696,7 @@ require([
                 try{
                    //back.moveTo = "dettaglioPubblicazione";
                    //back.transitionDir = -1;
-                   showheadingbuttons([saveoffer,uneditingofferimage,newofferimagegallery,newofferimagecamera]);
+                   showheadingbuttons([uneditingofferimage,newofferimagegallery,newofferimagecamera]);
                 } catch(e) {
                     errorlog("STARTEDIT - 100",e);
                 }
@@ -706,7 +706,7 @@ require([
                 try{
                     //back.moveTo = "dettaglioPubblicazione";
                     //back.transitionDir = -1;
-                    showheadingbuttons([saveoffer,editingofferimage,newofferimagegallery,newofferimagecamera]);
+                    showheadingbuttons([editingofferimage,newofferimagegallery,newofferimagecamera]);
                 }catch(e){
                     errorlog("ENDEDIT - 100",e);
                 }
@@ -783,7 +783,7 @@ require([
                 try{
                    //back.moveTo = "tabShowcase";
                    //back.transitionDir = -1;
-                   showheadingbuttons([saveshowcasebutton,uneditingshowcaseimage,newshowcaseimagegallery,newshowcaseimagecamera]);
+                   showheadingbuttons([uneditingshowcaseimage,newshowcaseimagegallery,newshowcaseimagecamera]);
                 }catch(e){
                     errorlog("STARTEDIT - 100",e);
                 }
@@ -793,7 +793,7 @@ require([
                 try{
                     //back.moveTo = "tabShowcase";
                     //back.transitionDir = -1;
-                    showheadingbuttons([saveshowcasebutton,editingshowcaseimage,newshowcaseimagegallery,newshowcaseimagecamera]);
+                    showheadingbuttons([editingshowcaseimage,newshowcaseimagegallery,newshowcaseimagecamera]);
                 }catch(e){
                     errorlog("ENDEDIT - 100",e);
                 }
@@ -872,7 +872,7 @@ require([
                 try{
                    //back.moveTo = "dettaglioEvento";
                    //back.transitionDir = -1;
-                   showheadingbuttons([saveeventbutton,uneditingeventimage,neweventimagegallery,neweventimagecamera]);
+                   showheadingbuttons([uneditingeventimage,neweventimagegallery,neweventimagecamera]);
                 } catch(e) {
                     errorlog("STARTEDIT - 100",e);
                 }
@@ -882,7 +882,7 @@ require([
                 try{
                     //back.moveTo = "dettaglioEvento";
                     //back.transitionDir = -1;
-                    showheadingbuttons([saveeventbutton,editingeventimage,neweventimagegallery,neweventimagecamera]);
+                    showheadingbuttons([editingeventimage,neweventimagegallery,neweventimagecamera]);
                 }catch(e){
                     errorlog("ENDEDIT - 100",e);
                 }
@@ -1376,7 +1376,6 @@ require([
         * Metodo per update della pubblicazione
         */
         salvapubblicazione = function salvapubblicazione(callback){
-            alert("SALVA");
             try {
                 if(pubblicazione && validatepubblicazione()){
                     pubblicazione.title = dom.byId("title").value;
@@ -2135,11 +2134,13 @@ require([
                     addShowcase(showcase, function(){
                         stopLoading();
                         controllsync();
+                        saveok();
                     });
                 }else{
                     updateShowcase(showcase, function(){
                         stopLoading();
                         controllsync();
+                        saveok();
                     });
                 }    
             }
@@ -3475,5 +3476,23 @@ showhelp = function(group) {
             var re = /^\w+([\.-]?\w+)*@\w+([\.-]?\w+)*(\.\w{2,3})+$/;
             return re.test(email);
         } 
+        
+        
+        saveok = function(){
+           createMessage("Salvataggio avvenuto con successo!", function(dlgmess){
+                                    dlgmess.hide();
+                                    dlgmess.destroyDescendants(true);
+                                }); 
+        }
+        
+        
+        movetohome = function(moveto, callback){
+        
+            registry.byId("ViewHome").performTransition(moveto, 1, "slide");  
+            if(callback){
+                callback();
+            }
+            
+        }
         
 	});
