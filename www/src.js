@@ -600,21 +600,17 @@ require([
           	});
 
             dojo.connect(registry.byId("selectedPicker"), "onBeforeTransitionOut", null, function() {
-                actualfilterid = null;
-                
+                actualfilterid = null;                
             });
 
 
             /***************************************** REGISTRAZIONE **************************************************/
             dojo.connect(registry.byId("viewcomuni"), "onBeforeTransitionIn", null, function(bean) {
                 registry.byId('backregistrazionebutton').moveTo = 'viewregistrazioneform'
-                                
-                if(storecomuni.data.length==0){
-                    
+                //if(storecomuni.data.length==0){
                     //Effettuo la chiamata
-                    loadcomuni();
-                    
-                }
+                    //loadcomuni();                    
+                //}
             });
 
             dojo.connect(registry.byId("viewregistrazioneform"), "onBeforeTransitionIn", null, function(bean) {
@@ -756,7 +752,7 @@ require([
                 }
             });
             
-            connect.connect(listmessage, "onDeleteItem", null, function(widget){
+            connect.connect(listmessage, "onItem", null, function(widget){
                 try {                    
                     createConfirmation("Vuoi cancellare "+widget.label+"?",
                                         function(e){
@@ -949,6 +945,10 @@ require([
                 );*/                   
 			});
 
+           registry.byId("filterBoxComuni").on("search", function() {     
+              loadcomuni(registry.byId("filterBoxComuni").get("value"));
+           });
+
             try{
                 //Aggiungo lo spinner
                 var spin = new SpinWheelDatePicker({id:'dateSpinner', style:"margin:0 auto; width:312px"});
@@ -957,7 +957,7 @@ require([
             }catch(e){}
 
             //TODO DA COMMENTARE PER NATIVA
-            onDeviceReady(); 
+            //onDeviceReady(); 
 	    });
 		
         function onDeviceReady() {
@@ -982,9 +982,6 @@ require([
             } catch(e) {
                errorlog("ERRORE VIEW APP - 100",e);
             }
-            
-            
-          
             
             var devicePlatform = "chrome";
             try{
@@ -3352,9 +3349,10 @@ showhelp = function(group) {
         /**
         * Recupero e carico i comuni nello storecomuni
         */
-        loadcomuni = function() {
+        loadcomuni = function(filter) {
             startLoading();
-            var promise = request.post(url+'Facade/readComuneList',{
+            
+            var promise = request.post(url+'Facade/searchComuneList?filter='+filter,{
                 handleAs: "json",
                 headers: {
                     "X-Requested-With": null,
@@ -3375,14 +3373,17 @@ showhelp = function(group) {
                             } else {
                                 //Aggiorno i comuni
                                 var comuni = response.data.objectList;
+                                
                                 for(i=0;i<comuni.length;i++){
                                     comuni[i].id = comuni[i].comuneId;
                                     comuni[i].label = comuni[i].description+" - "+comuni[i].provincia;
                                     comuni[i].moveTo = "viewregistrazioneform";
                                     comuni[i].transitionDir = -1;
                                     comuni[i].callback = function() {setComuneRegistrazione(this)};
-                                    storecomuni.add(comuni[i]);
+                                    //storecomuni.add(comuni[i]);
                                 }
+                                storecomuni.setData(comuni);
+                                registry.byId('listcomuni').refresh();  
                                 stopLoading();
                             }
                         }                       
