@@ -3317,8 +3317,8 @@ showhelp = function(group) {
                     registerbean.comune = registry.byId("reg_comune").rightText;
                     registerbean.comuneNonTrovato ="";
                     registerbean.provincia = "";
-                    registerbean.email = dom.byId("reg_mail").value!='';
-                    registerbean.telefono = dom.byId("reg_phone").value!='';
+                    registerbean.email = dom.byId("reg_mail").value;
+                    registerbean.telefono = dom.byId("reg_phone").value;
                     registerbean.fax = "";
                     registerbean.sitoWeb = "";
                     registerbean.facebook = "";
