@@ -957,7 +957,7 @@ require([
             }catch(e){}
 
             //TODO DA COMMENTARE PER NATIVA
-            //onDeviceReady(); 
+            onDeviceReady(); 
 	    });
 		
         function onDeviceReady() {
@@ -2618,7 +2618,7 @@ showhelp = function(group) {
                         callback();
                     }
                     
-                }else if(user && user.state!='A') {                    
+                }else if(user && user.state && user.state!='A') {
                     //Verifico lo stato del merchant se non è attivo non posso sincronizzare
                     stopLoading();
                     createMessage("Il tuo negozio non è ancora attivo e non è possibile sincronizzare i dati! </br> Se hai già ricevuto l'email di conferma allora prova ad effettuare il logout e a reinserire le credenziali di accesso.", function(dlgshow){
@@ -3017,7 +3017,7 @@ showhelp = function(group) {
                                 objute.token = tokentext;
                                 objute.name = username;
                                 user = objute;                               
-                                
+                               
                                 synctable(['utente','merchant'],function(){
                                     
                                     debuglog("RETRIEVE TOKEN:"+tokentext);
