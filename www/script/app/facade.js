@@ -728,6 +728,7 @@ addImageShowcase = function(showcase,imageURI,order,callback){
                             /* Aggancio l'immagine alla vetrina */
                             var serviceimageshowcase = new Showcase_imageService();
                             var showcaseimage = new Showcase_image();
+                            showcaseimage.showcase_image_id = getUUID();
                             showcaseimage.image_id = imagebean.image_id;
                             showcaseimage.showcase_id = showcase.showcase_id;                    
                             showcaseimage.ordine = order;
@@ -962,6 +963,7 @@ addImageEvento = function(evento,imageURI,order,callback){
                             /* Aggancio l'immagine alla vetrina */
                             var serviceimageevent = new Event_imageService();
                             var eventimage = new Event_image();
+                            eventimage.event_image_id =  getUUID();
                             eventimage.image_id = imagebean.image_id;
                             eventimage.event_id = evento.event_id;                    
                             eventimage.ordine = order;
